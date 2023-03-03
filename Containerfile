@@ -4,20 +4,32 @@ RUN dnf install --disablerepo='*' --enablerepo='fedora,updates' --setopt install
 
 ADD https://gitlab.com/jntesteves/game-devices-udev/-/archive/main/game-devices-udev-main.tar.gz /tmp/ublue-os/rpmbuild/SOURCES/game-devices-udev.tar.gz
 
-ADD etc /tmp/ublue-os-udev-rules/etc
-RUN tar cf /tmp/ublue-os/rpmbuild/SOURCES/ublue-os-udev-rules.tar.gz -C /tmp ublue-os-udev-rules
+ADD files/etc/udev/rules.d /tmp/ublue-os-udev-rules/etc/udev/rules.d
+ADD files/usr/lib/systemd /tmp/ublue-os-update-services/usr/lib/systemd
+ADD files/etc/rpm-ostreed.conf /tmp/ublue-os-update-services/etc/rpm-ostreed.conf
 
-ADD ublue-os-udev-rules.spec /tmp/ublue-os/ublue-os-udev-rules.spec
+RUN tar cf /tmp/ublue-os/rpmbuild/SOURCES/ublue-os-udev-rules.tar.gz -C /tmp ublue-os-udev-rules
+RUN tar cf /tmp/ublue-os/rpmbuild/SOURCES/ublue-os-update-services.tar.gz -C /tmp ublue-os-update-services
+
+ADD rpmspec/*.spec /tmp/ublue-os
 
 RUN rpmbuild -ba \
     --define '_topdir /tmp/ublue-os/rpmbuild' \
     --define '%_tmppath %{_topdir}/tmp' \
-    /tmp/ublue-os/ublue-os-udev-rules.spec
+    /tmp/ublue-os/*.spec
 
-RUN mkdir /tmp/ublue-os/ublue-os-udev-rules
-RUN rpm2cpio /tmp/ublue-os/rpmbuild/RPMS/noarch/ublue-os-udev-rules-*.noarch.rpm | cpio -idmv --directory /tmp/ublue-os/ublue-os-udev-rules
+RUN mkdir /tmp/ublue-os/{files,rpms}
+
+# Dump a file list for each RPM for easier consumption
+RUN \
+    for RPM in /tmp/ublue-os/rpmbuild/RPMS/*/*.rpm; do \
+        NAME="$(rpm -q $RPM --queryformat='%{NAME}')"; \
+        mkdir "/tmp/ublue-os/files/${NAME}"; \
+        rpm2cpio "${RPM}" | cpio -idmv --directory "/tmp/ublue-os/files/${NAME}"; \
+        cp "${RPM}" "/tmp/ublue-os/rpms/$(rpm -q "${RPM}" --queryformat='%{NAME}.%{ARCH}.rpm')"; \
+    done
 
 FROM scratch
 
-COPY --from=builder /tmp/ublue-os/ublue-os-udev-rules /ublue-os-udev-rules
-COPY --from=builder /tmp/ublue-os/rpmbuild/RPMS/noarch/ublue-os-udev-rules-*.noarch.rpm  /ublue-os-udev-rules.noarch.rpm
+COPY --from=builder /tmp/ublue-os/files /files
+COPY --from=builder /tmp/ublue-os/rpms /rpms
