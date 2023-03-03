@@ -7,7 +7,7 @@ on:
     branches:
       - main
 env:
-    IMAGE_NAME: udev-rules
+    IMAGE_NAME: config
     IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
 
 jobs:
@@ -94,7 +94,7 @@ jobs:
             --disable-content-trust
 
       # Sign container
-      - uses: sigstore/cosign-installer@main
+      - uses: sigstore/cosign-installer@v3.0.1
 
       # Only needed when running `cosign sign` using a key
       - name: Write signing key to disk
@@ -114,7 +114,7 @@ jobs:
 
       - name: Sign container image
         run: |
-          cosign sign --key cosign.key ${{ steps.registry_case.outputs.lowercase }}/${{ env.IMAGE_NAME }}@${TAGS}
+          cosign sign -y --key cosign.key ${{ steps.registry_case.outputs.lowercase }}/${{ env.IMAGE_NAME }}@${TAGS}
         env:
           TAGS: ${{ steps.push.outputs.digest }}
           COSIGN_EXPERIMENTAL: false
