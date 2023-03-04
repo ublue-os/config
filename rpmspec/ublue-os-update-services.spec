@@ -1,7 +1,7 @@
 Name:           ublue-os-update-services
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.2
+Version:        0.3
 Release:        1%{?dist}
 Summary:        Automatic updates for rpm-ostree and flatpak
 License:        MIT
@@ -29,13 +29,13 @@ tar xf %{SOURCE0} -C %{buildroot}%{_datadir}/%{VENDOR}
 tar xf %{SOURCE0} -C %{buildroot} --strip-components=1 --exclude etc/rpm-ostreed.conf
 
 %post
-%systemd_post flatpak-system-update.service
-%systemd_user_post flatpak-user-update.service
+%systemd_post flatpak-system-update.timer
+%systemd_user_post flatpak-user-update.timer
 
 
 %preun
-%systemd_preun flatpak-system-update.service
-%systemd_user_preun flatpak-user-update.service
+%systemd_preun flatpak-system-update.timer
+%systemd_user_preun flatpak-user-update.timer
 
 
 %files
@@ -54,7 +54,11 @@ tar xf %{SOURCE0} -C %{buildroot} --strip-components=1 --exclude etc/rpm-ostreed
 %attr(0644,root,root) %{_exec_prefix}/lib/systemd/user/flatpak-user-update.service
 %attr(0644,root,root) %{_exec_prefix}/lib/systemd/user/flatpak-user-update.timer
 
+
 %changelog
+* Fri Mar 03 2023 Joshua Stone <joshua.gage.stone@gmail.com> - 0.3
+- Enable timers for flatpak update services
+
 * Fri Mar 03 2023 Joshua Stone <joshua.gage.stone@gmail.com> - 0.2
 - Add presets for flatpak update services
 
