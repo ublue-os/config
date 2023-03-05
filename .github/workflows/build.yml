@@ -6,6 +6,8 @@ on:
   push:
     branches:
       - main
+  schedule:
+    - cron: '19 20 * * *'  # 7:20pm everyday    
 env:
     IMAGE_NAME: config
     IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
