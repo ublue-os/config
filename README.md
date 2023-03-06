@@ -30,7 +30,9 @@ Feel free to PR more rules into this repo! Ideally as they get added upstream we
 - [Yubikey support](https://github.com/Yubico/libfido2/tree/main/udev)
 - [Wooting Wootility](https://wooting.io/wootility)
 
-## automatic updates
+Note: udev rules are placed in `/usr/lib/udev/rules.d/`, it's normal for `/etc/udev/rules.d` to be empty on initial installation. 
+
+## Automatic updates
 
 - Background flatpak updates
 - Background rpm-ostree updates
