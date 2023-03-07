@@ -31,5 +31,9 @@ RUN \
 
 FROM scratch
 
-COPY --from=builder /tmp/ublue-os/files /files
+# Copy build RPMs
 COPY --from=builder /tmp/ublue-os/rpms /rpms
+# Copy dumped RPM content
+COPY --from=builder /tmp/ublue-os/files /files
+# Copy build scripts
+COPY build /build

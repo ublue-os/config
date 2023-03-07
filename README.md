@@ -17,7 +17,14 @@ Or if you prefer to install via an RPM package:
     COPY --from=ghcr.io/ublue-os/config:latest /rpmm/ublue-os-update-services.noarch.rpm /
     RUN rpm -ivh /ublue-os-udev-rules.noarch.rpm
     RUN rpm -ivh /ublue-os-update-services.noarch.rpm
-    
+
+Additionally, there is support for building custom RPMs:
+
+    COPY --from=ghcr.io/ublue-os/config:latest /build /tmp/build
+    COPY justfile /tmp/build/ublue-os-just/justfile
+    RUN /tmp/build/ublue-os-just/build.sh
+    RUN rpm -ivh /tmp/ublue-os/rpmbuild/RPMS/noarch/ublue-os-just-*.noarch.rpm
+
 # Features
 
 Feel free to PR more rules into this repo! Ideally as they get added upstream we can remove them here. Note that this image only contains the udev rules, you must still install and configure the software that needs these rules.
@@ -36,6 +43,10 @@ Note: udev rules are placed in `/usr/lib/udev/rules.d/`, it's normal for `/etc/u
 
 - Background flatpak updates
 - Background rpm-ostree updates
+
+## Custom RPM builds
+
+- [Just](https://github.com/casey/just) support
 
 # Adding rules
 
