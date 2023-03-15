@@ -6,14 +6,14 @@ on:
     paths-ignore:
       - '**.md'
       - '**.txt'
-push:
+  push:
     branches:
       - main
     paths-ignore:
       - '**.md'
       - '**.txt'
   schedule:
-    - cron: '19 20 * * *'  # 7:20pm everyday    
+    - cron: '20 19 * * *'  # 7:20pm everyday    
 env:
     IMAGE_NAME: config
     IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
