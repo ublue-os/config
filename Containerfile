@@ -17,6 +17,10 @@ RUN rpmbuild -ba \
     --define '_topdir /tmp/ublue-os/rpmbuild' \
     --define '%_tmppath %{_topdir}/tmp' \
     /tmp/ublue-os/*.spec
+    
+#This can be cleaner and put together with other RPMs in -config, I cant be bothered right now    
+ADD build /temp/build
+RUN /tmp/build/ublue-os-just/build.sh
 
 RUN mkdir /tmp/ublue-os/{files,rpms}
 
@@ -35,5 +39,3 @@ FROM scratch
 COPY --from=builder /tmp/ublue-os/rpms /rpms
 # Copy dumped RPM content
 COPY --from=builder /tmp/ublue-os/files /files
-# Copy build scripts
-COPY build /build
