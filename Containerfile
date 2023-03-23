@@ -19,7 +19,7 @@ RUN rpmbuild -ba \
     /tmp/ublue-os/*.spec
     
 #This can be cleaner and put together with other RPMs in -config, I cant be bothered right now    
-ADD build /temp/build
+ADD build /tmp/build
 RUN /tmp/build/ublue-os-just/build.sh
 
 RUN mkdir /tmp/ublue-os/{files,rpms}
