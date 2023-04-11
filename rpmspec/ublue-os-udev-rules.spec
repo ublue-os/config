@@ -38,6 +38,7 @@ cp %{buildroot}%{_datadir}/%{VENDOR}/{%{NAME}/etc/udev/rules.d,game-devices-udev
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/game-devices-udev/README.md
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/game-devices-udev/LICENSE
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/game-devices-udev/game-controller-udev.svg
+%attr(0644,root,root) %{_datadir}/%{VENDOR}/game-devices-udev/8BitDo.md
 %attr(0644,root,root) %{_exec_prefix}/lib/udev/rules.d/*.rules
 
 
