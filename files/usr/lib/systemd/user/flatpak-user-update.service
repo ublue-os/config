@@ -6,7 +6,7 @@ After=network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/flatpak --user update -y --noninteractive
+ExecStart=output=$(/usr/bin/flatpak update --user -y) && num_apps=$(echo "$output" | grep -c "Updating app") ; num_packages=$(echo "$output" | grep -c "Updating runtime") && [ "$num_packages" -gt 0 ] && /usr/bin/notify-send -a "Updates" "Flatpaks updated" "$num_apps Apps, $num_packages Packages"
 
 [Install]
 WantedBy=multi-user.target
