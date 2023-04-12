@@ -1,0 +1,4 @@
+[Unit]
+Description=At least 70% of battery
+DefaultDependencies=no
+StopWhenUnneeded=yes
