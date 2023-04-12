@@ -1,0 +1,12 @@
+[Unit]
+Description=Automatic firmware updates
+Documentation=man:fwupd
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/fwupdmgr update -y && /usr/bin/notify-send -a "Updates" "Firmware updated" "Reboot your system now"
+
+[Install]
+WantedBy=multi-user.target
