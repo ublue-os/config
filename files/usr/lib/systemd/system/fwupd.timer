@@ -1,0 +1,11 @@
+[Unit]
+Description=Automatic Firmware updates
+Documentation=man:fwupd
+
+[Timer]
+OnBootSec=10m
+OnCalendar=0/6:00:00
+Persistent=true
+
+[Install]
+WantedBy=ac.target
