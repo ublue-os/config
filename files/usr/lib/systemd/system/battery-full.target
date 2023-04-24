@@ -1,0 +1,4 @@
+[Unit]
+Description=75% charged and attached to AC
+DefaultDependencies=no
+StopWhenUnneeded=yes
