@@ -1,0 +1,5 @@
+# This udev rule detects if the battery is full and attached to an AC
+# It activates a systemd target
+# This is useful to trigger firmware updates
+
+SUBSYSTEM=="power_supply", ATTR{status}=="Full|Charging", ATTR{capacity}==">=75", RUN+="/usr/bin/systemctl start battery-full.target"
