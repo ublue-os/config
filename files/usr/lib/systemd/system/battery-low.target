@@ -1,0 +1,4 @@
+[Unit]
+Description=Battery Low (you can set the percentage in the udev rule)
+DefaultDependencies=no
+StopWhenUnneeded=yes
