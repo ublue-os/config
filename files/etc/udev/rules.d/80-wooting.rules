@@ -53,8 +53,21 @@ SUBSYSTEM=="usb", ATTRS{idVendor}=="31e3", ATTRS{idProduct}=="1221", MODE:="0660
 SUBSYSTEM=="hidraw", ATTRS{idVendor}=="31e3", ATTRS{idProduct}=="1222", MODE:="0660", GROUP="wheel"
 SUBSYSTEM=="usb", ATTRS{idVendor}=="31e3", ATTRS{idProduct}=="1222", MODE:="0660", GROUP="wheel"
 
-# Wooting Two HE update mode  
+# Wooting Two HE update mode
 SUBSYSTEM=="hidraw", ATTRS{idVendor}=="31e3", ATTRS{idProduct}=="122f", MODE:="0660", GROUP="wheel"
+
+# Wooting Two HE (ARM)
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="31e3", ATTRS{idProduct}=="1230", MODE:="0660", GROUP="wheel"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="31e3", ATTRS{idProduct}=="1230", MODE:="0660", GROUP="wheel"
+# Wooting Two HE Alt-gamepad mode
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="31e3", ATTRS{idProduct}=="1231", MODE:="0660", GROUP="wheel"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="31e3", ATTRS{idProduct}=="1231", MODE:="0660", GROUP="wheel"
+# Wooting Two HE 2nd Alt-gamepad mode
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="31e3", ATTRS{idProduct}=="1232", MODE:="0660", GROUP="wheel"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="31e3", ATTRS{idProduct}=="1232", MODE:="0660", GROUP="wheel"
+
+# Wooting Two HE (ARM) update mode
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="31e3", ATTRS{idProduct}=="123f", MODE:="0660", GROUP="wheel"
 
 # Wooting 60HE
 SUBSYSTEM=="hidraw", ATTRS{idVendor}=="31e3", ATTRS{idProduct}=="1300", MODE:="0660", GROUP="wheel"
