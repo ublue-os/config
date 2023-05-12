@@ -1,9 +1,9 @@
 Name:           ublue-os-udev-rules
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.2
+Version:        0.3
 Release:        1%{?dist}
-Summary:        Additional udev files for game controller support
+Summary:        Additional udev files for device support
 
 License:        MIT
 URL:            https://github.com/ublue-os/udev-rules
@@ -43,6 +43,9 @@ cp %{buildroot}%{_datadir}/%{VENDOR}/{%{NAME}/etc/udev/rules.d,game-devices-udev
 
 
 %changelog
+* Thu May 11 2023 Benjamin Sherman <benjamin@holyarmy.org> - 0.3
+- Add usb-realtek-net rules
+
 * Fri Mar 03 2023 Joshua Stone <joshua.gage.stone@gmail.com> - 0.2
 - Add game-devices-udev rules
 
