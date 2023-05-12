@@ -26,14 +26,6 @@ jobs:
       contents: read
       packages: write
       id-token: write
-    strategy:
-      fail-fast: false
-      matrix:
-        major_version: [37]
-        include:
-          - major_version: 37
-            is_latest: true
-            is_stable: true
     steps: 
       # Checkout push-to-registry action GitHub repository
       - name: Checkout Push to Registry action
@@ -51,13 +43,7 @@ jobs:
           else
             # The following is run when the timer is triggered or a merge/push to main
             echo "date=$(date +%Y%m%d)" >> $GITHUB_OUTPUT
-            alias_tags+=("${{ matrix.major_version }}")
-            if [[ "${{ matrix.is_latest }}" == "true" ]]; then
-              alias_tags+=("latest")
-            fi
-            if [[ "${{ matrix.is_stable }}" == "true" ]]; then
-              alias_tags+=("stable")
-            fi
+            alias_tags+=("latest")
           fi
           echo "alias_tags=${alias_tags[*]}" >> $GITHUB_OUTPUT
 
@@ -73,8 +59,6 @@ jobs:
             ${{ steps.generate-tags.outputs.alias_tags }}
             ${{ steps.generate-tags.outputs.date }}
             ${{ steps.generate-tags.outputs.sha_short }}
-          build-args: |
-            FEDORA_MAJOR_VERSION=${{ matrix.major_version }}
           oci: true
 
       # Workaround bug where capital letters in your GitHub username make it impossible to push to GHCR.
