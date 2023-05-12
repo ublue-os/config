@@ -1,8 +1,8 @@
 Name:           ublue-os-update-services
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.3
-Release:        2%{?dist}
+Version:        0.4
+Release:        1%{?dist}
 Summary:        Automatic updates for rpm-ostree and flatpak
 License:        MIT
 URL:            https://github.com/ublue-os/config
@@ -59,7 +59,7 @@ tar xf %{SOURCE0} -C %{buildroot} --strip-components=2 --exclude etc/rpm-ostreed
 
 
 %changelog
-* Fri May 12 2023 Benjamin Sherman <benjamin@holyarmy.org> - 0.3.2
+* Fri May 12 2023 Benjamin Sherman <benjamin@holyarmy.org> - 0.4
 - Refactor directory structure
 
 * Fri Mar 03 2023 Joshua Stone <joshua.gage.stone@gmail.com> - 0.3
