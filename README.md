@@ -9,12 +9,12 @@ A layer for adding enhancements to your image. Use these for better hardware sup
 Add this to your Containerfile to copy the rules over:
 
     COPY --from=ghcr.io/ublue-os/config:latest /files/ublue-os-udev-rules /
-    COPY --from=ghcr.io/ublue-os/config:latest /files/ublue-os-update-services /
+    COPY --from=ghcr.io/ublue-os/config:latest /files/ublue-os/update-services /
     
 Or if you prefer to install via an RPM package:
 
     COPY --from=ghcr.io/ublue-os/config:latest /rpms/ublue-os-udev-rules.noarch.rpm /
-    COPY --from=ghcr.io/ublue-os/config:latest /rpmm/ublue-os-update-services.noarch.rpm /
+    COPY --from=ghcr.io/ublue-os/config:latest /rpms/ublue-os-update-services.noarch.rpm /
     RUN rpm -ivh /ublue-os-udev-rules.noarch.rpm
     RUN rpm -ivh /ublue-os-update-services.noarch.rpm
 
