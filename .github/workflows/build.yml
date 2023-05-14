@@ -1,17 +1,7 @@
 name: build-ublue
 on:
   pull_request:
-    branches:
-      - main
-    paths-ignore:
-      - '**.md'
-      - '**.txt'
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - '**.md'
-      - '**.txt'
+  merge_group:  
   schedule:
     - cron: '0 5 * * *'  # 5 am everyday
 env:
