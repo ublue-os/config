@@ -7,7 +7,7 @@ if [ ! -z "$HOME" ] && [ -d "$HOME" ] && [ ! -f "${HOME}/.justfile" ]; then
   if [ -f ${UBLUE_JUST}/main.just ]; then
     cat ${UBLUE_JUST}/main.just >> "${USER_JUSTFILE}"
   fi
-  if [ -f ${UBLUE_JUST}/nvidia.just ] && [ rpm -q xorg-x11-drv-nvidia ]; then
+  if [ -f ${UBLUE_JUST}/nvidia.just ] && [ rpm -q ublue-os-nvidia-addons ]; then
     cat ${UBLUE_JUST}/nvidia.just >> "${USER_JUSTFILE}"
   fi
   if [ -f ${UBLUE_JUST}/custom.just ]; then
