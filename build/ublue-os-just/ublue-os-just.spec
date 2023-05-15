@@ -27,7 +27,7 @@ Adds ublue-os just integration for easier setup
 
 mkdir -p -m0755  %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 cp %{SOURCE0} %{SOURCE1} %{SOURCE2} %{SOURCE3} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
-install -Dm755 %{SOURCE1}  %{buildroot}%{_sysconfdir}/profile.d/ublue-os-just.sh
+install -Dm755 %{SOURCE0}  %{buildroot}%{_sysconfdir}/profile.d/ublue-os-just.sh
 
 %files
 %dir %attr(0755,root,root) %{_datadir}/%{VENDOR}/%{sub_name}
