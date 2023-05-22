@@ -1,5 +1,5 @@
 default:
-    @just --list
+    @just --unstable --list
     
 bios:
   systemctl reboot --firmware-setup
