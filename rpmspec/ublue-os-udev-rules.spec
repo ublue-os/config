@@ -6,7 +6,7 @@ Release:        1%{?dist}
 Summary:        Additional udev files for device support
 
 License:        MIT
-URL:            https://github.com/ublue-os/udev-rules
+URL:            https://github.com/ublue-os/config
 
 BuildArch:      noarch
 Supplements:    systemd-udev
