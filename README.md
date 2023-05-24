@@ -2,8 +2,6 @@
 
 # ublue-os configs
 
-# THIS REPO IS DEPRECATED. USE THIS: https://github.com/ublue-os/config
-
 A layer for adding enhancements to your image. Use these for better hardware support and automatic updates!
 
 # Usage
