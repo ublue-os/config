@@ -27,4 +27,7 @@ update:
   rpm-ostree update
   flatpak update -y
   distrobox upgrade -a
+
+fixscreenshare:
+  cp /usr/share/applications/org.kde.xwaylandvideobridge.desktop $HOME/.config/autostart/
   
