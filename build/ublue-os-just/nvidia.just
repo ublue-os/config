@@ -6,7 +6,7 @@ set-kargs-nvidia:
         --append-if-missing=nvidia-drm.modeset=1 \
         --delete=nomodeset
 
-enroll-secure-boot-key:
+enroll-secure-boot-key-legacy-nvidia:
     sudo mokutil --import /etc/pki/akmods/certs/akmods-nvidia.der
 
 test-cuda:
