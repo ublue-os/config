@@ -56,7 +56,7 @@ If you have a rule you want to contribute send a pull request by adding the rule
 
 These images are signed with sisgstore's [cosign](https://docs.sigstore.dev/cosign/overview/). You can verify the signature by downloading the `cosign.pub` key from this repo and running the following command:
 
-    cosign verify --key cosign.pub ghcr.io/ublue-os/udev-rules
+    cosign verify --key cosign.pub ghcr.io/ublue-os/config
     
 ## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Recent activity [![Time period](https://images.repography.com/35181738/ublue-os/config/recent-activity/T0Pa2apPYwHMixrcCV3Uqb0q0CYYEtoNogUxrGLx_44/ktMjGfqYgbIT8oaj-vwafgnfXyAGRUbKQkejtxhCscI_badge.svg)](https://repography.com)
 [![Timeline graph](https://images.repography.com/35181738/ublue-os/config/recent-activity/T0Pa2apPYwHMixrcCV3Uqb0q0CYYEtoNogUxrGLx_44/ktMjGfqYgbIT8oaj-vwafgnfXyAGRUbKQkejtxhCscI_timeline.svg)](https://github.com/ublue-os/config/commits)
