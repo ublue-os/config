@@ -34,3 +34,19 @@ update:
 fixscreenshare:
   cp /usr/share/applications/org.kde.xwaylandvideobridge.desktop $HOME/.config/autostart/
   
+nix-me-up:
+  #!/bin/bash
+  echo "Immutable Fedora variants which use SELinux require a custom script to install Nix properly."
+  echo "This script is downloaded from github.com/dnkmmr69420/nix-installer-scripts."
+  echo "The script has been confirmed to work but is not regularly audited by uBlue."
+  echo "The script will use sudo which gives it full power over your Linux installation."
+  read -p "Type \"y\" if you trust this script to run. " -n 1 -r
+  if [[ $REPLY =~ ^[Yy]$ ]]
+  then
+    echo
+    echo "Installing Nix..."
+    curl https://raw.githubusercontent.com/dnkmmr69420/nix-installer-scripts/main/installer-scripts/silverblue-nix-installer.sh | bash
+  else
+    echo
+    echo "Aborting..."
+  fi
