@@ -37,7 +37,7 @@ FROM scratch
 # Copy build RPMs
 COPY --from=builder /tmp/ublue-os/rpms /rpms
 # Fetch the ublue-updater RPM
-COPY --from=ghcr.io/gerblesh/ublue-updater:latest /rpms/ublue-os-update-services.noarch.rpm /rpms/
+COPY --from=ghcr.io/gerblesh/ublue-updater:latest /rpms/ublue-updater.noarch.rpm /rpms/
 
 # Copy dumped RPM content
 COPY --from=builder /tmp/ublue-os/files /files
