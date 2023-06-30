@@ -2,7 +2,7 @@ FROM registry.fedoraproject.org/fedora:latest AS builder
 
 RUN dnf install --disablerepo='*' --enablerepo='fedora,updates' --setopt install_weak_deps=0 --nodocs --assumeyes rpm-build
 
-ADD https://gitlab.com/jntesteves/game-devices-udev/-/archive/main/game-devices-udev-main.tar.gz /tmp/ublue-os/rpmbuild/SOURCES/game-devices-udev.tar.gz
+ADD https://codeberg.org/fabiscafe/game-devices-udev/archive/main.tar.gz /tmp/ublue-os/rpmbuild/SOURCES/game-devices-udev.tar.gz
 
 ADD files/etc/udev/rules.d /tmp/ublue-os/udev-rules/etc/udev/rules.d
 ADD files/usr/lib/systemd /tmp/ublue-os/update-services/usr/lib/systemd
