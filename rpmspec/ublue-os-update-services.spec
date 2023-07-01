@@ -8,6 +8,7 @@ License:        MIT
 URL:            https://github.com/ublue-os/config
 
 BuildArch:      noarch
+BuildRequires:  systemd-rpm-macros
 Supplements:    rpm-ostree flatpak
 
 Source0:        ublue-os-update-services.tar.gz
