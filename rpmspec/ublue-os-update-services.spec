@@ -60,6 +60,9 @@ tar xf %{SOURCE0} -C %{buildroot} --strip-components=2 --exclude etc/rpm-ostreed
 
 
 %changelog
+* Fri Jun 30 2023 gerblesh <101901964+gerblesh@users.noreply.github.com> - 0.4
+- Add BuildRequires for rpm-systemd-macros to fix enabling systemd services and uninstalling the RPM
+
 * Fri May 12 2023 Benjamin Sherman <benjamin@holyarmy.org> - 0.4
 - Refactor directory structure
 
