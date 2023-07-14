@@ -7,6 +7,10 @@ bios:
 changelogs:
   rpm-ostree db diff --changelogs
 
+distrobox-arch:
+  echo 'Creating Arch distrobox ...'
+  distrobox create --image quay.io/toolbx-images/archlinux-toolbox:latest -n arch -Y
+
 distrobox-boxkit:
   echo 'Creating Boxkit distrobox ...'
   distrobox create --image ghcr.io/ublue-os/boxkit -n boxkit -Y
