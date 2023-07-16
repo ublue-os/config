@@ -6,6 +6,7 @@ bios:
 
 clean:
   podman system prune
+  flatpak uninstall --unused
 
 changelogs:
   rpm-ostree db diff --changelogs
