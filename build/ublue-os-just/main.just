@@ -5,7 +5,9 @@ bios:
   systemctl reboot --firmware-setup
 
 clean:
-  podman system prune
+  podman system prune -a
+  flatpak uninstall --unused
+  rpm-ostree cleanup -bm
 
 changelogs:
   rpm-ostree db diff --changelogs
