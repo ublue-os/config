@@ -4,6 +4,9 @@ default:
 bios:
   systemctl reboot --firmware-setup
 
+clean:
+  podman system prune
+
 changelogs:
   rpm-ostree db diff --changelogs
 
