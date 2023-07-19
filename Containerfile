@@ -7,9 +7,11 @@ ADD https://codeberg.org/fabiscafe/game-devices-udev/archive/main.tar.gz /tmp/ub
 ADD files/etc/udev/rules.d /tmp/ublue-os/udev-rules/etc/udev/rules.d
 ADD files/usr/lib/systemd /tmp/ublue-os/update-services/usr/lib/systemd
 ADD files/etc/rpm-ostreed.conf /tmp/ublue-os/update-services/etc/rpm-ostreed.conf
+ADD files/usr/etc /tmp/ublue-os/signing/usr/etc
 
 RUN tar cf /tmp/ublue-os/rpmbuild/SOURCES/ublue-os-udev-rules.tar.gz -C /tmp ublue-os/udev-rules
 RUN tar cf /tmp/ublue-os/rpmbuild/SOURCES/ublue-os-update-services.tar.gz -C /tmp ublue-os/update-services
+RUN tar cf /tmp/ublue-os/rpmbuild/SOURCES/ublue-os-signing.tar.gz -C /tmp ublue-os/signing
 
 ADD rpmspec/*.spec /tmp/ublue-os
 
