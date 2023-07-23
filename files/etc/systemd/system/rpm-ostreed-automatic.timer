@@ -1,0 +1,10 @@
+[Unit]
+Description=rpm-ostree Automatic Update Trigger
+Documentation=man:rpm-ostree(1) man:rpm-ostreed.conf(5)
+ConditionPathExists=/run/ostree-booted
+
+[Timer]
+OnCalendar=*-*-* 4:00:00
+
+[Install]
+WantedBy=timers.target
