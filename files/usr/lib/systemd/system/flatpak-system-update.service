@@ -5,8 +5,5 @@ Wants=network-online.target
 After=network-online.target
 
 [Service]
-Type=oneshot
+Type=simple
 ExecStart=/usr/bin/flatpak --system update -y --noninteractive
-
-[Install]
-WantedBy=multi-user.target
