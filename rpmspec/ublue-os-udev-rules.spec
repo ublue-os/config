@@ -45,7 +45,7 @@ cp %{buildroot}%{_datadir}/%{VENDOR}/{%{sub_name}/etc/udev/rules.d,game-devices-
 
 
 %changelog
-* Thu May 13 2023 Benjamin Sherman <benjamin@holyarmy.org> - 0.4
+* Sat May 13 2023 Benjamin Sherman <benjamin@holyarmy.org> - 0.4
 - Add usb-realtek-net rules
 
 * Fri May 12 2023 Benjamin Sherman <benjamin@holyarmy.org> - 0.3

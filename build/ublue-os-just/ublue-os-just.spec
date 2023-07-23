@@ -38,7 +38,7 @@ install -Dm755 %{SOURCE0}  %{buildroot}%{_sysconfdir}/profile.d/ublue-os-just.sh
 %attr(0755,root,root) %{_sysconfdir}/profile.d/ublue-os-just.sh
 
 %changelog
-* Sun May 13 2023 Benjamin Sherman <benjamin@holyarmy.org> - 0.2
+* Sat May 13 2023 Benjamin Sherman <benjamin@holyarmy.org> - 0.2
 - Refactor directory structure
 - Rename justfile to main.just
 - Add nvidia.just and custom.just
