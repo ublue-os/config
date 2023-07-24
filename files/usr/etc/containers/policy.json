@@ -49,6 +49,13 @@
                 }
             ]
         },
+        "containers-storage": {
+            "": [
+                {
+                    "type": "insecureAcceptAnything"
+                }
+            ]
+        },
         "dir": {
             "": [
                 {

@@ -5,10 +5,7 @@ Wants=network-online.target
 After=network-online.target
 
 [Service]
-Type=oneshot
+Type=simple
 ExecStartPre=/usr/bin/flatpak --system uninstall --unused -y --noninteractive
 ExecStart=/usr/bin/flatpak --system update -y --noninteractive
 ExecStartPost=/usr/bin/flatpak --system repair
-
-[Install]
-WantedBy=multi-user.target
