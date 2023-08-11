@@ -16,6 +16,16 @@ distrobox-arch:
   echo 'Creating Arch distrobox ...'
   distrobox create --image quay.io/toolbx-images/archlinux-toolbox:latest -n arch -Y
 
+distrobox-bazzite:
+  echo 'Creating Bazzite distrobox (AMD and Intel GPUs only) ...'
+  distrobox create --image ghcr.io/ublue-os/bazzite-arch -n bazzite-arch
+  echo 'Check out the docs for instructions: https://github.com/ublue-os/bazzite-arch'
+
+distrobox-bazzite-nvidia:
+  echo 'Creating Bazzite distrobox (Nvidia GPUs only) ...' 
+  distrobox create --image ghcr.io/ublue-os/bazzite-arch -n bazzite-arch --nvidia
+  echo 'Check out the docs for instructions: https://github.com/ublue-os/bazzite-arch'
+
 distrobox-boxkit:
   echo 'Creating Boxkit distrobox ...'
   distrobox create --image ghcr.io/ublue-os/boxkit -n boxkit -Y
