@@ -5,10 +5,13 @@ RUN dnf install --disablerepo='*' --enablerepo='fedora,updates' --setopt install
 ADD https://codeberg.org/fabiscafe/game-devices-udev/archive/main.tar.gz /tmp/ublue-os/rpmbuild/SOURCES/game-devices-udev.tar.gz
 
 ADD files/etc/udev/rules.d /tmp/ublue-os/udev-rules/etc/udev/rules.d
-ADD files/usr/lib/systemd /tmp/ublue-os/update-services/usr/lib/systemd
+
 ADD files/etc/rpm-ostreed.conf /tmp/ublue-os/update-services/etc/rpm-ostreed.conf
-ADD files/etc/systemd /tmp/ublue-os/update-services/etc/systemd
-ADD files/usr/etc /tmp/ublue-os/signing/usr/etc
+ADD files/usr/etc/systemd /tmp/ublue-os/update-services/usr/etc/systemd
+ADD files/usr/lib/systemd /tmp/ublue-os/update-services/usr/lib/systemd
+
+ADD files/usr/etc/containers /tmp/ublue-os/signing/usr/etc/containers
+ADD files/usr/etc/pki /tmp/ublue-os/signing/usr/etc/pki
 
 RUN tar cf /tmp/ublue-os/rpmbuild/SOURCES/ublue-os-udev-rules.tar.gz -C /tmp ublue-os/udev-rules
 RUN tar cf /tmp/ublue-os/rpmbuild/SOURCES/ublue-os-update-services.tar.gz -C /tmp ublue-os/update-services
