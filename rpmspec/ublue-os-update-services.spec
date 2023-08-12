@@ -1,7 +1,7 @@
 Name:           ublue-os-update-services
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.6
+Version:        0.7
 Release:        1%{?dist}
 Summary:        Automatic updates for rpm-ostree and flatpak
 License:        MIT
@@ -51,6 +51,7 @@ tar xf %{SOURCE0} -C %{buildroot} --strip-components=2 --exclude etc/rpm-ostreed
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/lib/systemd/user/flatpak-user-update.service
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/lib/systemd/user/flatpak-user-update.timer
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/%{_sysconfdir}/systemd/system/rpm-ostreed-automatic.timer.d/override.conf
+%attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/%{_sysconfdir}/systemd/system/rpm-ostreed-automatic.service.d/override.conf
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_sysconfdir}/rpm-ostreed.conf
 %attr(0644,root,root) %{_exec_prefix}/lib/systemd/system-preset/10-flatpak-system-update.preset
 %attr(0644,root,root) %{_exec_prefix}/lib/systemd/system/flatpak-system-update.service
@@ -59,9 +60,14 @@ tar xf %{SOURCE0} -C %{buildroot} --strip-components=2 --exclude etc/rpm-ostreed
 %attr(0644,root,root) %{_exec_prefix}/lib/systemd/user/flatpak-user-update.service
 %attr(0644,root,root) %{_exec_prefix}/lib/systemd/user/flatpak-user-update.timer
 %attr(0644,root,root) %{_exec_prefix}/%{_sysconfdir}/systemd/system/rpm-ostreed-automatic.timer.d/override.conf
+%attr(0644,root,root) %{_exec_prefix}/%{_sysconfdir}/systemd/system/rpm-ostreed-automatic.service.d/override.conf
+
 
 
 %changelog
+* Sat Aug 12 2023 Fifty Dinar <srbaizoki4@tuta.io> - 0.7
+- Switch to drop-in override for rpm-ostreed-automatic.service modifications
+
 * Sat Aug 12 2023 Benjamin Sherman <benjamin@holyarmy.org> - 0.6
 - Switch to drop-in override for rpm-ostreed-automatic.timer modifications
 
