@@ -65,11 +65,11 @@ tar xf %{SOURCE0} -C %{buildroot} --strip-components=2 --exclude etc/rpm-ostreed
 
 
 %changelog
-* Sat Aug 12 2023 Fifty Dinar <srbaizoki4@tuta.io> - 0.7
-- Switch to drop-in override for rpm-ostreed-automatic.service modifications
+* Sat Aug 12 2023 Benjamin Sherman <benjamin@holyarmy.org> - 0.7
+- Add randmized delay to update timers, and always run flatpak updates on boot
 
-* Sat Aug 12 2023 Benjamin Sherman <benjamin@holyarmy.org> - 0.6
-- Switch to drop-in override for rpm-ostreed-automatic.timer modifications
+* Sat Aug 12 2023 Fifty Dinar <srbaizoki4@tuta.io> - 0.6
+- Switch to drop-in overrides for rpm-ostreed-automatic modifications
 
 * Sat Jul 22 2023 Benjamin Sherman <benjamin@holyarmy.org> - 0.5
 - Set flatpak and rpm-ostree upgrade timers to run daily at 4am local time
