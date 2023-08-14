@@ -66,3 +66,8 @@ update:
 fixscreenshare:
   cp /usr/share/applications/org.kde.xwaylandvideobridge.desktop $HOME/.config/autostart/
   
+# Add user to libvirt group after layering libvirt packages
+usermod-libvirt:
+  grep -E '^libvirt:' /usr/lib/group | sudo tee -a /etc/group
+  sudo usermod -aG libvirt $USER
+  echo 'You will need to log off and log back in to apply these changes.'
