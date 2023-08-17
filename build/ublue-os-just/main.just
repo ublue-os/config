@@ -66,3 +66,7 @@ update:
 fixscreenshare:
   cp /usr/share/applications/org.kde.xwaylandvideobridge.desktop $HOME/.config/autostart/
   
+# Allow current user to sudo without a password
+alias iamroot := sudo-nopass
+sudo-nopass:
+  echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/${USER}
