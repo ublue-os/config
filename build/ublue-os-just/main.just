@@ -20,17 +20,16 @@ distrobox-arch:
   echo 'Creating Arch distrobox ...'
   distrobox create --image quay.io/toolbx-images/archlinux-toolbox:latest -n arch -Y
 
-# Create a Bazzite container (AMD and Intel GPUs only)
+# Create a Bazzite container
 distrobox-bazzite:
-  echo 'Creating Bazzite distrobox (AMD and Intel GPUs only) ...'
-  distrobox create --image ghcr.io/ublue-os/bazzite-arch -n bazzite-arch
-  echo 'Check out the docs for instructions: https://github.com/ublue-os/bazzite-arch'
-
-# Create a Bazzite container (Nvidia GPUs only)
-distrobox-bazzite-nvidia:
-  echo 'Creating Bazzite distrobox (Nvidia GPUs only) ...' 
-  distrobox create --image ghcr.io/ublue-os/bazzite-arch -n bazzite-arch --nvidia
-  echo 'Check out the docs for instructions: https://github.com/ublue-os/bazzite-arch'
+  #!/usr/bin/env bash
+  echo 'Creating Bazzite distrobox ...'
+  if command -v /usr/bin/mutter > /dev/null; then
+    distrobox create --nvidia --image ghcr.io/ublue-os/bazzite-arch-gnome --name bazzite-arch
+  else
+    distrobox create --nvidia --image ghcr.io/ublue-os/bazzite-arch --name bazzite-arch
+  fi
+  echo 'Check out the docs for exportable apps and instructions: https://github.com/ublue-os/bazzite-arch'
 
 # Create an Alpine boxkit container
 distrobox-boxkit:
