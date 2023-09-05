@@ -18,7 +18,7 @@ changelogs:
 # Create an Arch container
 distrobox-arch:
   echo 'Creating Arch distrobox ...'
-  distrobox create --image quay.io/toolbx-images/archlinux-toolbox:latest -n arch -Y
+  distrobox create --nvidia --image quay.io/toolbx-images/archlinux-toolbox:latest -n arch -Y
 
 # Create a Bazzite container
 distrobox-bazzite:
@@ -34,12 +34,12 @@ distrobox-bazzite:
 # Create an Alpine boxkit container
 distrobox-boxkit:
   echo 'Creating Boxkit distrobox ...'
-  distrobox create --image ghcr.io/ublue-os/boxkit -n boxkit -Y
+  distrobox create --nvidia --image ghcr.io/ublue-os/boxkit -n boxkit -Y
 
 # Create a Debian container
 distrobox-debian:
   echo 'Creating Debian distrobox ...'
-  distrobox create --image quay.io/toolbx-images/debian-toolbox:unstable -n debian -Y
+  distrobox create --nvidia --image quay.io/toolbx-images/debian-toolbox:unstable -n debian -Y
 
 # Create a Fedora container
 distrobox-fedora:
@@ -49,12 +49,12 @@ distrobox-fedora:
 # Create an openSUSE container
 distrobox-opensuse:
   echo 'Creating openSUSE distrobox ...'
-  distrobox create --image quay.io/toolbx-images/opensuse-toolbox:tumbleweed -n opensuse -Y
+  distrobox create --nvidia --image quay.io/toolbx-images/opensuse-toolbox:tumbleweed -n opensuse -Y
 
 # Create an Ubuntu container
 distrobox-ubuntu:
   echo 'Creating Ubuntu distrobox ...'
-  distrobox create --image quay.io/toolbx-images/ubuntu-toolbox:22.04 -n ubuntu -Y
+  distrobox create --nvidia --image quay.io/toolbx-images/ubuntu-toolbox:22.04 -n ubuntu -Y
 
 # Enroll secure boot key
 enroll-secure-boot-key:
