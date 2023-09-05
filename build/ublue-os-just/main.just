@@ -41,6 +41,11 @@ distrobox-debian:
   echo 'Creating Debian distrobox ...'
   distrobox create --nvidia --image quay.io/toolbx-images/debian-toolbox:unstable -n debian -Y
 
+# Create a Fedora container
+distrobox-fedora:
+  echo 'Creating Fedora distrobox ...'
+  distrobox create --nvidia --image registry.fedoraproject.org/fedora-toolbox:38 -n fedora -Y
+
 # Create an openSUSE container
 distrobox-opensuse:
   echo 'Creating openSUSE distrobox ...'
