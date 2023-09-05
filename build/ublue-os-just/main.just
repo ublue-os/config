@@ -44,7 +44,7 @@ distrobox-debian:
 # Create a Fedora container
 distrobox-fedora:
   echo 'Creating Fedora distrobox ...'
-  distrobox create --image registry.fedoraproject.org/fedora-toolbox:38 -n fedora -Y
+  distrobox create --nvidia --image registry.fedoraproject.org/fedora-toolbox:38 -n fedora -Y
 
 # Create an openSUSE container
 distrobox-opensuse:
