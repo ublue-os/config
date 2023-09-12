@@ -4,7 +4,7 @@ set-kargs-nvidia:
         --append-if-missing=rd.driver.blacklist=nouveau \
         --append-if-missing=modprobe.blacklist=nouveau \
         --append-if-missing=nvidia-drm.modeset=1 \
-        --delete=nomodeset
+        --delete-if-present=nomodeset
 
 test-cuda:
     podman run \
