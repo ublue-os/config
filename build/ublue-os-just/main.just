@@ -69,4 +69,14 @@ update:
 # Enable xwaylandvideobridge
 fixscreenshare:
   cp /usr/share/applications/org.kde.xwaylandvideobridge.desktop $HOME/.config/autostart/
-  
+
+# Install Mullvad VPN
+vpn-mullvad:
+  echo 'Downloading files needed for installation ...'
+  wget -q --trust-server-names https://mullvad.net/download/app/rpm/latest -P /tmp
+  wget -q --trust-server-names https://mullvad.net/download/app/rpm/latest/signature -P /tmp
+  wget -q https://mullvad.net/media/mullvad-code-signing.asc -P /tmp
+  echo 'Importing Mullvad GPG key ...'
+  gpg --import /tmp/mullvad-code-signing.asc
+  echo 'Verify the Mullvad VPN app'
+  gpg --verify /tmp/MullvadVPN-*.rpm.asc && rpm-ostree install /tmp/MullvadVPN-*.rpm
