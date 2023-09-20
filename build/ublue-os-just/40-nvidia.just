@@ -1,4 +1,4 @@
-
+# Set needed kernel arguments for Nvidia GPUs
 set-kargs-nvidia:
     rpm-ostree kargs \
         --append-if-missing=rd.driver.blacklist=nouveau \
@@ -6,6 +6,7 @@ set-kargs-nvidia:
         --append-if-missing=nvidia-drm.modeset=1 \
         --delete-if-present=nomodeset
 
+# Test CUDA support for Nvidia GPUs
 test-cuda:
     podman run \
         --user 1000:1000 \
@@ -14,6 +15,7 @@ test-cuda:
         --security-opt label=type:nvidia_container_t  \
         docker.io/mirrorgooglecontainers/cuda-vector-add:v0.1
 
+# Enable VAAPI in Firefox for Nvidia GPUs
 setup-firefox-flatpak-vaapi-nvidia:
     flatpak override \
         --user \

@@ -11,9 +11,12 @@ BuildArch:      noarch
 Supplements:    just
 
 Source0:        ublue-os-just.sh
-Source1:        custom.just
-Source2:        main.just
-Source3:        nvidia.just
+Source1:        00-default.just
+Source2:        10-update.just
+Source3:        20-clean.just
+Source4:        30-distrobox.just
+Source5:        40-nvidia.just
+Source6:        50-custom.just
 
 %global sub_name %{lua:t=string.gsub(rpm.expand("%{NAME}"), "^ublue%-os%-", ""); print(t)}
 
@@ -26,15 +29,12 @@ Adds ublue-os just integration for easier setup
 %build
 
 mkdir -p -m0755  %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
-cp %{SOURCE0} %{SOURCE1} %{SOURCE2} %{SOURCE3} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
+cp %{SOURCE0} %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 install -Dm755 %{SOURCE0}  %{buildroot}%{_sysconfdir}/profile.d/ublue-os-just.sh
 
 %files
 %dir %attr(0755,root,root) %{_datadir}/%{VENDOR}/%{sub_name}
-%attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/custom.just
-%attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/main.just
-%attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/nvidia.just
-%attr(0755,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/ublue-os-just.sh
+%attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/*.just
 %attr(0755,root,root) %{_sysconfdir}/profile.d/ublue-os-just.sh
 
 %changelog

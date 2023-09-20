@@ -1,26 +1,9 @@
-default:
-    @just --unstable --list
-
-# Boot into this device's BIOS/UEFI screen
-bios:
-  systemctl reboot --firmware-setup
-
-# Clean up old containers and flatpaks
-clean:
-  podman system prune -a
-  flatpak uninstall --unused
-  rpm-ostree cleanup -bm
-
-# Show the changelog
-changelogs:
-  rpm-ostree db diff --changelogs
-
 # Create an Arch container
 distrobox-arch:
   echo 'Creating Arch distrobox ...'
   distrobox create --nvidia --image quay.io/toolbx-images/archlinux-toolbox:latest -n arch -Y
 
-# Create a Bazzite container
+# Create a Bazzite-Arch container
 distrobox-bazzite:
   #!/usr/bin/env bash
   echo 'Creating Bazzite distrobox ...'
@@ -55,18 +38,3 @@ distrobox-opensuse:
 distrobox-ubuntu:
   echo 'Creating Ubuntu distrobox ...'
   distrobox create --nvidia --image quay.io/toolbx-images/ubuntu-toolbox:22.04 -n ubuntu -Y
-
-# Enroll secure boot key
-enroll-secure-boot-key:
-    sudo mokutil --import /etc/pki/akmods/certs/akmods-ublue.der
-
-# Update system, flatpaks, and containers all at once
-update:
-  rpm-ostree update
-  flatpak update -y
-  distrobox upgrade -a
-
-# Enable xwaylandvideobridge
-fixscreenshare:
-  cp /usr/share/applications/org.kde.xwaylandvideobridge.desktop $HOME/.config/autostart/
-  
