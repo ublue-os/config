@@ -1,3 +1,5 @@
+# vim: set ft=make :
+
 # Clean up old containers and flatpaks
 clean-system:
   #!/usr/bin/env bash

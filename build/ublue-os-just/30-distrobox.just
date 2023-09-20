@@ -1,3 +1,5 @@
+# vim: set ft=make :
+
 # Create an Arch container
 distrobox-arch:
   echo 'Creating Arch distrobox ...'

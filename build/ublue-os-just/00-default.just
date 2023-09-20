@@ -1,3 +1,5 @@
+# vim: set ft=make :
+
 _default:
   @just --unstable --list --list-heading $'Available commands:\n' --list-prefix $' - '
 

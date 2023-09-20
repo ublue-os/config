@@ -1,3 +1,5 @@
+# vim: set ft=make :
+
 # Set needed kernel arguments for Nvidia GPUs
 set-kargs-nvidia:
     rpm-ostree kargs \
