@@ -16,7 +16,8 @@ Source2:        10-update.just
 Source3:        20-clean.just
 Source4:        30-distrobox.just
 Source5:        40-nvidia.just
-Source6:        50-custom.just
+Source6:        50-akmods.just
+Source7:        60-custom.just
 
 %global sub_name %{lua:t=string.gsub(rpm.expand("%{NAME}"), "^ublue%-os%-", ""); print(t)}
 
@@ -31,7 +32,7 @@ Adds ublue-os just integration for easier setup
 mkdir -p -m0755  %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 install -Dm755 %{SOURCE0}  %{buildroot}%{_sysconfdir}/profile.d/ublue-os-just.sh
 install -Dm755 %{SOURCE0}  %{buildroot}%{_datarootdir}/fish/vendor_conf.d/ublue-os-just.fish
-cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
+cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE7} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 
 # Create justfile which contains all .just files included in this package
 for justfile in %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}/*.just; do
