@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.2
+Version:        0.3
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -44,6 +44,11 @@ done
 %attr(0755,root,root) %{_sysconfdir}/profile.d/ublue-os-just.sh
 
 %changelog
+* Thu Sep 21 2023 Kyle Gospodnetich <me@kylegospodneti.ch> - 0.3
+- Modify just files to be numbered for ordered loading
+- Move to using a single master justfile
+- Clean up previous installs to point to new file
+
 * Sat May 13 2023 Benjamin Sherman <benjamin@holyarmy.org> - 0.2
 - Refactor directory structure
 - Rename justfile to main.just
