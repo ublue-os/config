@@ -20,7 +20,7 @@ use-ublue-gamepads:
 disable-broadcom-wl:
   #!/usr/bin/env bash
   sudo bash -c '> /etc/modules-load.d/broadcom-wl-blacklist.conf'
-  sudo bash -c 'echo "wl" > /etc/modules-load.d/default-disable-broadcom-wl.conf'
+  sudo bash -c 'echo "blacklist wl" > /etc/modules-load.d/default-disable-broadcom-wl.conf'
 
 # Use Broadcom WL driver
 use-broadcom-wl:
