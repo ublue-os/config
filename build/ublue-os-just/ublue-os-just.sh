@@ -4,8 +4,16 @@ alias just="just --unstable"
 
 if [ ! -z "$HOME" ] && [ -d "$HOME" ] && [ ! -f "${HOME}/.justfile" ]; then
   cat > "${HOME}/.justfile" << EOF
-!include /usr/share/ublue-os/just/main.just
-!include /usr/share/ublue-os/just/nvidia.just
-!include /usr/share/ublue-os/just/custom.just
+!include /usr/share/ublue-os/justfile
 EOF
+fi
+
+if [ -f "${HOME}/.justfile" ]; then
+  if ! grep -Fxq '!include /usr/share/ublue-os/justfile' "${HOME}/.justfile"; then
+    # Remove any lines we may have added previously.
+    sed -i '/!include \/usr\/share\/ublue-os\/just\/.*.just/d' "${HOME}/.justfile"
+
+    # Point to the new main justfile, place it as the first line
+    sed -i '1s/^/!include \/usr\/share\/ublue-os\/justfile\n/' "${HOME}/.justfile"
+  fi
 fi

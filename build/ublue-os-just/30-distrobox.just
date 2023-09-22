@@ -1,26 +1,11 @@
-default:
-    @just --unstable --list
-
-# Boot into this device's BIOS/UEFI screen
-bios:
-  systemctl reboot --firmware-setup
-
-# Clean up old containers and flatpaks
-clean:
-  podman system prune -a
-  flatpak uninstall --unused
-  rpm-ostree cleanup -bm
-
-# Show the changelog
-changelogs:
-  rpm-ostree db diff --changelogs
+# vim: set ft=make :
 
 # Create an Arch container
 distrobox-arch:
   echo 'Creating Arch distrobox ...'
   distrobox create --nvidia --image quay.io/toolbx-images/archlinux-toolbox:latest -n arch -Y
 
-# Create a Bazzite container
+# Create a Bazzite-Arch container
 distrobox-bazzite:
   #!/usr/bin/env bash
   echo 'Creating Bazzite distrobox ...'
@@ -44,7 +29,7 @@ distrobox-debian:
 # Create a Fedora container
 distrobox-fedora:
   echo 'Creating Fedora distrobox ...'
-  distrobox create --nvidia --image registry.fedoraproject.org/fedora-toolbox:38 -n fedora -Y
+  distrobox create --nvidia --image ghcr.io/ublue-os/fedora-distrobox:latest -n fedora -Y
 
 # Create an openSUSE container
 distrobox-opensuse:
@@ -56,17 +41,8 @@ distrobox-ubuntu:
   echo 'Creating Ubuntu distrobox ...'
   distrobox create --nvidia --image quay.io/toolbx-images/ubuntu-toolbox:22.04 -n ubuntu -Y
 
-# Enroll secure boot key
-enroll-secure-boot-key:
-    sudo mokutil --import /etc/pki/akmods/certs/akmods-ublue.der
-
-# Update system, flatpaks, and containers all at once
-update:
-  rpm-ostree update
-  flatpak update -y
-  distrobox upgrade -a
-
-# Enable xwaylandvideobridge
-fixscreenshare:
-  cp /usr/share/applications/org.kde.xwaylandvideobridge.desktop $HOME/.config/autostart/
-  
+# Install obs-studio-portable from wimpysworld, which bundles an extensive collection of 3rd party plugins 
+install-obs-studio-portable:
+  echo 'Installing obs-studio-portable...' && \
+  distrobox create --nvidia --no-entry --image ghcr.io/ublue-os/obs-studio-portable -n obs-studio-portable -Y && \
+  distrobox-enter -n obs-studio-portable -- 'bash -c "distrobox-export --app obs"'
