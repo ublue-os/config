@@ -29,19 +29,19 @@ Adds ublue-os just integration for easier setup
 %build
 
 mkdir -p -m0755  %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
-cp %{SOURCE0} %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 install -Dm755 %{SOURCE0}  %{buildroot}%{_sysconfdir}/profile.d/ublue-os-just.sh
+cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 
-# Create justfile which always contains all .just files included in this package
+# Create justfile which contains all .just files included in this package
 for justfile in %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}/*.just; do
 	echo "!include %{_datadir}/%{VENDOR}/%{sub_name}/${justfile}" >> "%{buildroot}%{_datadir}/%{VENDOR}/justfile"
 done
 
 %files
 %dir %attr(0755,root,root) %{_datadir}/%{VENDOR}/%{sub_name}
+%attr(0755,root,root) %{_sysconfdir}/profile.d/ublue-os-just.sh
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/*.just
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/justfile
-%attr(0755,root,root) %{_sysconfdir}/profile.d/ublue-os-just.sh
 
 %changelog
 * Thu Sep 21 2023 Kyle Gospodnetich <me@kylegospodneti.ch> - 0.3
