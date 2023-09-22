@@ -2,11 +2,16 @@
 
 # Set needed kernel arguments for Nvidia GPUs
 nvidia-set-kargs:
-  rpm-ostree kargs \
-    --append-if-missing=rd.driver.blacklist=nouveau \
-    --append-if-missing=modprobe.blacklist=nouveau \
-    --append-if-missing=nvidia-drm.modeset=1 \
-    --delete-if-present=nomodeset
+  #!/usr/bin/env bash
+  if command -v nvidia-smi; then
+    rpm-ostree kargs \
+      --append-if-missing=rd.driver.blacklist=nouveau \
+      --append-if-missing=modprobe.blacklist=nouveau \
+      --append-if-missing=nvidia-drm.modeset=1 \
+      --delete-if-present=nomodeset
+  else
+    echo 'You do not appear to be on a Nvidia image, please refer to the README for your uBlue-OS image.'
+  fi
 
 # Test CUDA support for Nvidia GPUs
 nvidia-test-cuda:
