@@ -14,6 +14,6 @@ if [ -f "${HOME}/.justfile" ]; then
     sed -i '/!include \/usr\/share\/ublue-os\/just\/.*.just/d' "${HOME}/.justfile"
 
     # Point to the new main justfile, place it as the first line
-    sed -i '1s/^/!include \/usr\/share\/ublue-os\/justfile\n/' "${HOME}/.justfile"
+    echo '!include /usr/share/ublue-os/justfile' | tee -a "${HOME}/.justfile"
   fi
 fi
