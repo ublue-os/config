@@ -31,7 +31,6 @@ Adds ublue-os just integration for easier setup
 
 mkdir -p -m0755  %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 install -Dm755 %{SOURCE0}  %{buildroot}%{_sysconfdir}/profile.d/ublue-os-just.sh
-install -Dm755 %{SOURCE0}  %{buildroot}%{_datarootdir}/fish/vendor_conf.d/ublue-os-just.fish
 cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE7} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 
 # Create justfile which contains all .just files included in this package
@@ -42,11 +41,13 @@ done
 %files
 %dir %attr(0755,root,root) %{_datadir}/%{VENDOR}/%{sub_name}
 %attr(0755,root,root) %{_sysconfdir}/profile.d/ublue-os-just.sh
-%attr(0755,root,root) %{_datarootdir}/fish/vendor_conf.d/ublue-os-just.fish
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/*.just
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/justfile
 
 %changelog
+* Sat Sep 23 2023 Kyle Gospodnetich <me@kylegospodneti.ch> - 0.5
+- Remove fish shell support
+
 * Thu Sep 21 2023 Benjamin Sherman <benjamin@holyarmy.org> - 0.4
 - Correct justfile include paths
 
