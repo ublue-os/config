@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.3
+Version:        0.4
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -36,7 +36,7 @@ cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE7} 
 
 # Create justfile which contains all .just files included in this package
 for justfile in %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}/*.just; do
-	echo "!include %{_datadir}/%{VENDOR}/%{sub_name}/${justfile}" >> "%{buildroot}%{_datadir}/%{VENDOR}/justfile"
+	echo "!include %{_datadir}/%{VENDOR}/%{sub_name}/$(basename ${justfile})" >> "%{buildroot}%{_datadir}/%{VENDOR}/justfile"
 done
 
 %files
@@ -47,6 +47,9 @@ done
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/justfile
 
 %changelog
+* Thu Sep 21 2023 Benjamin Sherman <benjamin@holyarmy.org> - 0.4
+- Correct justfile include paths
+
 * Thu Sep 21 2023 Kyle Gospodnetich <me@kylegospodneti.ch> - 0.3
 - Modify just files to be numbered for ordered loading
 - Move to using a single master justfile
