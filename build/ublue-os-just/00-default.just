@@ -12,6 +12,7 @@ bios:
 
 # Regenerate GRUB config, useful in dual-boot scenarios where a second operating system isn't listed
 regenerate-grub:
+  #!/usr/bin/env bash
   if [ -d /sys/firmware/efi ]; then
     sudo grub2-mkconfig -o /etc/grub2-efi.cfg
   else
