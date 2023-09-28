@@ -1,7 +1,7 @@
 Name:           ublue-os-udev-rules
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.4
+Version:        0.5
 Release:        1%{?dist}
 Summary:        Additional udev files for device support
 
@@ -45,6 +45,9 @@ cp %{buildroot}%{_datadir}/%{VENDOR}/{%{sub_name}/etc/udev/rules.d,game-devices-
 
 
 %changelog
+* Thu Sep 28 2023 Kyle Gospodnetich <me@kylegospodneti.ch> - 0.5
+- Add OpenTabletDriver udev rules
+
 * Sat May 13 2023 Benjamin Sherman <benjamin@holyarmy.org> - 0.4
 - Add usb-realtek-net rules
 
