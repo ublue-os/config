@@ -1,7 +1,7 @@
 Name:           ublue-os-update-services
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.7
+Version:        0.8
 Release:        1%{?dist}
 Summary:        Automatic updates for rpm-ostree and flatpak
 License:        MIT
