@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.4
+Version:        0.6
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -45,6 +45,9 @@ done
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/justfile
 
 %changelog
+* Mon Oct 2 2023 ArtikusHG <24320212+ArtikusHG@users.noreply.github.com> - 0.6
+- Add commands to disable and enable automatic updates to 60-updates.just
+
 * Sat Sep 23 2023 Kyle Gospodnetich <me@kylegospodneti.ch> - 0.5
 - Remove fish shell support
 
