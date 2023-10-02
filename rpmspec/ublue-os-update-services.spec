@@ -65,6 +65,9 @@ tar xf %{SOURCE0} -C %{buildroot} --strip-components=2 --exclude etc/rpm-ostreed
 
 
 %changelog
+* Mon Oct 2 2023 ArtikusHG <24320212+ArtikusHG@users.noreply.github.com> - 0.8
+- Add metered connection check to system and flatpak update services
+
 * Sat Aug 12 2023 Benjamin Sherman <benjamin@holyarmy.org> - 0.7
 - Add randmized delay to update timers, and always run flatpak updates on boot
 
