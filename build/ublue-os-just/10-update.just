@@ -9,9 +9,9 @@ update:
 # Disable all auto-update timers
 disable-updates:
   sudo systemctl disable --now flatpak-system-update.timer rpm-ostreed-automatic.timer
-  sudo systemctl disable --now --user flatpak-user-update.timer
+  systemctl disable --now --user flatpak-user-update.timer
 
 # Enable all auto-update timers
 enable-updates:
   sudo systemctl enable --now flatpak-system-update.timer rpm-ostreed-automatic.timer
-  sudo systemctl enable --now --user flatpak-user-update.timer
+  systemctl enable --now --user flatpak-user-update.timer
