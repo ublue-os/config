@@ -6,6 +6,7 @@ update:
   flatpak update -y
   distrobox upgrade -a
 
+# Update device firmware
 update-firmware:
   fwupdmgr refresh
   fwupdmgr get-updates
