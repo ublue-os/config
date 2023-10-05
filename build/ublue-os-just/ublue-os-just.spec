@@ -16,9 +16,9 @@ Source2:        10-update.just
 Source3:        20-clean.just
 Source4:        30-distrobox.just
 Source5:        40-nvidia.just
-Source6:        50-akmods.just
-Source7:        60-custom.just
-
+Source6:        41-amd.just
+Source7:        50-akmods.just
+Source8:        60-custom.just
 %global sub_name %{lua:t=string.gsub(rpm.expand("%{NAME}"), "^ublue%-os%-", ""); print(t)}
 
 %description
