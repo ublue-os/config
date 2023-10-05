@@ -5,4 +5,8 @@ update:
   rpm-ostree update
   flatpak update -y
   distrobox upgrade -a
-  fwupdmgr refresh && fwupdmgr update
+
+update-firmware:
+  fwupdmgr refresh
+  fwupdmgr get-updates
+  fwupdmgr update
