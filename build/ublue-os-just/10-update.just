@@ -6,6 +6,12 @@ update:
   flatpak update -y
   distrobox upgrade -a
 
+# Update device firmware
+update-firmware:
+  fwupdmgr refresh
+  fwupdmgr get-updates
+  fwupdmgr update
+
 # Disable all auto-update timers
 disable-updates:
   sudo systemctl disable --now flatpak-system-update.timer rpm-ostreed-automatic.timer
