@@ -23,7 +23,7 @@ nvidia-test-cuda:
       --cap-drop=ALL \
       --security-opt label=type:nvidia_container_t  \
       --device=nvidia.com/gpu=all \
-      docker.io/mirrorgooglecontainers/cuda-vector-add:v0.1
+      docker.io/nvidia/samples:vectoradd-cuda11.2.1
   else
     echo 'The Nvidia kernel module is not loaded. You may be using secure boot without the needed signing key, lacking the needed kargs, or may not be on a Nvidia image. See "just enroll-secure-boot-key" and "just nvidia-set-kargs".'
   fi
