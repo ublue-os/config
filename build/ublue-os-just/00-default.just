@@ -1,5 +1,8 @@
 # vim: set ft=make :
 
+uid := `id -u`
+shell := `grep :$(id -u): /etc/passwd | cut -d: -f7`
+
 set allow-duplicate-recipes
 set ignore-comments
 
