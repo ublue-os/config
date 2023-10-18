@@ -1,10 +1,10 @@
 name: build-ublue
 on:
   pull_request:
-  merge_group:
+  merge_group:  
   schedule:
     - cron: '0 5 * * *'  # 5 am everyday
-  workflow_dispatch:
+  workflow_dispatch:  
 env:
     IMAGE_NAME: config
     IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
@@ -17,7 +17,7 @@ jobs:
       contents: read
       packages: write
       id-token: write
-    steps:
+    steps: 
       # Checkout push-to-registry action GitHub repository
       - name: Checkout Push to Registry action
         uses: actions/checkout@v4
@@ -85,18 +85,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # # Sign container
-      # - uses: sigstore/cosign-installer@v3.1.2
-      #   if: github.event_name != 'pull_request'
+      # Sign container
+      - uses: sigstore/cosign-installer@v3.1.2
+        if: github.event_name != 'pull_request'
 
-      # - name: Sign container image
-      #   if: github.event_name != 'pull_request'
-      #   run: |
-      #     cosign sign -y --key env://COSIGN_PRIVATE_KEY ${{ steps.registry_case.outputs.lowercase }}/${{ env.IMAGE_NAME }}@${TAGS}
-      #   env:
-      #     TAGS: ${{ steps.push.outputs.digest }}
-      #     COSIGN_EXPERIMENTAL: false
-      #     COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
+      - name: Sign container image
+        if: github.event_name != 'pull_request'
+        run: |
+          cosign sign -y --key env://COSIGN_PRIVATE_KEY ${{ steps.registry_case.outputs.lowercase }}/${{ env.IMAGE_NAME }}@${TAGS}
+        env:
+          TAGS: ${{ steps.push.outputs.digest }}
+          COSIGN_EXPERIMENTAL: false
+          COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
 
       - name: Echo outputs
         if: github.event_name != 'pull_request'
