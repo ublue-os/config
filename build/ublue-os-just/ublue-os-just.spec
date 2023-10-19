@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.6
+Version:        0.7
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -18,6 +18,7 @@ Source4:        30-distrobox.just
 Source5:        40-nvidia.just
 Source6:        50-akmods.just
 Source7:        60-custom.just
+Source8:        ujust
 
 %global sub_name %{lua:t=string.gsub(rpm.expand("%{NAME}"), "^ublue%-os%-", ""); print(t)}
 
@@ -38,13 +39,22 @@ for justfile in %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}/*.just; do
 	echo "!include %{_datadir}/%{VENDOR}/%{sub_name}/$(basename ${justfile})" >> "%{buildroot}%{_datadir}/%{VENDOR}/justfile"
 done
 
+# Add global "ujust" script to run just with --unstable
+mkdir -p -m0755  %{buildroot}%{_bindir}
+install -Dm755 %{SOURCE8} %{buildroot}%{_bindir}/ujust
+
 %files
 %dir %attr(0755,root,root) %{_datadir}/%{VENDOR}/%{sub_name}
 %attr(0755,root,root) %{_sysconfdir}/profile.d/ublue-os-just.sh
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/*.just
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/justfile
+%attr(0755,root,root) %{_bindir}/ujust
 
 %changelog
+* Fri Oct 13 2023 bri <284789+b-@users.noreply.github.com> - 0.7
+- Add ujust runner
+- Add chsh task
+
 * Mon Oct 2 2023 ArtikusHG <24320212+ArtikusHG@users.noreply.github.com> - 0.6
 - Add commands to disable and enable automatic updates to 60-updates.just
 
