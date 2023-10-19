@@ -41,7 +41,7 @@ distrobox-ubuntu:
   echo 'Creating Ubuntu distrobox ...'
   distrobox-create --nvidia --image quay.io/toolbx-images/ubuntu-toolbox:22.04 -n ubuntu -Y
 
-# Install obs-studio-portable from wimpysworld, which bundles an extensive collection of 3rd party plugins 
+# Install obs-studio-portable from wimpysworld, which bundles an extensive collection of 3rd party plugins
 install-obs-studio-portable:
   echo 'Installing obs-studio-portable...' && \
   distrobox-create --nvidia --no-entry --image ghcr.io/ublue-os/obs-studio-portable -n obs-studio-portable -Y && \
