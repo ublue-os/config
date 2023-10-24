@@ -17,7 +17,7 @@ tar --strip-components=1 -xvzf /tmp/OpenTabletDriver/opentabletdriver.tar.gz -C 
 mv /tmp/OpenTabletDriver/etc/udev/rules.d/70-opentabletdriver.rules /tmp/ublue-os/udev-rules/etc/udev/rules.d/71-opentabletdriver-ublue.rules && \
 rm -rf /tmp/OpenTabletDriver
 
-# Install Sunshin udev rules from their github repo
+# Install Sunshine udev rules from their github repo
 RUN mkdir -p /tmp/Sunshine/ && \
 mkdir -p /usr/etc/udev/rules.d/ && \
 pushd /tmp/Sunshine && \
