@@ -1,6 +1,6 @@
 FROM registry.fedoraproject.org/fedora:latest AS builder
 
-RUN dnf install --disablerepo='*' --enablerepo='fedora,updates' --setopt install_weak_deps=0 --nodocs --assumeyes rpm-build systemd-rpm-macros wget
+RUN dnf install --disablerepo='*' --enablerepo='fedora,updates' --setopt install_weak_deps=0 --nodocs --assumeyes rpm-build systemd-rpm-macros wget jq git
 
 ADD https://codeberg.org/fabiscafe/game-devices-udev/archive/main.tar.gz /tmp/ublue-os/rpmbuild/SOURCES/game-devices-udev.tar.gz
 
@@ -11,13 +11,20 @@ ADD files/etc/udev/rules.d /tmp/ublue-os/udev-rules/etc/udev/rules.d
 RUN mkdir -p /tmp/OpenTabletDriver/ && \
 mkdir -p /usr/etc/udev/rules.d/ && \
 curl -s https://api.github.com/repos/OpenTabletDriver/OpenTabletDriver/releases/latest \
-| grep "browser_download_url.*opentabletdriver-.*-x64.tar.gz" \
-| cut -d : -f 2,3 \
-| tr -d \" \
+| jq -r '.assets | sort_by(.created_at) | .[] | select (.name|test("opentabletdriver.*tar.gz$")) | .browser_download_url' \
 | wget -qi - -O /tmp/OpenTabletDriver/opentabletdriver.tar.gz && \
-tar -xvzf /tmp/OpenTabletDriver/opentabletdriver.tar.gz -C /tmp/OpenTabletDriver && \
-mv /tmp/OpenTabletDriver/opentabletdriver/etc/udev/rules.d/70-opentabletdriver.rules /tmp/ublue-os/udev-rules/etc/udev/rules.d/70-opentabletdriver.rules && \
+tar --strip-components=1 -xvzf /tmp/OpenTabletDriver/opentabletdriver.tar.gz -C /tmp/OpenTabletDriver && \
+mv /tmp/OpenTabletDriver/etc/udev/rules.d/70-opentabletdriver.rules /tmp/ublue-os/udev-rules/etc/udev/rules.d/71-opentabletdriver-ublue.rules && \
 rm -rf /tmp/OpenTabletDriver
+
+# Install Sunshin udev rules from their github repo
+RUN mkdir -p /tmp/Sunshine/ && \
+mkdir -p /usr/etc/udev/rules.d/ && \
+pushd /tmp/Sunshine && \
+git clone --depth 1 https://github.com/LizardByte/Sunshine . && \
+mv /tmp/Sunshine/src_assets/linux/misc/85-sunshine.rules /tmp/ublue-os/udev-rules/etc/udev/rules.d/86-sunshine-ublue.rules && \
+popd && \
+rm -rf /tmp/Sunshine
 
 ADD files/etc/rpm-ostreed.conf /tmp/ublue-os/update-services/etc/rpm-ostreed.conf
 ADD files/usr/etc/systemd /tmp/ublue-os/update-services/usr/etc/systemd
