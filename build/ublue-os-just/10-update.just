@@ -3,7 +3,7 @@
 # Update system, flatpaks, and containers all at once
 update:
   #!/usr/bin/env bash
-  if grep -q "enabled" <<< $(systemctl is-enabled ublue-update.timer);
+  if systemctl is-enabled ublue-update.timer | grep -q enabled;
   then
     echo "Starting the ublue-update service"
     sudo systemctl start ublue-update.service
@@ -22,10 +22,10 @@ update-firmware:
 # Disable all auto-update timers
 disable-updates:
   #!/usr/bin/env bash
-  if grep -q "enabled" <<< $(systemctl is-enabled ublue-update.timer);
+  if systemctl is-enabled ublue-update.timer | grep -q enabled;
   then
     sudo systemctl disable ublue-update.timer
-  elif grep -q "enabled" <<< $(systemctl is-enabled flatpak-system-update.timer);
+  elif systemctl is-enabled flatpak-system-update.timer | grep -q enabled;
   then
     sudo systemctl disable --now flatpak-system-update.timer rpm-ostreed-automatic.timer
     systemctl disable --now --user flatpak-user-update.timer
@@ -34,10 +34,10 @@ disable-updates:
 # Enable all auto-update timers
 enable-updates:
   #!/usr/bin/env bash
-  if grep -q "disabled" <<< $(systemctl is-enabled ublue-update.timer);
+  if systemctl is-enabled ublue-update.timer | grep -q disabled;
   then
      sudo systemctl enable ublue-update.timer
-  elif grep -q "disabled" <<< $(systemctl is-enabled flatpak-system-update.timer);
+  elif systemctl is-enabled flatpak-system-update.timer | grep -q disabled;
   then
     sudo systemctl enable --now flatpak-system-update.timer rpm-ostreed-automatic.timer
     systemctl enable --now --user flatpak-user-update.timer
