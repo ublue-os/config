@@ -10,9 +10,9 @@ distrobox-bazzite:
   #!/usr/bin/env bash
   echo 'Creating Bazzite distrobox ...'
   if command -v /usr/bin/mutter > /dev/null; then
-    distrobox-create --unshare-netns --nvidia --image ghcr.io/ublue-os/bazzite-arch-gnome --name bazzite-arch
+    distrobox-create --unshare-netns --nvidia --image ghcr.io/ublue-os/bazzite-arch-gnome --name bazzite-arch -Y
   else
-    distrobox-create --unshare-netns --nvidia --image ghcr.io/ublue-os/bazzite-arch --name bazzite-arch
+    distrobox-create --unshare-netns --nvidia --image ghcr.io/ublue-os/bazzite-arch --name bazzite-arch -Y
   fi
   echo 'Check out the docs for exportable apps and instructions: https://github.com/ublue-os/bazzite-arch'
 
