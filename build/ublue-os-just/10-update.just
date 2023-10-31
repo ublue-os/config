@@ -15,7 +15,7 @@ update:
 
 # Update device firmware
 update-firmware:
-  fwupdmgr refresh
+  fwupdmgr refresh --force
   fwupdmgr get-updates
   fwupdmgr update
 
