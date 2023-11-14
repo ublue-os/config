@@ -48,7 +48,7 @@ distrobox-alma:
 
 # Create a Centos (Stream) container
 distrobox-centos
-  echo 'Creating Centos (Stream) container ...'
+  echo 'Creating Centos (Stream) distrobox ...'
   distrobox-create --nvidia --image quay.io/toolbx-images/centos-toolbox:latest -n centos -Y
 
 # Install obs-studio-portable from wimpysworld, which bundles an extensive collection of 3rd party plugins
