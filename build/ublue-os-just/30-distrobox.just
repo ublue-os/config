@@ -47,7 +47,7 @@ distrobox-alma:
   distrobox-create --nvidia --image quay.io/toolbx-images/almalinux-toolbox:latest -n alma -Y
 
 # Create a Centos (Stream) container
-distrobox-centos
+distrobox-centos:
   echo 'Creating Centos (Stream) distrobox ...'
   distrobox-create --nvidia --image quay.io/toolbx-images/centos-toolbox:latest -n centos -Y
 
