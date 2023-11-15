@@ -41,6 +41,16 @@ distrobox-ubuntu:
   echo 'Creating Ubuntu distrobox ...'
   distrobox-create --nvidia --image quay.io/toolbx-images/ubuntu-toolbox:22.04 -n ubuntu -Y
 
+# Create an Alma Linux container
+distrobox-alma:
+  echo 'Creating Alma distrobox ...'
+  distrobox-create --nvidia --image quay.io/toolbx-images/almalinux-toolbox:latest -n alma -Y
+
+# Create a Centos (Stream) container
+distrobox-centos
+  echo 'Creating Centos (Stream) distrobox ...'
+  distrobox-create --nvidia --image quay.io/toolbx-images/centos-toolbox:latest -n centos -Y
+
 # Install obs-studio-portable from wimpysworld, which bundles an extensive collection of 3rd party plugins
 install-obs-studio-portable:
   echo 'Installing obs-studio-portable...' && \
