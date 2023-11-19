@@ -46,7 +46,7 @@ jobs:
         id: check_just_syntax
         shell: bash
         run: |
-          for file in build/ublue-os-just/*; do
+          for file in build/ublue-os-just/*.just; do
             if [ -f "$file" ]; then
               echo $file
               just --fmt --check --unstable -f $file || { exit 1; }
