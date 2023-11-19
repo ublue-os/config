@@ -38,6 +38,21 @@ jobs:
           fi
           echo "alias_tags=${alias_tags[*]}" >> $GITHUB_OUTPUT
 
+      - name: Install just
+        id: install_just
+        uses: extractions/setup-just@v1
+
+      - name: Check just syntax
+        id: check_just_syntax
+        shell: bash
+        run: |
+          for file in build/ublue-os-just/*.just; do
+            if [ -f "$file" ]; then
+              echo $file
+              just --fmt --check --unstable -f $file || { exit 1; }
+            fi
+          done
+
       # Build image using Buildah action
       - name: Build Image
         id: build_image
