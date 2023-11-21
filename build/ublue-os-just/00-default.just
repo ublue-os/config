@@ -43,8 +43,8 @@ changelogs:
 
 # Enroll Nvidia driver & KMOD signing key for secure boot - Enter password "ublue-os" if prompted
 enroll-secure-boot-key:
+    echo 'Enter password "ublue-os" if prompted after your user password.'
     sudo mokutil --import /etc/pki/akmods/certs/akmods-ublue.der
-    echo 'Enter password "ublue-os" if prompted'
 
 # Upgrade Distrobox to the latest git version
 distrobox-git:
