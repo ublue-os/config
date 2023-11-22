@@ -85,4 +85,4 @@ install-brew-to-shell:
 
 # Removes homebrew from system
 remove-brew:
-	sudo rm -rf /var/home/linuxbrew
+    sudo rm -rf /var/home/linuxbrew
