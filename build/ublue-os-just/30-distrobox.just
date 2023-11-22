@@ -51,6 +51,11 @@ distrobox-centos:
     echo 'Creating Centos (Stream) distrobox ...'
     distrobox-create --nvidia --image quay.io/toolbx-images/centos-toolbox:latest -n centos -Y
 
+# Create a homebrew container
+distrobox-brew:
+	echo 'Creating homebrew container ...'
+	distrobox-create --nvidia --image ghcr.io/homebrew/brew:latest -n brew -Y
+
 # Install obs-studio-portable from wimpysworld, which bundles an extensive collection of 3rd party plugins
 install-obs-studio-portable:
     echo 'Installing obs-studio-portable...' && \
