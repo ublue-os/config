@@ -53,8 +53,8 @@ distrobox-centos:
 
 # Create a homebrew container
 distrobox-brew:
-	echo 'Creating homebrew container ...'
-	distrobox-create --nvidia --image ghcr.io/homebrew/brew:latest -n brew -Y
+    echo 'Creating homebrew container ...'
+    distrobox-create --nvidia --image ghcr.io/homebrew/brew:latest -n brew -Y
 
 # Install obs-studio-portable from wimpysworld, which bundles an extensive collection of 3rd party plugins
 install-obs-studio-portable:
