@@ -57,12 +57,12 @@ remove-distrobox-git:
     curl -s https://raw.githubusercontent.com/89luca89/distrobox/main/uninstall | sh -s -- --prefix ~/.local
 
 # Install Homebrew for Linux
-install-brew:
+brew-install:
     echo "Installing homebrew ..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # Add Homebrew to shell rc files
-install-brew-to-shell:
+brew-shell:
     #!/usr/bin/env bash
     set -euxo pipefail
     echo "Adding homebrew to shell configuration"
@@ -84,5 +84,6 @@ install-brew-to-shell:
     fi
 
 # Removes homebrew from system
-remove-brew:
-    sudo rm -rf /var/home/linuxbrew
+brew-remove:
+    echo "Removing homebrew ..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
