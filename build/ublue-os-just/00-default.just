@@ -87,3 +87,12 @@ brew-shell:
 brew-remove:
     echo "Removing homebrew ..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
+
+# Install Nix with the Determinate Nix Installer
+nix-install:
+    #!/usr/bin/env bash
+    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sudo bash -s -- install --no-confirm
+
+# Uninstall Nix
+nix-remove:
+    sudo /nix/nix-installer uninstall
