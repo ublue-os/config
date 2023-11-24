@@ -34,7 +34,7 @@ fleek-install:
       echo "experimental-features = nix-command flakes" >> $HOME/.config/nix/nix.conf
       curl -fsSL https://getfleek.dev/installer | env FORCE=1 bash
     else
-      echo "Install nix with ujust install-nix before running ujust fleek-install."
+      echo "Install nix with ujust nix-install before running ujust fleek-install."
     fi
 
 # Integrate Nix/Fleek applications with system theme
@@ -51,5 +51,5 @@ fleek-themes-install:
         fleek apply
       fi
     else
-      echo "Install fleek with ujust install-fleek before running ujust fleek-themes-install."
+      echo "Install fleek with ujust fleek-install before running ujust fleek-themes-install."
     fi
