@@ -13,6 +13,7 @@ nix-remove:
 nix-sudo:
     #!/usr/bin/env bash
     sudo echo "Adding sudo path variables for nix"
+    sudo rm -f /etc/sudoers.d/nix-sudo-env
     SUDOPATHVARIABLE5=$(sudo printenv PATH)
     
     sudo tee /etc/sudoers.d/nix-sudo-env <<EOF
