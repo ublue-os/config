@@ -15,11 +15,9 @@ nix-sudo:
     sudo echo "Adding sudo path variables for nix"
     sudo rm -f /etc/sudoers.d/nix-sudo-env
     SUDOPATHVARIABLE5=$(sudo printenv PATH)
-    
     sudo tee /etc/sudoers.d/nix-sudo-env <<EOF
     Defaults  secure_path = /nix/var/nix/profiles/default/bin:/nix/var/nix/profiles/default/sbin:$SUDOPATHVARIABLE5
     EOF
-
     sudo echo "Finished adding sudo variables for nix"
 
 # Removes nix bin path from sudoers config
