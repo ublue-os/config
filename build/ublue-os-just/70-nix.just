@@ -36,7 +36,7 @@ fleek-install:
     fi
 
 # Integrate Nix/Fleek applications with system theme
-fleek-themes-install:
+_fleek_themes_install:
     #!/usr/bin/env bash
     if [[ -x "/var/usrlocal/bin/fleek" ]]; then
       IMAGE_INFO="/usr/share/ublue-os/image-info.json"
