@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.7
+Version:        0.8
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -18,7 +18,8 @@ Source4:        30-distrobox.just
 Source5:        40-nvidia.just
 Source6:        50-akmods.just
 Source7:        60-custom.just
-Source8:        ujust
+Source8:        70-nix.just
+Source9:        ujust
 
 %global sub_name %{lua:t=string.gsub(rpm.expand("%{NAME}"), "^ublue%-os%-", ""); print(t)}
 
@@ -51,6 +52,9 @@ install -Dm755 %{SOURCE8} %{buildroot}%{_bindir}/ujust
 %attr(0755,root,root) %{_bindir}/ujust
 
 %changelog
+* Sat Nov 25 2023 RJ Trujillo <eyecantcu@pm.me> - 0.8
+- Integrate justfile for nix
+
 * Fri Oct 13 2023 bri <284789+b-@users.noreply.github.com> - 0.7
 - Add ujust runner
 - Add chsh task
