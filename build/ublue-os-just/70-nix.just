@@ -34,20 +34,3 @@ fleek-install:
     else
       echo "Install nix with ujust nix-install before running ujust fleek-install."
     fi
-
-# Integrate Nix/Fleek applications with system theme
-_fleek_themes_install:
-    #!/usr/bin/env bash
-    if [[ -x "/var/usrlocal/bin/fleek" ]]; then
-      IMAGE_INFO="/usr/share/ublue-os/image-info.json"
-      BASE_IMAGE_NAME=$(jq -r '."base-image-name"' < $IMAGE_INFO)
-      if [[ ${BASE_IMAGE_NAME} == 'silverblue' ]]; then
-        fleek add adw-gtk3 --apply
-      else
-        fleek add breeze-icons
-        fleek add libsForQt5.breeze-qt5
-        fleek apply
-      fi
-    else
-      echo "Install fleek with ujust fleek-install before running ujust fleek-themes-install."
-    fi
