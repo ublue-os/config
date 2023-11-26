@@ -36,7 +36,7 @@ fleek-install:
     fi
 
 # Integrate Nix/Fleek applications with system theme
-fleek_themes_install:
+fleek-themes-install:
     #!/usr/bin/env bash
     if [[ -x "/var/usrlocal/bin/fleek" ]]; then
       if command -v mutter; then
