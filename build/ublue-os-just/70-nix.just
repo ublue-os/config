@@ -76,3 +76,12 @@ devbox-remove:
     else
       echo "Devbox is not installed or has been already removed"
     fi
+
+# Installs nixGL
+nixgl-install:
+    #!/usr/bin/env bash
+    if [[ -d "/nix" ]]; then
+      nix profile install github:guibou/nixGL --impure
+    else
+      echo "NixGL requires nix to install."
+    fi
