@@ -35,6 +35,15 @@ fleek-install:
       echo "Install nix with ujust nix-install before running ujust fleek-install."
     fi
 
+# Removes Fleek
+fleek-remove:
+    #!/usr/bin/env bash
+    if [[ -x "/var/usrlocal/bin/fleek" ]]; then
+      sudo rm -f /var/usrlocal/bin/fleek
+    else
+      echo "Fleek is not installed or has been already removed"
+    fi
+
 # Integrate Nix/Fleek applications with system theme
 fleek-themes-install:
     #!/usr/bin/env bash
@@ -48,4 +57,22 @@ fleek-themes-install:
       fi
     else
       echo "Install fleek with ujust fleek-install before running ujust fleek-themes-install."
+    fi
+
+# Installs Devbox
+devbox-install:
+    #!/usr/bin/env bash
+    if [[ -d "/nix" ]]; then
+      curl -fsSL https://get.jetpack.io/devbox | bash
+    else
+      echo "Install nix with ujust nix-install before running ujust devbox-install."
+    fi
+
+# Removes Devbox
+devbox-remove:
+    #!/usr/bin/env bash
+    if [[ -x "/var/usrlocal/bin/devbox" ]]; then
+      sudo rm -f /var/usrlocal/bin/devbox
+    else
+      echo "Devbox is not installed or has been already removed"
     fi
