@@ -87,7 +87,7 @@ nixgl-install:
     fi
 
 # Upgrades user nix profile
-nix-update:
+nix-update-user:
     #!/usr/bin/env bash
     if [[ -d "/nix" ]]; then
       nix profile upgrade '.*'
