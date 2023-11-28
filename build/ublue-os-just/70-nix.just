@@ -85,3 +85,22 @@ nixgl-install:
     else
       echo "NixGL requires nix to install."
     fi
+
+# Upgrades user nix profile
+nix-update:
+    #!/usr/bin/env bash
+    if [[ -d "/nix" ]]; then
+      nix profile upgrade '.*'
+    else
+      echo "Nix is not installed"
+    fi
+
+# Upgrades both user and root nix profiles
+nix-update-all:
+    #!/usr/bin/env bash
+    if [[ -d "/nix" ]]; then
+      nix profile upgrade '.*'
+      sudo nix profile upgrade '.*'
+    else
+      echo "Nix is not installed"
+    fi
