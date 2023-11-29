@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.8
+Version:        0.9
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -33,7 +33,7 @@ Adds ublue-os just integration for easier setup
 
 mkdir -p -m0755  %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 install -Dm755 %{SOURCE0}  %{buildroot}%{_sysconfdir}/profile.d/ublue-os-just.sh
-cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE7} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
+cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE7} %{SOURCE8} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 
 # Create justfile which contains all .just files included in this package
 for justfile in %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}/*.just; do
@@ -42,7 +42,7 @@ done
 
 # Add global "ujust" script to run just with --unstable
 mkdir -p -m0755  %{buildroot}%{_bindir}
-install -Dm755 %{SOURCE8} %{buildroot}%{_bindir}/ujust
+install -Dm755 %{SOURCE9} %{buildroot}%{_bindir}/ujust
 
 %files
 %dir %attr(0755,root,root) %{_datadir}/%{VENDOR}/%{sub_name}
@@ -52,6 +52,9 @@ install -Dm755 %{SOURCE8} %{buildroot}%{_bindir}/ujust
 %attr(0755,root,root) %{_bindir}/ujust
 
 %changelog
+* Tue Nov 28 2023 RJ Trujillo <eyecantcu> - 0.9
+- Copy nix justfile to correct location and restore ujust
+
 * Sat Nov 25 2023 RJ Trujillo <eyecantcu@pm.me> - 0.8
 - Integrate justfile for nix
 
