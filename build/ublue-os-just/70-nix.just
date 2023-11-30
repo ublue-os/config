@@ -4,10 +4,16 @@
 nix-install:
     #!/usr/bin/env bash
     curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sudo bash -s -- install --no-confirm
+    sudo rm -f /etc/systemd/system/nix-daemon.service
+    sudo rm -f /etc/systemd/system/nix-daemon.socket
+    sudo cp /nix/var/nix/profiles/default/lib/systemd/system/nix-daemon.service /etc/systemd/system/nix-daemon.service
+    sudo cp /nix/var/nix/profiles/default/lib/systemd/system/nix-daemon.socket /etc/systemd/system/nix-daemon.socket
 
 # Uninstall Nix
 nix-remove:
     sudo /nix/nix-installer uninstall
+    sudo rm -f /etc/systemd/system/nix-daemon.service
+    sudo rm -f /etc/systemd/system/nix-daemon.socket
 
 # Adds the nix bin path to the sudoers config
 nix-sudo:
@@ -104,3 +110,10 @@ nix-update-all:
     else
       echo "Nix is not installed"
     fi
+
+# Deletes and recoppies nix systemd units to ensure that they are the same
+nix-systemd-copy:
+    sudo rm -f /etc/systemd/system/nix-daemon.service
+    sudo rm -f /etc/systemd/system/nix-daemon.socket
+    sudo cp /nix/var/nix/profiles/default/lib/systemd/system/nix-daemon.service /etc/systemd/system/nix-daemon.service
+    sudo cp /nix/var/nix/profiles/default/lib/systemd/system/nix-daemon.socket /etc/systemd/system/nix-daemon.socket
