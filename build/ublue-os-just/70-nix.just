@@ -4,10 +4,16 @@
 nix-install:
     #!/usr/bin/env bash
     curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sudo bash -s -- install --no-confirm
+    sudo rm -f /etc/systemd/system/nix-daemon.service
+    sudo rm -f /etc/systemd/system/nix-daemon.socket
+    sudo cp /nix/var/nix/profiles/default/lib/systemd/system/nix-daemon.service /etc/systemd/system/nix-daemon.service
+    sudo cp /nix/var/nix/profiles/default/lib/systemd/system/nix-daemon.socket /etc/systemd/system/nix-daemon.socket
 
 # Uninstall Nix
 nix-remove:
     sudo /nix/nix-installer uninstall
+    sudo rm -f /etc/systemd/system/nix-daemon.service
+    sudo rm -f /etc/systemd/system/nix-daemon.socket
 
 # Adds the nix bin path to the sudoers config
 nix-sudo:
@@ -35,6 +41,15 @@ fleek-install:
       echo "Install nix with ujust nix-install before running ujust fleek-install."
     fi
 
+# Removes Fleek
+fleek-remove:
+    #!/usr/bin/env bash
+    if [[ -x "/var/usrlocal/bin/fleek" ]]; then
+      sudo rm -f /var/usrlocal/bin/fleek
+    else
+      echo "Fleek is not installed or has been already removed"
+    fi
+
 # Integrate Nix/Fleek applications with system theme
 fleek-themes-install:
     #!/usr/bin/env bash
@@ -49,3 +64,56 @@ fleek-themes-install:
     else
       echo "Install fleek with ujust fleek-install before running ujust fleek-themes-install."
     fi
+
+# Installs Devbox
+devbox-install:
+    #!/usr/bin/env bash
+    if [[ -d "/nix" ]]; then
+      curl -fsSL https://get.jetpack.io/devbox | bash
+    else
+      echo "Install nix with ujust nix-install before running ujust devbox-install."
+    fi
+
+# Removes Devbox
+devbox-remove:
+    #!/usr/bin/env bash
+    if [[ -x "/var/usrlocal/bin/devbox" ]]; then
+      sudo rm -f /var/usrlocal/bin/devbox
+    else
+      echo "Devbox is not installed or has been already removed"
+    fi
+
+# Installs nixGL
+nixgl-install:
+    #!/usr/bin/env bash
+    if [[ -d "/nix" ]]; then
+      nix profile install github:guibou/nixGL --impure
+    else
+      echo "NixGL requires nix to install."
+    fi
+
+# Upgrades user nix profile
+nix-update-user:
+    #!/usr/bin/env bash
+    if [[ -d "/nix" ]]; then
+      nix profile upgrade '.*'
+    else
+      echo "Nix is not installed"
+    fi
+
+# Upgrades both user and root nix profiles
+nix-update-all:
+    #!/usr/bin/env bash
+    if [[ -d "/nix" ]]; then
+      nix profile upgrade '.*'
+      sudo nix profile upgrade '.*'
+    else
+      echo "Nix is not installed"
+    fi
+
+# Deletes and recoppies nix systemd units to ensure that they are the same
+nix-systemd-copy:
+    sudo rm -f /etc/systemd/system/nix-daemon.service
+    sudo rm -f /etc/systemd/system/nix-daemon.socket
+    sudo cp /nix/var/nix/profiles/default/lib/systemd/system/nix-daemon.service /etc/systemd/system/nix-daemon.service
+    sudo cp /nix/var/nix/profiles/default/lib/systemd/system/nix-daemon.socket /etc/systemd/system/nix-daemon.socket
