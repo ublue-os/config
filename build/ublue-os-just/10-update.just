@@ -67,6 +67,7 @@ update VERB_LEVEL="full":
     fi
 
 # Update device firmware
+[no-exit-message]
 update-firmware:
     fwupdmgr refresh --force
     fwupdmgr get-updates
