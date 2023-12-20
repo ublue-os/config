@@ -80,12 +80,16 @@ function choose_Fzf () {
     do
         # If the argument does not start with -
         if [[ ! $arg =~ ^- ]]; then
-            OPTIONS="${OPTIONS}$arg\n"
+            if [[ "$OPTIONS" == "" ]]; then
+                OPTIONS="${arg}"
+                continue
+            fi
+            OPTIONS="${OPTIONS}\n${arg}"
         fi
     done
 
     # Make a select prompt using fzf
-    printf "$OPTIONS" | fzf --height="~20%" --prompt="$PROMPT"
+    echo -e $OPTIONS | fzf --height="~20%" --prompt="$PROMPT"
 }
 
 function confirm_Generic () {
