@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+############################################################
+# This is a helper script to provide selectable choices 
+# for just commands and bash scripts in uBlue
+############################################################
+
+# Check if gum is present
+GUM=$(which gum 2>/dev/null)
+
+# If gum is not present
+if [[ -z "$GUM" ]]; then
+    # Change PS3 to our select prompt
+    PS3='Please enter your choice: '
+    options=("$@")
+
+    # Make a select prompt in bash
+    select opt in "${options[@]}"
+    do
+        case $opt in
+            "")
+                # Invalid options print to STDERR and then loops back for the user to select again
+                echo "Invalid option $REPLY" >&2
+                ;;
+            "$opt")
+                echo "$opt"
+                break
+                ;;
+        esac
+    done
+else
+    # If gum is present just pass args to gum
+    $GUM choose "$@"
+fi
+
+# Exit normally to just mimic gum
+exit 0
