@@ -4,11 +4,30 @@
 # for just commands and bash scripts that want to use gum in uBlue
 ##################################################################
 
+# Supported menu handlers
+SUPPORTED_HANDLERS=(
+    "fzf"
+)
+
 # Check if gum is present
 GUM=$(which gum 2>/dev/null)
 
-# Check if fzf is installed
-fzf=$(which fzf 2>/dev/null)
+# Check if fzf is installed and set it as the handler
+FALLBACK_HANDLER=$(which fzf 2>/dev/null)
+HANDLER=""
+if [[ ! -z $FALLBACK_HANDLER ]]; then
+    HANDLER="fzf"
+fi
+
+# If $MENU is set
+if [[ ! -z $MENU ]]; then
+    for BIN in "${SUPPORTED_HANDLERS[@]}"
+    do
+        if [[ "$BIN" == "$MENU" ]]; then
+            HANDLER=$BIN
+        fi
+    done
+fi
 
 function noGum () {
     if [[ -z "$1" ]]; then
@@ -17,7 +36,7 @@ function noGum () {
         exit 5
     elif [[ "$1" == "choose" ]]; then
         # If choose is the verb then run the choose function and pass all remaining args to an appropriate handler
-        if [[ ! -z "$fzf" ]]; then
+        if [[ "$HANDLER" == "fzf" ]]; then
             # Use fzf for choice selector
             choose_Fzf "${@:2}"
         else
@@ -26,7 +45,7 @@ function noGum () {
         fi
     elif [[ "$1" == "confirm" ]]; then
         # If confirm is the verb then run the confirm function and pass all remaining args to an appropriate handler
-        if [[ ! -z "$fzf" ]]; then
+        if [[ "$HANDLER" == "fzf" ]]; then
             # Use fzf as a confirm dialog
             confirm_Fzf "${@:2}"
         else
