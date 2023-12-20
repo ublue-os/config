@@ -15,16 +15,29 @@ function nogum () {
     elif [[ "$1" == "choose" ]]; then
         # If choose is the verb then run the choose function and pass all remaining args to it
         choose "${@:2}"
+    elif [[ "$1" == "confirm" ]]; then
+        confirm "${@:2}" 
     fi
 }
 
 function choose () {
     # Change PS3 to our select prompt
     PS3='Please enter your choice: '
-    options=("$@")
+
+    # Make an array to contain all options in
+    OPTIONS=()
+
+    # Parse the arguments for the ones we support and care about
+    for arg in "$@"
+    do
+        # If the argument does not start with -
+        if [[ ! $arg =~ ^- ]]; then
+            OPTIONS+=("$arg")
+        fi
+    done
 
     # Make a select prompt in bash
-    select opt in "${options[@]}"
+    select opt in "${OPTIONS[@]}"
     do
         case $opt in
             "")
@@ -39,6 +52,36 @@ function choose () {
     done 
 }
 
+function confirm () {
+    # Set default prompt
+    PROMPT="Are you sure?"
+
+    # Parse the arguments for the ones we support and care about 
+    for arg in "$@"
+    do
+        if [[ ! $arg =~ ^- ]]; then
+            PROMPT="$arg"
+        fi
+    done
+
+    # Print the prompt and read input
+    read -r -p "$PROMPT [Y/n]: " YESNO
+    case "${YESNO}" in
+        [Yy]*)
+            # Use exit code 0 for yes, just like gum
+            exit 0
+            ;;
+        [Nn]*)
+            # Use exit code 1 for no, just like gum
+            exit 1
+            ;;
+        *)
+            # Default exit code is 0
+            exit 0
+            ;;
+    esac
+}
+
 # If gum is not present
 if [[ -z "$GUM" ]]; then
     nogum "$@"
@@ -46,6 +89,3 @@ else
     # If gum is present just pass args to gum
     $GUM "$@"
 fi
-
-# Exit normally to just mimic gum
-exit 0
