@@ -1,14 +1,24 @@
 #!/usr/bin/env bash
-############################################################
-# This is a helper script to provide selectable choices 
-# for just commands and bash scripts in uBlue
-############################################################
+##################################################################
+# This is a helper script to provide a basic fallback replacement 
+# for just commands and bash scripts that want to use gum in uBlue
+##################################################################
 
 # Check if gum is present
 GUM=$(which gum 2>/dev/null)
 
-# If gum is not present
-if [[ -z "$GUM" ]]; then
+function nogum () {
+    if [[ -z "$1" ]]; then
+        # If no arguments are provided then error with 
+        echo "ugum supports only choose or confirm as the first argument!"
+        exit 5
+    elif [[ "$1" == "choose" ]]; then
+        # If choose is the verb then run the choose function and pass all remaining args to it
+        choose "${@:2}"
+    fi
+}
+
+function choose () {
     # Change PS3 to our select prompt
     PS3='Please enter your choice: '
     options=("$@")
@@ -26,10 +36,15 @@ if [[ -z "$GUM" ]]; then
                 break
                 ;;
         esac
-    done
+    done 
+}
+
+# If gum is not present
+if [[ -z "$GUM" ]]; then
+    nogum "$@"
 else
     # If gum is present just pass args to gum
-    $GUM choose "$@"
+    $GUM "$@"
 fi
 
 # Exit normally to just mimic gum
