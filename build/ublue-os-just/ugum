@@ -7,20 +7,36 @@
 # Check if gum is present
 GUM=$(which gum 2>/dev/null)
 
-function nogum () {
+# Check if fzf is installed
+fzf=$(which fzf 2>/dev/null)
+
+function noGum () {
     if [[ -z "$1" ]]; then
         # If no arguments are provided then error with 
         echo "ugum supports only choose or confirm as the first argument!"
         exit 5
     elif [[ "$1" == "choose" ]]; then
-        # If choose is the verb then run the choose function and pass all remaining args to it
-        choose "${@:2}"
+        # If choose is the verb then run the choose function and pass all remaining args to an appropriate handler
+        if [[ ! -z "$fzf" ]]; then
+            # Use fzf for choice selector
+            choose_Fzf "${@:2}"
+        else
+            # Use generic bash selector
+            choose_Generic "${@:2}"
+        fi
     elif [[ "$1" == "confirm" ]]; then
-        confirm "${@:2}" 
+        # If confirm is the verb then run the confirm function and pass all remaining args to an appropriate handler
+        if [[ ! -z "$fzf" ]]; then
+            # Use fzf as a confirm dialog
+            confirm_Fzf "${@:2}"
+        else
+            # Use a generic bash dialog
+            confirm_Generic "${@:2}"
+        fi
     fi
 }
 
-function choose () {
+function choose_Generic () {
     # Change PS3 to our select prompt
     PS3='Please enter your choice: '
 
@@ -52,7 +68,27 @@ function choose () {
     done 
 }
 
-function confirm () {
+function choose_Fzf () {
+    # Change our select prompt
+    PROMPT='Please enter your choice: '
+
+    # Make an array to contain all options in
+    local OPTIONS
+
+    # Parse the arguments for the ones we support and care about
+    for arg in "$@"
+    do
+        # If the argument does not start with -
+        if [[ ! $arg =~ ^- ]]; then
+            OPTIONS="${OPTIONS}$arg\n"
+        fi
+    done
+
+    # Make a select prompt using fzf
+    printf "$OPTIONS" | fzf --height="~20%" --prompt="$PROMPT"
+}
+
+function confirm_Generic () {
     # Set default prompt
     PROMPT="Are you sure?"
 
@@ -66,7 +102,35 @@ function confirm () {
 
     # Print the prompt and read input
     read -r -p "$PROMPT [Y/n]: " YESNO
-    case "${YESNO}" in
+    confirm_Parse "$YESNO"
+}
+
+function confirm_Fzf () {
+    PROMPT=$(confirm_getPrompt "$@")
+
+    # Make the confirm prompt using fzf and read response
+    YESNO=$(echo -e "Yes\nNo" | fzf --height="~20%" --prompt="$PROMPT ")
+    confirm_Parse "$YESNO"
+}
+
+function confirm_getPrompt () {
+    # Set default prompt
+    PROMPT="Are you sure?"
+
+    # Parse the arguments for the ones we support and care about 
+    for arg in "$@"
+    do
+        if [[ ! $arg =~ ^- ]]; then
+            PROMPT="$arg"
+        fi
+    done
+
+    # Return the prompt
+    echo $PROMPT
+}
+
+function confirm_Parse () {
+    case "$@" in
         [Yy]*)
             # Use exit code 0 for yes, just like gum
             exit 0
@@ -84,7 +148,7 @@ function confirm () {
 
 # If gum is not present
 if [[ -z "$GUM" ]]; then
-    nogum "$@"
+    noGum "$@"
 else
     # If gum is present just pass args to gum
     $GUM "$@"
