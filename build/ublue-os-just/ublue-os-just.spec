@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.9
+Version:        0.10
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -20,6 +20,7 @@ Source6:        50-akmods.just
 Source7:        60-custom.just
 Source8:        70-nix.just
 Source9:        ujust
+Source10:       ugum
 
 %global sub_name %{lua:t=string.gsub(rpm.expand("%{NAME}"), "^ublue%-os%-", ""); print(t)}
 
@@ -43,6 +44,7 @@ done
 # Add global "ujust" script to run just with --unstable
 mkdir -p -m0755  %{buildroot}%{_bindir}
 install -Dm755 %{SOURCE9} %{buildroot}%{_bindir}/ujust
+install -Dm755 %{SOURCE10} %{buildroot}%{_bindir}/ugum
 
 %files
 %dir %attr(0755,root,root) %{_datadir}/%{VENDOR}/%{sub_name}
@@ -50,8 +52,12 @@ install -Dm755 %{SOURCE9} %{buildroot}%{_bindir}/ujust
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/*.just
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/justfile
 %attr(0755,root,root) %{_bindir}/ujust
+%attr(0755,root,root) %{_bindir}/ugum
 
 %changelog
+* Wed Dec 20 2023 HikariKnight <2557889+HikariKnight@users.noreply.github.com> - 0.10
+- Add ugum, a helper for user input for use in just
+
 * Tue Nov 28 2023 RJ Trujillo <eyecantcu> - 0.9
 - Copy nix justfile to correct location and restore ujust
 
