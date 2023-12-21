@@ -89,7 +89,7 @@ function choose_Generic () {
 
 function choose_Fzf () {
     # Change our select prompt
-    PROMPT='Please enter your choice: '
+    PROMPT='Please select your choice: '
 
     # Make an array to contain all options in
     local OPTIONS
