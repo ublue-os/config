@@ -34,6 +34,7 @@ Feel free to PR more rules into this repo! Ideally as they get added upstream we
 - Gaming controllers from [game-devices-udev](https://gitlab.com/jntesteves/game-devices-udev/) 
 - Google Titan USB keys
 - OpenRGB rules
+- [Thinkpad Battery Threshold](https://gitlab.com/marcosdalvarez/thinkpad-battery-threshold-extension) - change threshold without password prompt
 - [Yubikey support](https://github.com/Yubico/libfido2/tree/main/udev)
 - [Wooting Wootility](https://wooting.io/wootility)
 
