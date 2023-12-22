@@ -13,6 +13,14 @@ _default:
 bios:
     systemctl reboot --firmware-setup
 
+# Show all messages from this boot
+logs-this-boot:
+    sudo journalctl -b 0
+
+# Show all messages from last boot
+logs-last-boot:
+    sudo journalctl -b -1
+
 # Change the user's shell
 chsh new_shell:
     #!/usr/bin/env bash
