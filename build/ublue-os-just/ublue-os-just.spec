@@ -38,7 +38,7 @@ cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE7} 
 
 # Create justfile which contains all .just files included in this package
 for justfile in %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}/*.just; do
-	echo "!include %{_datadir}/%{VENDOR}/%{sub_name}/$(basename ${justfile})" >> "%{buildroot}%{_datadir}/%{VENDOR}/justfile"
+	echo 'import "%{_datadir}/%{VENDOR}/%{sub_name}/$(basename ${justfile})"' >> "%{buildroot}%{_datadir}/%{VENDOR}/justfile"
 done
 
 # Add global "ujust" script to run just with --unstable
