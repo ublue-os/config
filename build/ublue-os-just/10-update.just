@@ -73,26 +73,29 @@ update-firmware:
     fwupdmgr get-updates
     fwupdmgr update
 
-# Disable all auto-update timers
-disable-updates:
+# Turn automatic updates on or off
+toggle-updates:
     #!/usr/bin/env bash
-    if systemctl is-enabled ublue-update.timer | grep -q enabled;
-    then
-      sudo systemctl disable ublue-update.timer
-    elif systemctl is-enabled flatpak-system-update.timer | grep -q enabled;
-    then
-      sudo systemctl disable --now flatpak-system-update.timer rpm-ostreed-automatic.timer
-      systemctl disable --now --user flatpak-user-update.timer
+    CURRENT_STATE="Disabled"
+    if systemctl is-enabled ublue-update.timer | grep -q enabled; then
+      CURRENT_STATE="Enabled"
     fi
-
-# Enable all auto-update timers
-enable-updates:
-    #!/usr/bin/env bash
-    if systemctl is-enabled ublue-update.timer | grep -q disabled;
-    then
-       sudo systemctl enable ublue-update.timer
-    elif systemctl is-enabled flatpak-system-update.timer | grep -q disabled;
-    then
-      sudo systemctl enable --now flatpak-system-update.timer rpm-ostreed-automatic.timer
-      systemctl enable --now --user flatpak-user-update.timer
+    echo "Automatic updates are currently ${CURRENT_STATE}"
+    echo "Enable or Disable automatic updates?"
+    OPTION=$(ugum choose Enable Disable)
+    if [ "$OPTION" == "Enable" ]; then
+      sudo systemctl enable ublue-update.timer
+      if systemctl is-enabled flatpak-system-update.timer | grep -q disabled; then
+        sudo systemctl enable --now flatpak-system-update.timer rpm-ostreed-automatic.timer
+        systemctl enable --now --user flatpak-user-update.timer
+      fi
+    elif [ "$OPTION" == "Disable" ]; then
+      sudo systemctl disable ublue-update.timer
+      if systemctl is-enabled flatpak-system-update.timer | grep -q enabled; then
+        sudo systemctl disable --now flatpak-system-update.timer rpm-ostreed-automatic.timer
+        systemctl disable --now --user flatpak-user-update.timer
+      fi
+    else
+      echo 'Exiting...'
+      exit 0
     fi
