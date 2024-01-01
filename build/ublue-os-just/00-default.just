@@ -40,15 +40,21 @@ enroll-secure-boot-key:
     echo 'Enter password "ublue-os" if prompted after your user password.'
     sudo mokutil --import /etc/pki/akmods/certs/akmods-ublue.der
 
-# Upgrade Distrobox to the latest git version
-distrobox-git:
-    echo 'Installing latest git snapshot of Distrobox...'
-    curl -s https://raw.githubusercontent.com/89luca89/distrobox/main/install | sh -s -- --next --prefix ~/.local
-
-# Downgrades Distrobox to the Fedora version
-remove-distrobox-git:
-    echo 'Uninstalling latest git snapshot of Distrobox...'
-    curl -s https://raw.githubusercontent.com/89luca89/distrobox/main/uninstall | sh -s -- --prefix ~/.local
+# Configures distrobox-git
+setup-distrobox-git:
+    #!/usr/bin/env bash
+    echo 'Which version of Distrobox do you want to use?'
+    OPTION=$(ugum choose "Latest distrobox-git snapshot" "uBlue provided version")
+    if [ "$OPTION" == "Latest distrobox-git snapshot" ]; then
+      echo 'Installing latest git snapshot of Distrobox...'
+      curl -s https://raw.githubusercontent.com/89luca89/distrobox/main/install | sh -s -- --next --prefix ~/.local
+    elif [ "$OPTION" == "uBlue provided version" ]; then
+      echo 'Uninstalling latest git snapshot of Distrobox...'
+      curl -s https://raw.githubusercontent.com/89luca89/distrobox/main/uninstall | sh -s -- --prefix ~/.local
+    else
+      echo 'Cancelling...'
+      exit 0
+    fi
 
 # Removes homebrew from system
 brew-remove:
