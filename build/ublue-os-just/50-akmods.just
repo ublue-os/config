@@ -40,4 +40,3 @@ configure-broadcom-wl:
       echo 'Exiting...'
       exit 0
     fi
-    
