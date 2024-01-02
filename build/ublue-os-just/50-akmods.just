@@ -1,29 +1,43 @@
 # vim: set ft=make :
 
-# Use stock gamepad drivers
-use-stock-gamepads:
+# Configure gamepad drivers
+configure-gamepads:
     #!/usr/bin/env bash
-    sudo bash -c '> /etc/modprobe.d/xone.conf'
-    sudo bash -c '> /etc/modprobe.d/xpadneo.conf'
-    sudo bash -c '> /etc/modprobe.d/xpad-noone-blacklist.conf'
-    sudo bash -c '> /etc/modules-load.d/xpad-noone.conf'
+    echo 'Which driver do you want to use?'
+    echo 'uBlue (default and good for official controllers):'
+    echo '  xpad (with no xbox one support), xpadneo, xone'
+    echo 'Stock:'
+    echo '  Xbox one support and fixes a lot of third party controllers'
+    OPTION=$(ugum choose uBlue Stock)
+    if [ "$OPTION" == "uBlue" ]; then
+      sudo rm -f /etc/modprobe.d/xone.conf
+      sudo rm -f /etc/modprobe.d/xpadneo.conf
+      sudo rm -f /etc/modprobe.d/xpad-noone-blacklist.conf
+      sudo rm -f /etc/modules-load.d/xpad-noone.conf
+    elif [ "$OPTION" == "Stock" ]; then
+      sudo bash -c '> /etc/modprobe.d/xone.conf'
+      sudo bash -c '> /etc/modprobe.d/xpadneo.conf'
+      sudo bash -c '> /etc/modprobe.d/xpad-noone-blacklist.conf'
+      sudo bash -c '> /etc/modules-load.d/xpad-noone.conf'
+    else
+      echo 'Exiting...'
+      exit 0
+    fi
 
-# Use uBlue gamepad drivers (Default)
-use-ublue-gamepads:
+# Configure Broadcom WL driver (Enabling WL breaks numerous other Wi-Fi adapters)
+configure-broadcom-wl:
     #!/usr/bin/env bash
-    sudo rm -f /etc/modprobe.d/xone.conf
-    sudo rm -f /etc/modprobe.d/xpadneo.conf
-    sudo rm -f /etc/modprobe.d/xpad-noone-blacklist.conf
-    sudo rm -f /etc/modules-load.d/xpad-noone.conf
-
-# Disable Broadcom WL driver (Default - WL breaks numerous other Wi-Fi adapters)
-disable-broadcom-wl:
-    #!/usr/bin/env bash
-    sudo bash -c '> /etc/modules-load.d/broadcom-wl-blacklist.conf'
-    sudo bash -c 'echo "blacklist wl" > /etc/modules-load.d/default-disable-broadcom-wl.conf'
-
-# Use Broadcom WL driver
-use-broadcom-wl:
-    #!/usr/bin/env bash
-    sudo rm -f /etc/modprobe.d/broadcom-wl-blacklist.conf
-    sudo rm -f /etc/modprobe.d/default-disable-broadcom-wl.conf
+    echo 'Enabling Broadcom WL driver will break numerous other Wi-Fi adapters.'
+    echo 'Enable or Disable Broadcom Wl?'
+    OPTION=$(ugum choose Enable Disable)
+    if [ "$OPTION" == "Enable" ]; then
+      sudo rm -f /etc/modprobe.d/broadcom-wl-blacklist.conf
+      sudo rm -f /etc/modprobe.d/default-disable-broadcom-wl.conf
+    elif [ "$OPTION" == "Disable" ]; then
+      sudo bash -c '> /etc/modules-load.d/broadcom-wl-blacklist.conf'
+      sudo bash -c 'echo "blacklist wl" > /etc/modules-load.d/default-disable-broadcom-wl.conf'
+    else
+      echo 'Exiting...'
+      exit 0
+    fi
+    
