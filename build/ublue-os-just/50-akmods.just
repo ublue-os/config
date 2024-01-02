@@ -3,11 +3,14 @@
 # Configure gamepad drivers
 configure-gamepads:
     #!/usr/bin/env bash
-    echo 'Which driver do you want to use?'
+    bold=$(tput bold)
+    normal=$(tput sgr0)
+    echo "${bold}Configuring gamepad drivers${normal}"
     echo 'uBlue (default and good for official controllers):'
-    echo '  xpad (with no xbox one support), xpadneo, xone'
+    echo ' - xpad-noone (xpad without Xbox One support), xpadneo, xone'
     echo 'Stock:'
-    echo '  Xbox one support and fixes a lot of third party controllers'
+    echo ' - Xbox one support and fixes a lot of third party controllers'
+    echo 'Which driver do you want to use?'
     OPTION=$(ugum choose uBlue Stock)
     if [ "$OPTION" == "uBlue" ]; then
       sudo rm -f /etc/modprobe.d/xone.conf
