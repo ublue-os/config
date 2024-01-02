@@ -40,7 +40,7 @@ enroll-secure-boot-key:
     echo 'Enter password "ublue-os" if prompted after your user password.'
     sudo mokutil --import /etc/pki/akmods/certs/akmods-ublue.der
 
-# Configures distrobox-git
+# Configure distrobox-git
 setup-distrobox-git:
     #!/usr/bin/env bash
     echo 'Which version of Distrobox do you want to use?'
