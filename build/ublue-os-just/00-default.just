@@ -3,9 +3,6 @@
 uid := `id -u`
 shell := `grep :$(id -u): /etc/passwd | cut -d: -f7`
 
-set allow-duplicate-recipes := true
-set ignore-comments := true
-
 # Boot into this device's BIOS/UEFI screen
 bios:
     systemctl reboot --firmware-setup
