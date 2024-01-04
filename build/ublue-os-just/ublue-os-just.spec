@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.10
+Version:        0.20
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -58,6 +58,9 @@ install -Dm755 %{SOURCE10} %{buildroot}%{_bindir}/ugum
 %attr(0755,root,root) %{_bindir}/ugum
 
 %changelog
+* Thu Jan 04 2024 Kyle Gospodnetich <me@kylegospodneti.ch> - 0.20
+- Update with support for the newest version of just
+
 * Wed Dec 20 2023 HikariKnight <2557889+HikariKnight@users.noreply.github.com> - 0.10
 - Add ugum, a helper for user input for use in just
 
