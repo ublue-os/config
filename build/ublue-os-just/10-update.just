@@ -80,7 +80,9 @@ toggle-updates:
     if systemctl is-enabled ublue-update.timer | grep -q enabled; then
       CURRENT_STATE="Enabled"
     fi
-    echo "Automatic updates are currently ${CURRENT_STATE}"
+    bold=$(tput bold)
+    normal=$(tput sgr0)
+    echo "Automatic updates are currently: ${bold}${CURRENT_STATE}${normal}"
     echo "Enable or Disable automatic updates?"
     OPTION=$(ugum choose Enable Disable)
     if [ "$OPTION" == "Enable" ]; then
@@ -95,7 +97,4 @@ toggle-updates:
         sudo systemctl disable --now flatpak-system-update.timer rpm-ostreed-automatic.timer
         systemctl disable --now --user flatpak-user-update.timer
       fi
-    else
-      echo 'Exiting...'
-      exit 0
     fi

@@ -7,7 +7,9 @@ setup-nix:
     if [ -f "/etc/systemd/system/nix-daemon.socket" ]; then
       CURRENT_STATE="Installed"
     fi
-    echo "Nix is currently: ${CURRENT_STATE}"
+    bold=$(tput bold)
+    normal=$(tput sgr0)
+    echo "Nix is currently: ${bold}${CURRENT_STATE}${normal}"
     echo 'What would you like to do with Nix?'
     OPTION=$(ugum choose \
         Install \
@@ -94,7 +96,9 @@ setup-devbox:
     if [ -f "/var/usrlocal/bin/devbox" ]; then
       CURRENT_STATE="Installed"
     fi
-    echo "Devbox is currently: ${CURRENT_STATE}"
+    bold=$(tput bold)
+    normal=$(tput sgr0)
+    echo "Devbox is currently: ${bold}${CURRENT_STATE}${normal}"
     echo 'What would you like to do with devbox?'
     OPTION=$(ugum choose Install Uninstall)
     if [ "$OPTION" == "Install" ]; then

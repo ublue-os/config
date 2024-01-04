@@ -24,6 +24,9 @@ configure-gamepads:
 # Configure Broadcom WL driver (Enabling WL breaks numerous other Wi-Fi adapters)
 configure-broadcom-wl:
     #!/usr/bin/env bash
+    bold=$(tput bold)
+    normal=$(tput sgr0)
+    echo "${bold}Configuring Broadcom Wi-Fi${normal}"
     echo 'Enabling Broadcom WL driver will break numerous other Wi-Fi adapters.'
     echo 'Enable or Disable Broadcom Wl?'
     OPTION=$(ugum choose Enable Disable)
