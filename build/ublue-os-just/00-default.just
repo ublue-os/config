@@ -6,9 +6,6 @@ shell := `grep :$(id -u): /etc/passwd | cut -d: -f7`
 set allow-duplicate-recipes := true
 set ignore-comments := true
 
-_default:
-    @just --list --list-heading $'Available commands:\n' --list-prefix $' - '
-
 # Boot into this device's BIOS/UEFI screen
 bios:
     systemctl reboot --firmware-setup

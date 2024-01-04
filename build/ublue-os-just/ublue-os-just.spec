@@ -21,6 +21,7 @@ Source7:        60-custom.just
 Source8:        70-nix.just
 Source9:        ujust
 Source10:       ugum
+Source11:       header.just
 
 %global sub_name %{lua:t=string.gsub(rpm.expand("%{NAME}"), "^ublue%-os%-", ""); print(t)}
 
@@ -37,6 +38,8 @@ install -Dm755 %{SOURCE0}  %{buildroot}%{_sysconfdir}/profile.d/ublue-os-just.sh
 cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE7} %{SOURCE8} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 
 # Create justfile which contains all .just files included in this package
+# Apply header first due to default not working in included justfiles
+cat %{SOURCE11} >> "%{buildroot}%{_datadir}/%{VENDOR}/justfile"
 for justfile in %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}/*.just; do
 	echo "import \"%{_datadir}/%{VENDOR}/%{sub_name}/$(basename ${justfile})\"" >> "%{buildroot}%{_datadir}/%{VENDOR}/justfile"
 done
