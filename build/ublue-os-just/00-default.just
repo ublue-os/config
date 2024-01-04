@@ -7,7 +7,7 @@ set allow-duplicate-recipes := true
 set ignore-comments := true
 
 _default:
-    @just --unstable --list --list-heading $'Available commands:\n' --list-prefix $' - '
+    @just --list --list-heading $'Available commands:\n' --list-prefix $' - '
 
 # Boot into this device's BIOS/UEFI screen
 bios:
