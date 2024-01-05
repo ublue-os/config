@@ -39,7 +39,7 @@ cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE7} 
 
 # Create justfile which contains all .just files included in this package
 # Apply header first due to default not working in included justfiles
-cat %{SOURCE11} >> "%{buildroot}%{_datadir}/%{VENDOR}/justfile"
+cp %{SOURCE11} "%{buildroot}%{_datadir}/%{VENDOR}/justfile"
 for justfile in %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}/*.just; do
 	echo "import \"%{_datadir}/%{VENDOR}/%{sub_name}/$(basename ${justfile})\"" >> "%{buildroot}%{_datadir}/%{VENDOR}/justfile"
 done

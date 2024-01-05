@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/bash
 ##################################################################
 # This is a helper script to provide a basic fallback replacement 
 # for just commands and bash scripts that want to use gum in uBlue
