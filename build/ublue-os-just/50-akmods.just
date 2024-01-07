@@ -1,6 +1,7 @@
 # vim: set ft=make :
 
 alias gamepads := configure-gamepads
+
 # Configure gamepad drivers
 configure-gamepads ARG="prompt":
     #!/usr/bin/env bash
@@ -34,6 +35,7 @@ configure-gamepads ARG="prompt":
     fi
 
 alias broadcom-wl := configure-broadcom-wl
+
 # Configure Broadcom WL driver (Enabling WL breaks numerous other Wi-Fi adapters)
 configure-broadcom-wl ARG="prompt":
     #!/usr/bin/env bash

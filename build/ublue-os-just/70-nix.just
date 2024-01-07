@@ -1,6 +1,7 @@
 # vim: set ft=make :
 
 alias nix := setup-nix
+
 # Install, uninstall or configure nix
 setup-nix ARG="prompt":
     #!/usr/bin/env bash
@@ -68,6 +69,7 @@ setup-nix ARG="prompt":
     fi
 
 alias fleek := setup-fleek
+
 # Install, uninstall or configure Fleek (https://getfleek.dev/)
 setup-fleek ARG="prompt":
     #!/usr/bin/env bash
@@ -112,6 +114,7 @@ setup-fleek ARG="prompt":
     fi
 
 alias devbox := setup-devbox
+
 # Install or uninstall devbox
 setup-devbox ARG="prompt":
     #!/usr/bin/env bash

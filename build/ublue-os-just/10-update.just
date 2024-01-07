@@ -75,6 +75,7 @@ update-firmware:
     fwupdmgr update
 
 alias auto-update := toggle-updates
+
 # Turn automatic updates on or off
 toggle-updates ARG="prompt":
     #!/usr/bin/env bash

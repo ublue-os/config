@@ -1,6 +1,7 @@
 # vim: set ft=make :
 
 alias nvidia := configure-nvidia
+
 # Configure the Nvidia driver
 configure-nvidia ARG="prompt":
     #!/usr/bin/env bash
