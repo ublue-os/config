@@ -1,5 +1,6 @@
 # vim: set ft=make :
 
+alias upgrade := update
 # Update system, flatpaks, and containers all at once
 update VERB_LEVEL="full":
     #!/usr/bin/env bash
@@ -73,6 +74,7 @@ update-firmware:
     fwupdmgr get-updates
     fwupdmgr update
 
+alias auto-update := toggle-updates
 # Turn automatic updates on or off
 toggle-updates ARG="prompt":
     #!/usr/bin/env bash
