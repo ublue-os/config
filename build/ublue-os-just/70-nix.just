@@ -1,7 +1,7 @@
 # vim: set ft=make :
 
 # Install, uninstall or configure nix
-setup-nix:
+setup-nix ARG="prompt":
     #!/usr/bin/env bash
     CURRENT_STATE="Not Installed"
     if [ -f "/etc/systemd/system/nix-daemon.socket" ]; then
@@ -9,38 +9,52 @@ setup-nix:
     fi
     bold=$(tput bold)
     normal=$(tput sgr0)
-    echo "Nix is currently: ${bold}${CURRENT_STATE}${normal}"
-    echo 'What would you like to do with Nix?'
-    OPTION=$(ugum choose \
-        Install \
-        Uninstall \
-        "Update nix user profile" \
-        "Update all nix profiles" \
-        "Re-copy nix systemd units to system" \
-        "Add nix path to sudo" \
-        "Remove nix path from sudo" \
-      )
-    if [ "$OPTION" == "Install" ]; then
+    OPTION={{ ARG }}
+    if [ "$OPTION" == "prompt" ]; then
+      echo "Nix is currently: ${bold}${CURRENT_STATE}${normal}"
+      echo 'What would you like to do with Nix?'
+      OPTION=$(ugum choose \
+          Install \
+          Uninstall \
+          "Update nix user profile" \
+          "Update all nix profiles" \
+          "Re-copy nix systemd units to system" \
+          "Add nix path to sudo" \
+          "Remove nix path from sudo" \
+        )
+    elif [ "$OPTION" == "help" ]; then
+      echo "Usage: ujust setup-nix <option>"
+      echo "  <option>: Specify the quick option - 'install', 'remove', etc"
+      echo "  Use 'install' to select Install nix"
+      echo "  Use 'remove' to select Uninstall nix"
+      echo "  Use 'upgrade' to Upgrade nix user profile"
+      echo "  Use 'upgrade-all' to Upgrade all nix profiles"
+      echo "  Use 'recopy' to Re-copy nix systemd units to system"
+      echo "  Use 'sudo' to Add nix path to sudo"
+      echo "  Use 'remove-sudo' to Remove nix path from sudo."
+      exit 0
+    fi
+    if [ "${OPTION,,}" == "Install" ]; then
       curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sudo bash -s -- install --no-confirm
       sudo rm -f /etc/systemd/system/nix-daemon.service
       sudo rm -f /etc/systemd/system/nix-daemon.socket
       sudo cp /nix/var/nix/profiles/default/lib/systemd/system/nix-daemon.service /etc/systemd/system/nix-daemon.service
       sudo cp /nix/var/nix/profiles/default/lib/systemd/system/nix-daemon.socket /etc/systemd/system/nix-daemon.socket
-    elif [ "$OPTION" == "Uninstall" ]; then
+    elif [ "${OPTION,,}" == "Uninstall" ] || [ "${OPTION,,}" == "remove" ]; then
       sudo /nix/nix-installer uninstall
       sudo rm -f /etc/systemd/system/nix-daemon.service
       sudo rm -f /etc/systemd/system/nix-daemon.socket
-    elif [ "$OPTION" == "Update nix user profile" ]; then
+    elif [ "$OPTION" == "Update nix user profile" ] || [ "${OPTION,,}" == "upgrade" ]; then
       nix profile upgrade '.*'
-    elif [ "$OPTION" == "Update all nix profiles" ]; then
+    elif [ "$OPTION" == "Update all nix profiles" ] || [ "${OPTION,,}" == "upgrade-all" ]; then
       nix profile upgrade '.*'
       sudo nix profile upgrade '.*'
-    elif [ "$OPTION" == "Re-copy nix systemd units to system" ]; then
+    elif [ "$OPTION" == "Re-copy nix systemd units to system" ] || [ "${OPTION,,}" == "recopy" ]; then
       sudo rm -f /etc/systemd/system/nix-daemon.service
       sudo rm -f /etc/systemd/system/nix-daemon.socket
       sudo cp /nix/var/nix/profiles/default/lib/systemd/system/nix-daemon.service /etc/systemd/system/nix-daemon.service
       sudo cp /nix/var/nix/profiles/default/lib/systemd/system/nix-daemon.socket /etc/systemd/system/nix-daemon.socket
-    elif [ "$OPTION" == "Add nix path to sudo" ]; then
+    elif [ "$OPTION" == "Add nix path to sudo" ] || [ "${OPTION,,}" == "sudo" ]; then
       sudo echo "Adding sudo path variables for nix"
       sudo rm -f /etc/sudoers.d/nix-sudo-env
       SUDOPATHVARIABLE5=$(sudo printenv PATH)
@@ -48,7 +62,7 @@ setup-nix:
       Defaults  secure_path = /nix/var/nix/profiles/default/bin:/nix/var/nix/profiles/default/sbin:$SUDOPATHVARIABLE5
     EOF
       sudo echo "Finished adding sudo variables for nix"
-    elif [ "$OPTION" == "Remove nix path from sudo" ]; then
+    elif [ "$OPTION" == "Remove nix path from sudo" ] || [ "${OPTION,,}" == "remove-sudo" ]; then
       sudo rm -f /etc/sudoers.d/nix-sudo-env
     fi
 
