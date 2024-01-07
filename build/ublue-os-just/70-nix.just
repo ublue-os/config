@@ -53,25 +53,35 @@ setup-nix:
     fi
 
 # Install, uninstall or configure Fleek (https://getfleek.dev/)
-setup-fleek:
+setup-fleek ARG="prompt":
     #!/usr/bin/env bash
     if [ ! -f "/etc/systemd/system/nix-daemon.socket" ]; then
       echo "Please install nix first by running ujust setup-nix"
       exit 0
     fi
-    echo 'What would you like to do with Fleek?'
-    OPTION=$(ugum choose "Install Fleek" "Uninstall Fleek" "Integrate Nix/Fleek applications with system theme")
-    if [ "$OPTION" == "Install Fleek" ]; then
+    OPTION={{ARG}}
+    if [ "$OPTION" == "prompt" ]; then
+      echo 'What would you like to do with Fleek?'
+      OPTION=$(ugum choose "Install Fleek" "Uninstall Fleek" "Integrate Nix/Fleek applications with system theme")
+    elif [ "$OPTION" == "help" ]; then
+      echo "Usage: ujust setup-fleek <option>"
+      echo "  <option>: Specify the quick option - 'install', 'remove', or 'integrate'"
+      echo "  Use 'install' to select install"
+      echo "  Use 'remove' to select uninstall"
+      echo "  Use 'integrate' to integrate nix applications with system theme."
+      exit 0
+    fi
+    if [ "$OPTION" == "Install Fleek" ] || [ "${OPTION,,} == "install" ]; then
       mkdir -p $HOME/.config/nix
       echo "experimental-features = nix-command flakes" >> $HOME/.config/nix/nix.conf
       curl -fsSL https://getfleek.dev/installer | env FORCE=1 bash
-    elif [ "$OPTION" == "Uninstall Fleek" ]; then
+    elif [ "$OPTION" == "Uninstall Fleek" ] || [ "${OPTION,,} == "remove" ]; then
       if [[ -x "/var/usrlocal/bin/fleek" ]]; then
         sudo rm -f /var/usrlocal/bin/fleek
       else
         echo "Fleek is not installed or has been already removed"
       fi
-    elif [ "$OPTION" == "Integrate Nix/Fleek applications with system theme" ]; then
+    elif [ "$OPTION" == "Integrate Nix/Fleek applications with system theme" ] || [ "${OPTION,,} == "integrate" ]; then
       if [[ -x "/var/usrlocal/bin/fleek" ]]; then
         if command -v mutter; then
           fleek add adw-gtk3 --apply
@@ -86,7 +96,7 @@ setup-fleek:
     fi
 
 # Install or uninstall devbox
-setup-devbox:
+setup-devbox ARG="prompt":
     #!/usr/bin/env bash
     if [ ! -f "/etc/systemd/system/nix-daemon.socket" ]; then
       echo "Please install nix first by running ujust setup-nix"
@@ -98,12 +108,21 @@ setup-devbox:
     fi
     bold=$(tput bold)
     normal=$(tput sgr0)
-    echo "Devbox is currently: ${bold}${CURRENT_STATE}${normal}"
-    echo 'What would you like to do with devbox?'
-    OPTION=$(ugum choose Install Uninstall)
-    if [ "$OPTION" == "Install" ]; then
+    OPTION={{ARG}}
+    if [ "$OPTION" == "prompt" ]; then
+      echo "Devbox is currently: ${bold}${CURRENT_STATE}${normal}"
+      echo 'What would you like to do with devbox?'
+      OPTION=$(ugum choose Install Uninstall)
+    elif [ "$OPTION" == "help" ]; then
+      echo "Usage: ujust toggle-updates <option>"
+      echo "  <option>: Specify the quick option - 'install' or 'remove'"
+      echo "  Use 'install' to Install devbox"
+      echo "  Use 'remove' to Remove devbox."
+      exit 0
+    fi
+    if [ "${OPTION,,}" == "Install" ]; then
       curl -fsSL https://get.jetpack.io/devbox | bash
-    elif [ "$OPTION" == "Uninstall" ]; then
+    elif [ "${OPTION,,}" == "Uninstall" ] || [ "${OPTION,,}" == "remove" ]; then
       if [[ -x "/var/usrlocal/bin/devbox" ]]; then
         sudo rm -f /var/usrlocal/bin/devbox
       else
