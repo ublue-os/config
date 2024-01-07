@@ -5,7 +5,7 @@ configure-nvidia ARG="prompt":
     #!/usr/bin/env bash
     bold=$(tput bold)
     normal=$(tput sgr0)
-    OPTION={{ARG}}
+    OPTION={{ ARG }}
     if [ "$OPTION" == "prompt" ]; then
       echo "${bold}Configuring Nvidia drivers${normal}"
       echo 'What would you like to do?'

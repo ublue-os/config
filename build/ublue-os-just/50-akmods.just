@@ -5,7 +5,7 @@ configure-gamepads ARG="prompt":
     #!/usr/bin/env bash
     bold=$(tput bold)
     normal=$(tput sgr0)
-    OPTION={{ARG}}
+    OPTION={{ ARG }}
     if [ "$OPTION" == "prompt" ]; then
       echo "${bold}Configuring gamepad drivers${normal}"
       echo 'Which drivers do you want to use?'
@@ -37,7 +37,7 @@ configure-broadcom-wl ARG="prompt":
     #!/usr/bin/env bash
     bold=$(tput bold)
     normal=$(tput sgr0)
-    OPTION={{ARG}}
+    OPTION={{ ARG }}
     if [ "$OPTION" == "prompt" ]; then
       echo "${bold}Configuring Broadcom Wi-Fi${normal}"
       echo 'Enabling Broadcom WL driver will break numerous other Wi-Fi adapters.'

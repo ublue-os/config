@@ -82,7 +82,7 @@ toggle-updates ARG="prompt":
     fi
     bold=$(tput bold)
     normal=$(tput sgr0)
-    OPTION={{ARG}}
+    OPTION={{ ARG }}
     if [ "$OPTION" == "prompt" ]; then
       echo "Automatic updates are currently: ${bold}${CURRENT_STATE}${normal}"
       echo "Enable or Disable automatic updates?"

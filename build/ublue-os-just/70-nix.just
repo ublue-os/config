@@ -59,7 +59,7 @@ setup-fleek ARG="prompt":
       echo "Please install nix first by running ujust setup-nix"
       exit 0
     fi
-    OPTION={{ARG}}
+    OPTION={{ ARG }}
     if [ "$OPTION" == "prompt" ]; then
       echo 'What would you like to do with Fleek?'
       OPTION=$(ugum choose "Install Fleek" "Uninstall Fleek" "Integrate Nix/Fleek applications with system theme")
@@ -108,7 +108,7 @@ setup-devbox ARG="prompt":
     fi
     bold=$(tput bold)
     normal=$(tput sgr0)
-    OPTION={{ARG}}
+    OPTION={{ ARG }}
     if [ "$OPTION" == "prompt" ]; then
       echo "Devbox is currently: ${bold}${CURRENT_STATE}${normal}"
       echo 'What would you like to do with devbox?'
