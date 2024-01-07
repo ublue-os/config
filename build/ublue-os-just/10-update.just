@@ -1,6 +1,7 @@
 # vim: set ft=make :
 
 alias upgrade := update
+
 # Update system, flatpaks, and containers all at once
 update VERB_LEVEL="full":
     #!/usr/bin/env bash
