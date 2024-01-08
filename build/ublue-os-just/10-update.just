@@ -98,13 +98,13 @@ toggle-updates ARG="prompt":
       echo "  Use 'disable' to Disable automatic updates."
       exit 0
     fi
-    if [ "${OPTION,,}" == "Enable" ]; then
+    if [ "${OPTION,,}" == "enable" ]; then
       sudo systemctl enable ublue-update.timer
       if systemctl is-enabled flatpak-system-update.timer | grep -q disabled; then
         sudo systemctl enable --now flatpak-system-update.timer rpm-ostreed-automatic.timer
         systemctl enable --now --user flatpak-user-update.timer
       fi
-    elif [ "${OPTION,,}" == "Disable" ]; then
+    elif [ "${OPTION,,}" == "disable" ]; then
       sudo systemctl disable ublue-update.timer
       if systemctl is-enabled flatpak-system-update.timer | grep -q enabled; then
         sudo systemctl disable --now flatpak-system-update.timer rpm-ostreed-automatic.timer

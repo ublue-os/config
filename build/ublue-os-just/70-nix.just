@@ -36,13 +36,13 @@ setup-nix ARG="prompt":
       echo "  Use 'remove-sudo' to Remove nix path from sudo."
       exit 0
     fi
-    if [ "${OPTION,,}" == "Install" ]; then
+    if [ "${OPTION,,}" == "install" ]; then
       curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sudo bash -s -- install --no-confirm
       sudo rm -f /etc/systemd/system/nix-daemon.service
       sudo rm -f /etc/systemd/system/nix-daemon.socket
       sudo cp /nix/var/nix/profiles/default/lib/systemd/system/nix-daemon.service /etc/systemd/system/nix-daemon.service
       sudo cp /nix/var/nix/profiles/default/lib/systemd/system/nix-daemon.socket /etc/systemd/system/nix-daemon.socket
-    elif [ "${OPTION,,}" == "Uninstall" ] || [ "${OPTION,,}" == "remove" ]; then
+    elif [ "${OPTION,,}" == "uninstall" ] || [ "${OPTION,,}" == "remove" ]; then
       sudo /nix/nix-installer uninstall
       sudo rm -f /etc/systemd/system/nix-daemon.service
       sudo rm -f /etc/systemd/system/nix-daemon.socket
@@ -140,9 +140,9 @@ setup-devbox ARG="prompt":
       echo "  Use 'remove' to Remove devbox."
       exit 0
     fi
-    if [ "${OPTION,,}" == "Install" ]; then
+    if [ "${OPTION,,}" == "install" ]; then
       curl -fsSL https://get.jetpack.io/devbox | bash
-    elif [ "${OPTION,,}" == "Uninstall" ] || [ "${OPTION,,}" == "remove" ]; then
+    elif [ "${OPTION,,}" == "uninstall" ] || [ "${OPTION,,}" == "remove" ]; then
       if [[ -x "/var/usrlocal/bin/devbox" ]]; then
         sudo rm -f /var/usrlocal/bin/devbox
       else
