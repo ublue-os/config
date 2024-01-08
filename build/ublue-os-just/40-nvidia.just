@@ -4,7 +4,7 @@ alias nvidia := configure-nvidia
 
 # Configure the Nvidia driver
 configure-nvidia ARG="prompt":
-    #!/usr/bin/env bash
+    #!/usr/bin/bash
     bold=$(tput bold)
     normal=$(tput sgr0)
     OPTION={{ ARG }}

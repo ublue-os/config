@@ -4,7 +4,7 @@ alias upgrade := update
 
 # Update system, flatpaks, and containers all at once
 update VERB_LEVEL="full":
-    #!/usr/bin/env bash
+    #!/usr/bin/bash
     if systemctl is-enabled ublue-update.timer | grep -q enabled;
     then
       echo "Starting the ublue-update service"
@@ -79,7 +79,7 @@ alias auto-update := toggle-updates
 
 # Turn automatic updates on or off
 toggle-updates ARG="prompt":
-    #!/usr/bin/env bash
+    #!/usr/bin/bash
     CURRENT_STATE="Disabled"
     if systemctl is-enabled ublue-update.timer | grep -q enabled; then
       CURRENT_STATE="Enabled"

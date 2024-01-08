@@ -4,7 +4,7 @@ alias nix := setup-nix
 
 # Install, uninstall or configure nix
 setup-nix ARG="prompt":
-    #!/usr/bin/env bash
+    #!/usr/bin/bash
     CURRENT_STATE="Not Installed"
     if [ -f "/etc/systemd/system/nix-daemon.socket" ]; then
       CURRENT_STATE="Installed"
@@ -72,7 +72,7 @@ alias fleek := setup-fleek
 
 # Install, uninstall or configure Fleek (https://getfleek.dev/)
 setup-fleek ARG="prompt":
-    #!/usr/bin/env bash
+    #!/usr/bin/bash
     if [ ! -f "/etc/systemd/system/nix-daemon.socket" ]; then
       echo "Please install nix first by running ujust setup-nix"
       exit 0
@@ -117,7 +117,7 @@ alias devbox := setup-devbox
 
 # Install or uninstall devbox
 setup-devbox ARG="prompt":
-    #!/usr/bin/env bash
+    #!/usr/bin/bash
     if [ ! -f "/etc/systemd/system/nix-daemon.socket" ]; then
       echo "Please install nix first by running ujust setup-nix"
       exit 0
@@ -152,7 +152,7 @@ setup-devbox ARG="prompt":
 
 # Installs nixGL
 install-nixgl:
-    #!/usr/bin/env bash
+    #!/usr/bin/bash
     if [ ! -f "/etc/systemd/system/nix-daemon.socket" ]; then
       echo "Please install nix first by running ujust setup-nix"
       exit 0

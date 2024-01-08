@@ -9,7 +9,7 @@ bios:
 
 # Change the user's shell
 chsh new_shell:
-    #!/usr/bin/env bash
+    #!/usr/bin/bash
     set -euo pipefail
     if [ "{{ shell }}" = "{{ new_shell }}" ] ; then
       printf "Your shell is already set to %s.\n" "{{ new_shell }}"
@@ -24,7 +24,7 @@ chsh new_shell:
 
 # Regenerate GRUB config, useful in dual-boot scenarios where a second operating system isn't listed
 regenerate-grub:
-    #!/usr/bin/env bash
+    #!/usr/bin/bash
     if [ -d /sys/firmware/efi ]; then
       sudo grub2-mkconfig -o /etc/grub2-efi.cfg
     else
@@ -42,7 +42,7 @@ enroll-secure-boot-key:
 
 # Install or uninstall distrobox-git
 setup-distrobox-git:
-    #!/usr/bin/env bash
+    #!/usr/bin/bash
     echo 'Which version of Distrobox do you want to use?'
     OPTION=$(ugum choose "Latest distrobox-git snapshot" "uBlue provided version")
     if [ "$OPTION" == "Latest distrobox-git snapshot" ]; then

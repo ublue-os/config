@@ -7,7 +7,7 @@ distrobox-arch:
 
 # Create a Bazzite-Arch container
 distrobox-bazzite:
-    #!/usr/bin/env bash
+    #!/usr/bin/bash
     echo 'Creating Bazzite distrobox ...'
     if command -v /usr/bin/mutter > /dev/null; then
       distrobox-create --unshare-netns --nvidia --image ghcr.io/ublue-os/bazzite-arch-gnome --name bazzite-arch -Y

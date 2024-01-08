@@ -4,7 +4,7 @@ alias gamepads := configure-gamepads
 
 # Configure gamepad drivers
 configure-gamepads ARG="prompt":
-    #!/usr/bin/env bash
+    #!/usr/bin/bash
     bold=$(tput bold)
     normal=$(tput sgr0)
     OPTION={{ ARG }}
@@ -38,7 +38,7 @@ alias broadcom-wl := configure-broadcom-wl
 
 # Configure Broadcom WL driver (Enabling WL breaks numerous other Wi-Fi adapters)
 configure-broadcom-wl ARG="prompt":
-    #!/usr/bin/env bash
+    #!/usr/bin/bash
     bold=$(tput bold)
     normal=$(tput sgr0)
     OPTION={{ ARG }}
