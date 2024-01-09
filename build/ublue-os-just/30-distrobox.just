@@ -51,6 +51,36 @@ distrobox-centos:
     echo 'Creating Centos (Stream) distrobox ...'
     distrobox-create --nvidia --image quay.io/toolbx-images/centos-toolbox:latest -n centos -Y
 
+# Create a RHEL8 container 
+distrobox-rhel8:
+    #!/usr/bin/env bash
+    if ! grep -q "registry.redhat.io" $XDG_RUNTIME_DIR/containers/auth.json; then
+      echo "Please login using your Red Hat Account or Red Hat Developer Account ..."
+      podman login registry.redhat.io
+    fi
+    echo 'Creating RHEL 8 distrobox ...'
+    distrobox-create --nvidia --image registry.redhat.io/rhel8/toolbox:latest -n rhel8 -Y
+
+# Create a RHEL9 container
+distrobox-rhel9:
+    #!/usr/bin/env bash
+    if ! grep -q "registry.redhat.io" $XDG_RUNTIME_DIR/containers/auth.json; then
+      echo "Please login using your Red Hat Account or Red Hat Developer Account ..."
+      podman login registry.redhat.io
+    fi
+    echo 'Creating RHEL 9 distrobox ...'
+    distrobox-create --nvidia --image registry.redhat.io/rhel9/toolbox:latest -n rhel9 -Y
+
+# Create a RHEL UBI8 container
+distrobox-rhel-ubi8:
+    echo 'Creating RHEL UBI8 distrobox ...'
+    distrobox-create --nvidia --image registry.access.redhat.com/ubi8/toolbox:latest -n rhel-ubi8 -Y
+
+# Create a RHEL UBI9 container
+distrobox-rhel-ubi9:
+    echo 'Creating RHEL UBI9 distrobox ...'
+    distrobox-create --nvidia --image registry.access.redhat.com/ubi9/toolbox:latest -n rhel-ubi9 -Y
+
 # Create a homebrew container
 distrobox-brew:
     echo 'Creating homebrew container ...'
