@@ -51,7 +51,7 @@ distrobox-centos:
     echo 'Creating Centos (Stream) distrobox ...'
     distrobox-create --nvidia --image quay.io/toolbx-images/centos-toolbox:latest -n centos -Y
 
-# Create a RHEL8 container 
+# Create a RHEL8 container
 distrobox-rhel8:
     #!/usr/bin/env bash
     if ! grep -q "registry.redhat.io" $XDG_RUNTIME_DIR/containers/auth.json; then
