@@ -3,11 +3,11 @@
 alias nvidia := configure-nvidia
 
 # Configure the Nvidia driver
-configure-nvidia ARG="prompt":
+configure-nvidia ACTION="prompt":
     #!/usr/bin/bash
     bold=$(tput bold)
     normal=$(tput sgr0)
-    OPTION={{ ARG }}
+    OPTION={{ ACTION }}
     if [ "$OPTION" == "prompt" ]; then
       echo "${bold}Configuring Nvidia drivers${normal}"
       echo 'What would you like to do?'

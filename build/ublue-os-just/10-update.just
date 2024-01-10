@@ -78,7 +78,7 @@ update-firmware:
 alias auto-update := toggle-updates
 
 # Turn automatic updates on or off
-toggle-updates ARG="prompt":
+toggle-updates ACTION="prompt":
     #!/usr/bin/bash
     CURRENT_STATE="Disabled"
     if systemctl is-enabled ublue-update.timer | grep -q enabled; then
@@ -86,7 +86,7 @@ toggle-updates ARG="prompt":
     fi
     bold=$(tput bold)
     normal=$(tput sgr0)
-    OPTION={{ ARG }}
+    OPTION={{ ACTION }}
     if [ "$OPTION" == "prompt" ]; then
       echo "Automatic updates are currently: ${bold}${CURRENT_STATE}${normal}"
       echo "Enable or Disable automatic updates?"

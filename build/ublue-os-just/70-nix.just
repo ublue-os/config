@@ -3,7 +3,7 @@
 alias nix := setup-nix
 
 # Install, uninstall or configure nix
-setup-nix ARG="prompt":
+setup-nix ACTION="prompt":
     #!/usr/bin/bash
     CURRENT_STATE="Not Installed"
     if [ -f "/etc/systemd/system/nix-daemon.socket" ]; then
@@ -11,7 +11,7 @@ setup-nix ARG="prompt":
     fi
     bold=$(tput bold)
     normal=$(tput sgr0)
-    OPTION={{ ARG }}
+    OPTION={{ ACTION }}
     if [ "$OPTION" == "prompt" ]; then
       echo "Nix is currently: ${bold}${CURRENT_STATE}${normal}"
       echo 'What would you like to do with Nix?'
@@ -71,13 +71,13 @@ setup-nix ARG="prompt":
 alias fleek := setup-fleek
 
 # Install, uninstall or configure Fleek (https://getfleek.dev/)
-setup-fleek ARG="prompt":
+setup-fleek ACTION="prompt":
     #!/usr/bin/bash
     if [ ! -f "/etc/systemd/system/nix-daemon.socket" ]; then
       echo "Please install nix first by running ujust setup-nix"
       exit 0
     fi
-    OPTION={{ ARG }}
+    OPTION={{ ACTION }}
     if [ "$OPTION" == "prompt" ]; then
       echo 'What would you like to do with Fleek?'
       OPTION=$(ugum choose "Install Fleek" "Uninstall Fleek" "Integrate Nix/Fleek applications with system theme")
@@ -116,7 +116,7 @@ setup-fleek ARG="prompt":
 alias devbox := setup-devbox
 
 # Install or uninstall devbox
-setup-devbox ARG="prompt":
+setup-devbox ACTION="prompt":
     #!/usr/bin/bash
     if [ ! -f "/etc/systemd/system/nix-daemon.socket" ]; then
       echo "Please install nix first by running ujust setup-nix"
@@ -128,7 +128,7 @@ setup-devbox ARG="prompt":
     fi
     bold=$(tput bold)
     normal=$(tput sgr0)
-    OPTION={{ ARG }}
+    OPTION={{ ACTION }}
     if [ "$OPTION" == "prompt" ]; then
       echo "Devbox is currently: ${bold}${CURRENT_STATE}${normal}"
       echo 'What would you like to do with devbox?'
