@@ -59,7 +59,7 @@ install -Dm755 %{SOURCE10} %{buildroot}%{_bindir}/ugum
 
 %post
 # Generate ujust bash completion
-just --completion bash | perl -pe 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-completion/completions/ujust
+just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-completion/completions/ujust
 chmod 644 %{_datadir}/bash-completion/completions/ujust 
 
 %changelog
