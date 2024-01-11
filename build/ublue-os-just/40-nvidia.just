@@ -58,3 +58,17 @@ configure-nvidia ACTION="prompt":
         echo 'The Nvidia kernel module is not loaded. You may be using secure boot without the needed signing key, lacking the needed kargs, or may not be on a Nvidia image. See "just enroll-secure-boot-key" and "just nvidia-set-kargs".'
       fi
     fi
+
+# Switch between Nvidia image and NVK
+toggle-nvk:
+    #!/usr/bin/bash
+    CURRENT_IMAGE=$(rpm-ostree status -b --json | jq -r '.deployments[0]."container-image-reference"' | sed -E 's/^.+\/(.+:.+)$/\1/')
+    CURRENT_URI=$(rpm-ostree status -b --json | jq -r '.deployments[0]."container-image-reference"' | sed -E 's/^(.+\/).+:.+$/\1/')
+    NEW_IMAGE=$CURRENT_IMAGE
+    if [[ "$CURRENT_IMAGE" =~ "nvidia" ]]; then
+      NEW_IMAGE=${CURRENT_IMAGE/-nvidia/}
+    else
+      NEW_IMAGE=${CURRENT_IMAGE/:/-nvidia:}
+    fi
+    echo "Rebasing to ${NEW_IMAGE}"
+    rpm-ostree rebase ${CURRENT_URI}${NEW_IMAGE}
