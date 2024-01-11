@@ -8,7 +8,7 @@ License:        MIT
 URL:            https://github.com/ublue-os/config
 
 BuildArch:      noarch
-Requires:    just
+Requires:       just
 
 Source0:        ublue-os-just.sh
 Source1:        00-default.just
