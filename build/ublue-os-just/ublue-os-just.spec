@@ -8,7 +8,7 @@ License:        MIT
 URL:            https://github.com/ublue-os/config
 
 BuildArch:      noarch
-Supplements:    just
+Requires:    just
 
 Source0:        ublue-os-just.sh
 Source1:        00-default.just
@@ -57,7 +57,15 @@ install -Dm755 %{SOURCE10} %{buildroot}%{_bindir}/ugum
 %attr(0755,root,root) %{_bindir}/ujust
 %attr(0755,root,root) %{_bindir}/ugum
 
+%post
+# Generate ujust bash completion
+just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-completion/completions/ujust
+chmod 644 %{_datadir}/bash-completion/completions/ujust 
+
 %changelog
+* Wed Jan 10 2024 HikariKnight <2557889+HikariKnight@users.noreply.github.com> - 0.21
+- Added ujust tab completion file generated from just --completions bash
+
 * Thu Jan 04 2024 Kyle Gospodnetich <me@kylegospodneti.ch> - 0.20
 - Update with support for the newest version of just
 
