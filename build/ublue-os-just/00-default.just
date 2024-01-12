@@ -38,7 +38,7 @@ changelogs:
 # Enroll Nvidia driver & KMOD signing key for secure boot - Enter password "ublue-os" if prompted
 enroll-secure-boot-key:
     echo 'Enter password "ublue-os" if prompted after your user password.'
-    sudo mokutil --import /etc/pki/akmods/certs/akmods-ublue.der
+    sudo mokutil --import /etc/pki/akmods/certs/akmods-ublue.der --timeout -1
     echo 'When you reboot your computer, follow the instructions to start MOK util'
     echo 'by pressing a key, then enroll the secure boot key and enter "ublue-os" as the password'
 
