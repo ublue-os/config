@@ -2,7 +2,7 @@
 
 # Clean up old containers and flatpaks
 clean-system:
-    #!/usr/bin/env bash
+    #!/usr/bin/bash
     podman system prune -a
     flatpak uninstall --unused
     rpm-ostree cleanup -bm

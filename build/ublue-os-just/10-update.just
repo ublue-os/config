@@ -1,8 +1,10 @@
 # vim: set ft=make :
 
+alias upgrade := update
+
 # Update system, flatpaks, and containers all at once
 update VERB_LEVEL="full":
-    #!/usr/bin/env bash
+    #!/usr/bin/bash
     if systemctl is-enabled ublue-update.timer | grep -q enabled;
     then
       echo "Starting the ublue-update service"
@@ -73,26 +75,39 @@ update-firmware:
     fwupdmgr get-updates
     fwupdmgr update
 
-# Disable all auto-update timers
-disable-updates:
-    #!/usr/bin/env bash
-    if systemctl is-enabled ublue-update.timer | grep -q enabled;
-    then
-      sudo systemctl disable ublue-update.timer
-    elif systemctl is-enabled flatpak-system-update.timer | grep -q enabled;
-    then
-      sudo systemctl disable --now flatpak-system-update.timer rpm-ostreed-automatic.timer
-      systemctl disable --now --user flatpak-user-update.timer
-    fi
+alias auto-update := toggle-updates
 
-# Enable all auto-update timers
-enable-updates:
-    #!/usr/bin/env bash
-    if systemctl is-enabled ublue-update.timer | grep -q disabled;
-    then
-       sudo systemctl enable ublue-update.timer
-    elif systemctl is-enabled flatpak-system-update.timer | grep -q disabled;
-    then
-      sudo systemctl enable --now flatpak-system-update.timer rpm-ostreed-automatic.timer
-      systemctl enable --now --user flatpak-user-update.timer
+# Turn automatic updates on or off
+toggle-updates ACTION="prompt":
+    #!/usr/bin/bash
+    CURRENT_STATE="Disabled"
+    if systemctl is-enabled ublue-update.timer | grep -q enabled; then
+      CURRENT_STATE="Enabled"
+    fi
+    bold=$(tput bold)
+    normal=$(tput sgr0)
+    OPTION={{ ACTION }}
+    if [ "$OPTION" == "prompt" ]; then
+      echo "Automatic updates are currently: ${bold}${CURRENT_STATE}${normal}"
+      echo "Enable or Disable automatic updates?"
+      OPTION=$(ugum choose Enable Disable)
+    elif [ "$OPTION" == "help" ]; then
+      echo "Usage: ujust toggle-updates <option>"
+      echo "  <option>: Specify the quick option - 'enable' or 'disable'"
+      echo "  Use 'enable' to Enable automatic updates."
+      echo "  Use 'disable' to Disable automatic updates."
+      exit 0
+    fi
+    if [ "${OPTION,,}" == "enable" ]; then
+      sudo systemctl enable ublue-update.timer
+      if systemctl is-enabled flatpak-system-update.timer | grep -q disabled; then
+        sudo systemctl enable --now flatpak-system-update.timer rpm-ostreed-automatic.timer
+        systemctl enable --now --user flatpak-user-update.timer
+      fi
+    elif [ "${OPTION,,}" == "disable" ]; then
+      sudo systemctl disable ublue-update.timer
+      if systemctl is-enabled flatpak-system-update.timer | grep -q enabled; then
+        sudo systemctl disable --now flatpak-system-update.timer rpm-ostreed-automatic.timer
+        systemctl disable --now --user flatpak-user-update.timer
+      fi
     fi
