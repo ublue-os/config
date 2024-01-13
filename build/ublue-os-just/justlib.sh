@@ -35,7 +35,8 @@ function urllink (){
 }
 
 ## Function to generate background color from foreground color
-# bgblue=$(bg $blue)
+## NOTE: doublequote the color or future calls to bg will error out!
+# bgblue=$(bg "$blue")
 # echo "${bgblue}text now has blue background${normal} this text has no background color"
 function bg (){
     COLOR="$1"
