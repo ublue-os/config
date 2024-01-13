@@ -10,16 +10,50 @@
 ### Text Formating
 ########
 declare -r bold=$(tput bold)
+declare -r b="$bold"
 declare -r normal=$(tput sgr0)
+declare -r dim=$(tput dim)
+declare -r underline=$'\033[4m'
+declare -r u="$underline"
+declare -r blink=$'\033[5m'
+declare -r invert=$'\033[7m'
+declare -r highlight="$invert"
+declare -r hidden=$'\033[8m'
 
 ########
-### Colors
+### Basic Colors
+### the bg function allows flipping these to background colors
+### using the 90-97 colors is not supported by the bg function
+### add them as extended colors instead which uses
+### option 38 which can be flipped to 48
+########
+declare -r black=$'\033[30m'
+declare -r red=$'\033[31m'
+declare -r green=$'\033[32m'
+declare -r yellow=$'\033[33m'
+declare -r blue=$'\033[34m'
+declare -r magenta=$'\033[35m'
+declare -r purple="$magenta"
+declare -r cyan=$'\033[36m'
+declare -r lightgrey=$'\033[37m'
+declare -r lightgray="$lightgrey"
+
+########
+### Extended Colors
 ### You can use cpick from https://github.com/ethanbaker/cpick to get the colors
 ### cpick bash varname | sed -E 's/readonly/declare/'
 ########
-declare -r red=$'\033[38;2;255;0;0m'
-declare -r blue=$'\033[38;2;0;0;255m'
-declare -r green=$'\033[38;2;0;128;0m'
+declare -r darkgrey=$'\033[38;2;168;168;168m'
+declare -r darkgray="$darkgrey"
+declare -r lightred=$'\033[38;2;255;114;118m'
+declare -r lightgreen=$'\033[38;2;146;240;146m'
+declare -r lightyellow=$'\033[38;2;255;255;224m'
+declare -r lightblue=$'\033[38;2;172;215;230m'
+declare -r pink=$'\033[38;2;255;20;146m'
+declare -r lightmagenta="$pink"
+declare -r lightcyan=$'\033[38;2;224;255;255m'
+declare -r white=$'\033[38;2;250;235;215m'
+declare -r lightpink=$'\033[38;2;255;181;192m'
 declare -r darkorange=$'\033[38;2;255;129;3m'
 
 ########
@@ -42,7 +76,9 @@ function urllink (){
 # echo "${bgblue}text now has blue background${normal} this text has no background color"
 function bg (){
     COLOR="$1"
-    echo "$COLOR" | sed -E 's/\[38;/\[48;/'
+    
+    # Flip foreground to background
+    echo "$COLOR" | sed -E 's/\[3([0-8]{1,1})/\[4\1/'
 }
 
 ########
