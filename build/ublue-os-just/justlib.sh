@@ -99,7 +99,7 @@ function bg (){
 # CHOICE=$(Ui_choice option1 option2 "option 3")
 # *user selects "option 3"*
 # echo "$CHOICE" will return "option 3"
-function Ui_choice (){
+function Choose (){
     CHOICE=$(ugum choose "$@")
     echo "$CHOICE"
 }
