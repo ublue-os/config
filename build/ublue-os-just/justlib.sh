@@ -9,10 +9,10 @@
 ########
 ### Text Formating
 ########
-declare -r bold=$(tput bold)
+declare -r bold=$'\033[1m'
 declare -r b="$bold"
-declare -r normal=$(tput sgr0)
-declare -r dim=$(tput dim)
+declare -r normal=$'\033[0m'
+declare -r dim=$'\033[2m'
 declare -r underline=$'\033[4m'
 declare -r u="$underline"
 declare -r blink=$'\033[5m'
