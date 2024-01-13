@@ -1,13 +1,24 @@
 #!/usr/bin/bash
 # Disable shellchecks for things that do not matter for
 # a sourceable file
-# shellcheck disable=SC2034
+# shellcheck disable=SC2034,SC2155
+
+### This is one file for now just to help with testing, it will be split into
+### multiple smaller files dealing with different aspects before shipping
 
 ########
 ### Text Formating
 ########
-bold=$(tput bold)
-normal=$(tput sgr0)
+declare -r bold=$(tput bold)
+declare -r normal=$(tput sgr0)
+
+########
+### Colors
+########
+declare -r red=$'\033[38;2;255;0;0m'
+declare -r blue=$'\033[38;2;0;0;255m'
+declare -r green=$'\033[38;2;0;128;0m'
+declare -r darkorange=$'\033[38;2;255;129;3m'
 
 ########
 ### Special text formating
@@ -21,6 +32,14 @@ function urllink (){
 
     # Generate a clickable hyperlink
     printf "\e]8;;%s\e\\%s\e]8;;\e\\" "$URL" "$TEXT"
+}
+
+## Function to generate background color from foreground color
+# bgblue=$(bg $blue)
+# echo "${bgblue}text now has blue background${normal} this text has no background color"
+function bg (){
+    COLOR="$1"
+    echo "$COLOR" | sed -E 's/\[38;/\[48;/'
 }
 
 ########
