@@ -14,6 +14,8 @@ declare -r normal=$(tput sgr0)
 
 ########
 ### Colors
+### You can use cpick from https://github.com/ethanbaker/cpick to get the colors
+### cpick bash varname | sed -E 's/readonly/declare/'
 ########
 declare -r red=$'\033[38;2;255;0;0m'
 declare -r blue=$'\033[38;2;0;0;255m'
