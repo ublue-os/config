@@ -131,16 +131,23 @@ setup-devbox ACTION="prompt":
     if [ "$OPTION" == "prompt" ]; then
       echo "Devbox is currently: ${bold}${CURRENT_STATE}${normal}"
       echo 'What would you like to do with devbox?'
-      OPTION=$(ugum choose Install Uninstall)
+      OPTION=$(ugum choose Install "Install Hooks" Uninstall)
     elif [ "$OPTION" == "help" ]; then
       echo "Usage: ujust toggle-updates <option>"
       echo "  <option>: Specify the quick option - 'install' or 'remove'"
       echo "  Use 'install' to Install devbox"
+      echo "  Use 'global' to Install devbox global hooks"
       echo "  Use 'remove' to Remove devbox."
       exit 0
     fi
     if [ "${OPTION,,}" == "install" ]; then
       curl -fsSL https://get.jetpack.io/devbox | bash
+    elif [ "${OPTION,,}" == "install hooks" ] || [ "${OPTION,,}" == "global" ]; then
+      echo 'Installing devbox global profile.'
+      devbox global pull https://devbox.getfleek.dev/high
+      echo 'run "devbox global run install-bash-hook" to configure bash shell'
+      echo 'run "devbox global run install-zsh-hook" to configure zsh shell'
+      echo 'run "devbox global run" to see other available configuration commands'
     elif [ "${OPTION,,}" == "uninstall" ] || [ "${OPTION,,}" == "remove" ]; then
       if [[ -x "/var/usrlocal/bin/devbox" ]]; then
         sudo rm -f /var/usrlocal/bin/devbox
