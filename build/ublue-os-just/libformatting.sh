@@ -19,6 +19,7 @@ declare -r hidden=$'\033[8m'
 ### Remove Text Formating
 ########
 declare -r normal=$'\033[0m'
+declare -r n="$normal"
 declare -r unbold=$'\033[21m'
 declare -r undim=$'\033[22m'
 declare -r nounderline=$'\033[24m'
