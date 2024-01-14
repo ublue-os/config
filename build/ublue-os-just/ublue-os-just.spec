@@ -55,7 +55,10 @@ install -Dm755 %{SOURCE10} %{buildroot}%{_bindir}/ugum
 
 # Add bash library for use in just
 mkdir -p -m0755 %{buildroot}%{_libexecdir}/ujust/
-cp %{SOURCE12} ${SOURCE13} ${SOURCE14} ${SOURCE15} %{buildroot}%{_libexecdir}/ujust
+install -Dm644 %{SOURCE12} %{buildroot}%{_libexecdir}/ujust
+install -Dm644 %{SOURCE13} %{buildroot}%{_libexecdir}/ujust
+install -Dm644 %{SOURCE14} %{buildroot}%{_libexecdir}/ujust
+install -Dm644 %{SOURCE15} %{buildroot}%{_libexecdir}/ujust
 
 %files
 %dir %attr(0755,root,root) %{_datadir}/%{VENDOR}/%{sub_name}
