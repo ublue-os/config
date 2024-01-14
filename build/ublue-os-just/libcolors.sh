@@ -1,4 +1,7 @@
 #!/usr/bin/bash
+# Disable shellchecks for things that do not matter for
+# a sourceable file
+# shellcheck disable=SC2034,SC2155
 ########
 ### Basic Colors
 ### the bg function allows flipping these to background colors
