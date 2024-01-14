@@ -1,4 +1,5 @@
 #!/usr/bin/bash
+# shellcheck source=/dev/null
 # Import color formatting
 source /usr/libexec/ujust/libcolors.sh
 # Import text formatting
