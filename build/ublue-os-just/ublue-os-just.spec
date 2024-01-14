@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.20
+Version:        0.22
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -78,7 +78,7 @@ just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-
 chmod 644 %{_datadir}/bash-completion/completions/ujust 
 
 %changelog
-* Sun Jan 14 2024 HikariKnight <2557889+HikariKnight@users.noreply.github.com> - 0.21
+* Sun Jan 14 2024 HikariKnight <2557889+HikariKnight@users.noreply.github.com> - 0.22
 - Added sourcable libraries for just recipes
 
 * Wed Jan 10 2024 HikariKnight <2557889+HikariKnight@users.noreply.github.com> - 0.21
