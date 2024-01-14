@@ -67,10 +67,7 @@ install -Dm644 %{SOURCE15} %{buildroot}%{_libexecdir}/ujust
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/justfile
 %attr(0755,root,root) %{_bindir}/ujust
 %attr(0755,root,root) %{_bindir}/ugum
-%attr(0644,root,root) %{_libexecdir}/ujust/libjust.sh
-%attr(0644,root,root) %{_libexecdir}/ujust/libcolors.sh
-%attr(0644,root,root) %{_libexecdir}/ujust/libformatting.sh
-%attr(0644,root,root) %{_libexecdir}/ujust/libfunctions.sh
+%attr(0644,root,root) %{_libexecdir}/ujust/lib*.sh
 
 %post
 # Generate ujust bash completion
