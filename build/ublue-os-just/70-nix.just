@@ -5,12 +5,11 @@ alias nix := setup-nix
 # Install, uninstall or configure nix
 setup-nix ACTION="prompt":
     #!/usr/bin/bash
+    source /usr/libexec/ujust/libjust.sh
     CURRENT_STATE="Not Installed"
     if [ -f "/etc/systemd/system/nix-daemon.socket" ]; then
       CURRENT_STATE="Installed"
     fi
-    bold=$(tput bold)
-    normal=$(tput sgr0)
     OPTION={{ ACTION }}
     if [ "$OPTION" == "prompt" ]; then
       echo "Nix is currently: ${bold}${CURRENT_STATE}${normal}"
@@ -73,6 +72,7 @@ alias fleek := setup-fleek
 # Install, uninstall or configure Fleek (https://getfleek.dev/)
 setup-fleek ACTION="prompt":
     #!/usr/bin/bash
+    source /usr/libexec/ujust/libjust.sh
     if [ ! -f "/etc/systemd/system/nix-daemon.socket" ]; then
       echo "Please install nix first by running ujust setup-nix"
       exit 0
@@ -118,6 +118,7 @@ alias devbox := setup-devbox
 # Install or uninstall devbox
 setup-devbox ACTION="prompt":
     #!/usr/bin/bash
+    source /usr/libexec/ujust/libjust.sh
     if [ ! -f "/etc/systemd/system/nix-daemon.socket" ]; then
       echo "Please install nix first by running ujust setup-nix"
       exit 0
@@ -126,8 +127,6 @@ setup-devbox ACTION="prompt":
     if [ -f "/var/usrlocal/bin/devbox" ]; then
       CURRENT_STATE="Installed"
     fi
-    bold=$(tput bold)
-    normal=$(tput sgr0)
     OPTION={{ ACTION }}
     if [ "$OPTION" == "prompt" ]; then
       echo "Devbox is currently: ${bold}${CURRENT_STATE}${normal}"

@@ -5,8 +5,7 @@ alias gamepads := configure-gamepads
 # Configure gamepad drivers
 configure-gamepads ACTION="prompt":
     #!/usr/bin/bash
-    bold=$(tput bold)
-    normal=$(tput sgr0)
+    source /usr/libexec/ujust/libjust.sh
     OPTION={{ ACTION }}
     if [ "$OPTION" == "prompt" ]; then
       echo "${bold}Configuring gamepad drivers${normal}"
@@ -39,8 +38,7 @@ alias broadcom-wl := configure-broadcom-wl
 # Configure Broadcom WL driver (Enabling WL breaks numerous other Wi-Fi adapters)
 configure-broadcom-wl ACTION="prompt":
     #!/usr/bin/bash
-    bold=$(tput bold)
-    normal=$(tput sgr0)
+    source /usr/libexec/ujust/libjust.sh
     OPTION={{ ACTION }}
     if [ "$OPTION" == "prompt" ]; then
       echo "${bold}Configuring Broadcom Wi-Fi${normal}"
