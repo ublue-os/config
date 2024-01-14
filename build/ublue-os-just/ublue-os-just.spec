@@ -22,7 +22,7 @@ Source8:        70-nix.just
 Source9:        ujust
 Source10:       ugum
 Source11:       header.just
-Source12:		libjust.sh
+Source12:       libjust.sh
 Source13:       libcolors.sh
 Source14:       libformatting.sh
 Source15:       libfunctions.sh
@@ -55,10 +55,7 @@ install -Dm755 %{SOURCE10} %{buildroot}%{_bindir}/ugum
 
 # Add bash library for use in just
 mkdir -p -m0755 %{buildroot}%{_libexecdir}/ujust/
-install -Dm644 %{SOURCE12} %{buildroot}%{_libexecdir}/ujust/libjust.sh
-install -Dm644 %{SOURCE13} %{buildroot}%{_libexecdir}/ujust/libcolors.sh
-install -Dm644 %{SOURCE14} %{buildroot}%{_libexecdir}/ujust/libformatting.sh
-install -Dm644 %{SOURCE15} %{buildroot}%{_libexecdir}/ujust/libfunctions.sh
+cp %{SOURCE12} ${SOURCE13} ${SOURCE14} ${SOURCE15} %{buildroot}%{_libexecdir}/ujust
 
 %files
 %dir %attr(0755,root,root) %{_datadir}/%{VENDOR}/%{sub_name}
@@ -67,10 +64,10 @@ install -Dm644 %{SOURCE15} %{buildroot}%{_libexecdir}/ujust/libfunctions.sh
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/justfile
 %attr(0755,root,root) %{_bindir}/ujust
 %attr(0755,root,root) %{_bindir}/ugum
-%attr(0644,root,root) %{_libexecdir}/libjust.sh
-%attr(0644,root,root) %{_libexecdir}/libcolors.sh
-%attr(0644,root,root) %{_libexecdir}/libformatting.sh
-%attr(0644,root,root) %{_libexecdir}/libfunctions.sh
+%attr(0644,root,root) %{_libexecdir}/ujust/libjust.sh
+%attr(0644,root,root) %{_libexecdir}/ujust/libcolors.sh
+%attr(0644,root,root) %{_libexecdir}/ujust/libformatting.sh
+%attr(0644,root,root) %{_libexecdir}/ujust/libfunctions.sh
 
 %post
 # Generate ujust bash completion
