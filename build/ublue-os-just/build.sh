@@ -13,6 +13,7 @@ cp ${SCRIPT_DIR}/ugum /tmp/ublue-os/rpmbuild/SOURCES
 cp ${SCRIPT_DIR}/libjust.sh /tmp/ublue-os/rpmbuild/SOURCES
 cp ${SCRIPT_DIR}/libcolors.sh /tmp/ublue-os/rpmbuild/SOURCES
 cp ${SCRIPT_DIR}/libformatting.sh /tmp/ublue-os/rpmbuild/SOURCES
+cp ${SCRIPT_DIR}/libfunctions.sh /tmp/ublue-os/rpmbuild/SOURCES
 
 rpmbuild -ba \
     --define '_topdir /tmp/ublue-os/rpmbuild' \
