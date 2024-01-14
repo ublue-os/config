@@ -22,7 +22,7 @@ function Confirm (){
     echo $?
 }
 
-### Function to create a distrobox
+### Function to create a distrobox with standardized args
 # Distrobox "fedora:latest" "my-fedora-box" "$HOME/.var/containers/fedora-box"
 # Distrobox "quay.io/toolbx-images/debian-toolbox:unstable" "debian-unstable"
 function Distrobox (){
