@@ -20,7 +20,7 @@ function Choose (){
 # 0 = Yes
 # 1 = No
 function Confirm (){
-    PROMPT=$(ugum confirm "$@")
+    ugum confirm "$@"
     echo $?
 }
 
