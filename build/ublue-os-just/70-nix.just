@@ -113,7 +113,7 @@ setup-fleek ACTION="prompt":
       fi
     fi
 
-alias devbox := setup-devbox
+#alias devbox := setup-devbox
 
 # Install or uninstall devbox
 setup-devbox ACTION="prompt":
