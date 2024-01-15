@@ -11,7 +11,7 @@ distrobox-assemble CONTAINER="prompt" ACTION="create" FILE="/etc/distrobox/distr
 
 alias distrobox := distrobox-new
 
-# Create a new custom distroboxes with custom names
+# Create a new custom distroboxes
 distrobox-new IMAGE="prompt" NAME="prompt" HOMEDIR="":
     #!/usr/bin/bash
     # Please only add distroboxes here if you need special checks and logins!
