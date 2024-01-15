@@ -99,7 +99,7 @@ function Assemble(){
             fi
         fi
         # Run the distrobox assemble command
-        distrobox assemble "$ACTION" --file "$FILE" --replace --dry-run
+        distrobox assemble "$ACTION" --file "$FILE" --replace
     else
         # Set distrobox name to provided name
         NAME="$3"
@@ -117,7 +117,7 @@ function Assemble(){
     fi
 
     # Run the distrobox assemble command
-    distrobox assemble "$ACTION" --file "$FILE" --name "$NAME" --replace --dry-run
+    distrobox assemble "$ACTION" --file "$FILE" --name "$NAME" --replace
 }
 
 ########
