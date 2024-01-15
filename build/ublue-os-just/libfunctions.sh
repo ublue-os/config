@@ -119,3 +119,44 @@ function Assemble(){
     # Run the distrobox assemble command
     distrobox assemble "$ACTION" --file "$FILE" --name "$NAME" --replace --dry-run
 }
+
+########
+## Function parse a distrobox.ini file and make a selectable list from it
+########
+## Parse a distrobox.ini manifest and let user select which container to setup
+# AssembleParse "$HOME/distrobox.ini" create
+## Parse a distrobox.ini manifest and create ubuntu container without confirmation
+# AssembleParse "$HOME/distrobox.ini" noconfirmcreate ubuntu
+function AssembleList (){
+    # Set defaults
+    FILE="$1"
+    ACTION="create"
+    CHOICE="prompt"
+
+    # If an ACTION is supplied
+    if [ -n "$2" ]; then
+        # Replace default action
+        ACTION="$2"
+    fi
+    
+    # If a CHOICE is predefined
+    if [ -n "$3" ]; then
+        # Replace default choice
+        CHOICE="$3"
+    fi
+
+    # If the choice is "prompt" then ask user what container they want
+    if [ "$CHOICE" == "prompt" ]; then
+        CONTAINERS=$(grep -P "\[.+\]" "$FILE" | sed -E 's/\[(.+)\]/\1/')
+        echo "${b}Pre-defined Containers${n}"
+        echo "Please select a container to create"
+        # shellcheck disable=SC2086
+        CHOICE=$(Choose ALL $CONTAINERS)
+    fi
+
+    # If choice is not empty by now (will be empty if escaped from Choice function)
+    if [ -n "$CHOICE" ]; then
+        # Assemble the selected container
+        Assemble "$ACTION" "$FILE" "$CHOICE"
+    fi
+}

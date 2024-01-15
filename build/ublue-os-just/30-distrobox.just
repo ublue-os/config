@@ -7,23 +7,14 @@ distrobox-assemble CONTAINER="prompt" ACTION="create" FILE="/etc/distrobox/distr
     #!/usr/bin/bash
     # Distroboxes are gathered from distrobox.ini, please add them there
     source /usr/libexec/ujust/libjust.sh
-    CHOICE={{ CONTAINER }}
-    if [ "$CHOICE" == "prompt" ]; then
-      CONTAINERS=$(grep -P "\[.+\]" {{ FILE }} | sed -E 's/\[(.+)\]/\1/')
-      echo "${b}Ublue Pre-Defined Containers${n}"
-      echo "Please select a container to create"
-      CHOICE=$(Choose ALL $CONTAINERS)
-    fi
-    if [ -n "$CHOICE" ]; then
-      Assemble {{ ACTION }} {{ FILE }} $CHOICE
-    fi
+    AssembleList {{ FILE }} {{ ACTION }} {{ CONTAINER }}
 
 alias distrobox := distrobox-new
 
 # Create a new custom distroboxes with custom names
 distrobox-new IMAGE="prompt" NAME="prompt" HOMEDIR="":
     #!/usr/bin/bash
-    # Please only add distroboxes here is you need special checks and logins!
+    # Please only add distroboxes here if you need special checks and logins!
     source /usr/libexec/ujust/libjust.sh
     # Supported images
     IMAGES='
