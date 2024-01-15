@@ -61,7 +61,13 @@ function Distrobox (){
 ########
 ## Function to assemble pre-defined distrobox containers from manifest files
 ########
-# 
+## Assemble all containers defined in an ini file without confirmation
+# Assemble noconfirmcreate "/etc/distrobox/distrobox.ini"
+# Assemble noconfirmcreate "" ALL
+## Assemble ubuntu from default ini manifest, with confirmation
+# Assemble confirm "" ubuntu
+## Remove a container defined in the default ini manifest
+# Assemble rm "" ubuntu
 function Assemble(){
     # Set defaults
     ACTION="create"
@@ -81,11 +87,8 @@ function Assemble(){
         FILE="$2"
     fi
 
-    # If a container name is provided
-    if [ -n "$3" ]; then
-        # Set distrobox name to provided name
-        NAME="$3"
-    else
+    # If container name is ALL
+    if [ "$3" == "ALL" ] || [ -z "$3" ]; then
         if [[ ! "$1" =~ ^noconfirm ]]; then
             # Ask user if they REALLY want to assemble all the containers
             echo -e "${b}WARNING${n}: This will assemble and ${u}replace${n}\nALL containers defined in ${b}$FILE${n}."
@@ -97,6 +100,9 @@ function Assemble(){
         fi
         # Run the distrobox assemble command
         distrobox assemble "$ACTION" --file "$FILE" --replace --dry-run
+    else
+        # Set distrobox name to provided name
+        NAME="$3"
     fi
     
     # If we do not want confirmations

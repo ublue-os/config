@@ -3,7 +3,7 @@
 alias assemble := distrobox-assemble
 
 # Create distroboxes from a defined manifest
-distrobox-assemble CONTAINER="prompt" FILE="/etc/distrobox/distrobox.ini":
+distrobox-assemble CONTAINER="prompt" ACTION="create" FILE="/etc/distrobox/distrobox.ini":
     #!/usr/bin/bash
     # Distroboxes are gathered from distrobox.ini, please add them there
     source /usr/libexec/ujust/libjust.sh
@@ -12,10 +12,10 @@ distrobox-assemble CONTAINER="prompt" FILE="/etc/distrobox/distrobox.ini":
       CONTAINERS=$(grep -P "\[.+\]" {{ FILE }} | sed -E 's/\[(.+)\]/\1/')
       echo "${b}Ublue Pre-Defined Containers${n}"
       echo "Please select a container to create"
-      CHOICE=$(Choose $CONTAINERS)
+      CHOICE=$(Choose ALL $CONTAINERS)
     fi
     if [ -n "$CHOICE" ]; then
-      Assemble create {{ FILE }} $CHOICE
+      Assemble {{ ACTION }} {{ FILE }} $CHOICE
     fi
 
 alias distrobox := distrobox-new
