@@ -54,11 +54,11 @@ install -Dm755 %{SOURCE9} %{buildroot}%{_bindir}/ujust
 install -Dm755 %{SOURCE10} %{buildroot}%{_bindir}/ugum
 
 # Add bash library for use in just
-mkdir -p -m0755 %{buildroot}%{_libexecdir}/ujust/
-install -Dm644 %{SOURCE12} %{buildroot}%{_libexecdir}/ujust
-install -Dm644 %{SOURCE13} %{buildroot}%{_libexecdir}/ujust
-install -Dm644 %{SOURCE14} %{buildroot}%{_libexecdir}/ujust
-install -Dm644 %{SOURCE15} %{buildroot}%{_libexecdir}/ujust
+mkdir -p -m0755 %{buildroot}%{_libdir}/ujust/
+install -Dm644 %{SOURCE12} %{buildroot}%{_libdir}/ujust
+install -Dm644 %{SOURCE13} %{buildroot}%{_libdir}/ujust
+install -Dm644 %{SOURCE14} %{buildroot}%{_libdir}/ujust
+install -Dm644 %{SOURCE15} %{buildroot}%{_libdir}/ujust
 
 %files
 %dir %attr(0755,root,root) %{_datadir}/%{VENDOR}/%{sub_name}
@@ -67,7 +67,7 @@ install -Dm644 %{SOURCE15} %{buildroot}%{_libexecdir}/ujust
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/justfile
 %attr(0755,root,root) %{_bindir}/ujust
 %attr(0755,root,root) %{_bindir}/ugum
-%attr(0644,root,root) %{_libexecdir}/ujust/lib*.sh
+%attr(0644,root,root) %{_libdir}/ujust/lib*.sh
 
 %post
 # Generate ujust bash completion

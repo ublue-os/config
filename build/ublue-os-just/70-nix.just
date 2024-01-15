@@ -5,7 +5,7 @@ alias nix := setup-nix
 # Install, uninstall or configure nix
 setup-nix ACTION="prompt":
     #!/usr/bin/bash
-    source /usr/libexec/ujust/libjust.sh
+    source /usr/lib/ujust/libjust.sh
     CURRENT_STATE="Not Installed"
     if [ -f "/etc/systemd/system/nix-daemon.socket" ]; then
       CURRENT_STATE="Installed"
@@ -72,7 +72,7 @@ alias fleek := setup-fleek
 # Install, uninstall or configure Fleek (https://getfleek.dev/)
 setup-fleek ACTION="prompt":
     #!/usr/bin/bash
-    source /usr/libexec/ujust/libjust.sh
+    source /usr/lib/ujust/libjust.sh
     if [ ! -f "/etc/systemd/system/nix-daemon.socket" ]; then
       echo "Please install nix first by running ujust setup-nix"
       exit 0
@@ -118,7 +118,7 @@ alias devbox := setup-devbox
 # Install or uninstall devbox
 setup-devbox ACTION="prompt":
     #!/usr/bin/bash
-    source /usr/libexec/ujust/libjust.sh
+    source /usr/lib/ujust/libjust.sh
     if [ ! -f "/etc/systemd/system/nix-daemon.socket" ]; then
       echo "Please install nix first by running ujust setup-nix"
       exit 0

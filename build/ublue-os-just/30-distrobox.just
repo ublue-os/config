@@ -6,7 +6,7 @@ alias assemble := distrobox-assemble
 distrobox-assemble CONTAINER="prompt" ACTION="create" FILE="/etc/distrobox/distrobox.ini":
     #!/usr/bin/bash
     # Distroboxes are gathered from distrobox.ini, please add them there
-    source /usr/libexec/ujust/libjust.sh
+    source /usr/lib/ujust/libjust.sh
     AssembleList {{ FILE }} {{ ACTION }} {{ CONTAINER }}
 
 alias distrobox := distrobox-new
@@ -15,7 +15,7 @@ alias distrobox := distrobox-new
 distrobox-new IMAGE="prompt" NAME="prompt" HOMEDIR="":
     #!/usr/bin/bash
     # Please only add distroboxes here if you need special checks and logins!
-    source /usr/libexec/ujust/libjust.sh
+    source /usr/lib/ujust/libjust.sh
     # Supported images
     IMAGES='
       New

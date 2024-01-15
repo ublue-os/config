@@ -5,7 +5,7 @@ alias nvidia := configure-nvidia
 # Configure the Nvidia driver
 configure-nvidia ACTION="prompt":
     #!/usr/bin/bash
-    source /usr/libexec/ujust/libjust.sh
+    source /usr/lib/ujust/libjust.sh
     OPTION={{ ACTION }}
     if [ "$OPTION" == "prompt" ]; then
       echo "${bold}Configuring Nvidia drivers${normal}"

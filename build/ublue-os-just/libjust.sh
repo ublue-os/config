@@ -1,8 +1,8 @@
 #!/usr/bin/bash
 # shellcheck source=/dev/null
 # Import color formatting
-source /usr/libexec/ujust/libcolors.sh
+source /usr/lib/ujust/libcolors.sh
 # Import text formatting
-source /usr/libexec/ujust/libformatting.sh
+source /usr/lib/ujust/libformatting.sh
 # Import functionality for just
-source /usr/libexec/ujust/libfunctions.sh
+source /usr/lib/ujust/libfunctions.sh
