@@ -7,7 +7,7 @@
 ### the bg function allows flipping these to background colors
 ### using the 90-97 colors is not supported by the bg function
 ### add them as extended colors instead which uses
-### option 38 which can be flipped to 48
+### option 38 (foreground) which can be flipped to 48 (background)
 ########
 declare -r black=$'\033[30m'
 declare -r red=$'\033[31m'
