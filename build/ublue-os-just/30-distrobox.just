@@ -59,7 +59,7 @@ distrobox-new IMAGE="prompt" NAME="prompt" HOMEDIR="":
         NAME="bazzite-arch"
         ARGS="--unshare-netns"
       else
-        IMAGE="ghcr.io/ublue-os/bazzite-arch-gnome"
+        IMAGE="ghcr.io/ublue-os/bazzite-arch"
         NAME="bazzite-arch"
         ARGS="--unshare-netns"
       fi
