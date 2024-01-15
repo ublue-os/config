@@ -3,7 +3,7 @@
 alias assemble := distrobox-assemble
 
 # Create distroboxes from a defined manifest
-distrobox-assemble CONTAINER="prompt" ACTION="create" FILE="/etc/distrobox/distrobox.ini":
+distrobox-assemble CONTAINER="prompt" ACTION="create" FILE="/usr/etc/distrobox/distrobox.ini":
     #!/usr/bin/bash
     # Distroboxes are gathered from distrobox.ini, please add them there
     source /usr/lib/ujust/libjust.sh

@@ -62,7 +62,7 @@ function Distrobox (){
 ## Function to assemble pre-defined distrobox containers from manifest files
 ########
 ## Assemble all containers defined in an ini file without confirmation
-# Assemble noconfirmcreate "/etc/distrobox/distrobox.ini"
+# Assemble noconfirmcreate "/usr/etc/distrobox/distrobox.ini"
 # Assemble noconfirmcreate "" ALL
 ## Assemble ubuntu from default ini manifest, with confirmation
 # Assemble confirm "" ubuntu
@@ -71,7 +71,7 @@ function Distrobox (){
 function Assemble(){
     # Set defaults
     ACTION="create"
-    FILE="/etc/distrobox/distrobox.ini"
+    FILE="/usr/etc/distrobox/distrobox.ini"
     NAME=""
 
     # If an action is provided
