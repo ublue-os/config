@@ -67,6 +67,7 @@ install -Dm644 %{SOURCE15} %{buildroot}%{_libdir}/ujust
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/justfile
 %attr(0755,root,root) %{_bindir}/ujust
 %attr(0755,root,root) %{_bindir}/ugum
+%attr(0644,root,root) %{_libdir}/ujust/ujust.sh
 %attr(0644,root,root) %{_libdir}/ujust/lib*.sh
 
 %post
