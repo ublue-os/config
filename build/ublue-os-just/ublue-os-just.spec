@@ -22,7 +22,7 @@ Source8:        70-nix.just
 Source9:        ujust
 Source10:       ugum
 Source11:       header.just
-Source12:       libjust.sh
+Source12:       ujust.sh
 Source13:       libcolors.sh
 Source14:       libformatting.sh
 Source15:       libfunctions.sh
