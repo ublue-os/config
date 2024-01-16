@@ -2,9 +2,13 @@
 # shellcheck disable=SC2154
 ########
 ## Useful functions we use a lot, if you want to use them, source libjust.sh
-## Dependencies libformatting.sh and libcolors.sh
+## As it depends on libformatting.sh and libcolors.sh
+## They are not imported here to avoid attempting to redeclare readonly vars.
+########
+
 ########
 ## Function to generate a choice selection and return the selected choice
+########
 # CHOICE=$(Choice option1 option2 "option 3")
 # *user selects "option 3"*
 # echo "$CHOICE" will return "option 3"
@@ -121,7 +125,7 @@ function Assemble(){
 }
 
 ########
-## Function parse a distrobox.ini file and make a selectable list from it
+## Function to parse a distrobox.ini file and make a selectable list from it
 ########
 ## Parse a distrobox.ini manifest and let user select which container to setup
 # AssembleParse "$HOME/distrobox.ini" create
@@ -150,6 +154,7 @@ function AssembleList (){
         CONTAINERS=$(grep -P "\[.+\]" "$FILE" | sed -E 's/\[(.+)\]/\1/')
         echo "${b}Pre-defined Containers${n}"
         echo "Please select a container to create"
+        # Disable an irrelevant shellscheck for next line as we want word splitting
         # shellcheck disable=SC2086
         CHOICE=$(Choose ALL $CONTAINERS)
     fi
