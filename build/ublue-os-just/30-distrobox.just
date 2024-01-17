@@ -91,3 +91,15 @@ distrobox-new IMAGE="prompt" NAME="prompt" HOMEDIR="":
     if [ "${IMAGE,,}" == "bazzite-arch" ]; then
       echo $(Urllink "https://github.com/ublue-os/bazzite-arch" "Check out the docs for exportable apps and instructions")
     fi
+
+# Install specialized application containers
+distrobox-app-containers CONTAINER="prompt":
+    #!/usr/bin/bash
+    source /usr/lib/ujust/ujust.sh
+    AssembleList create "/etc/distrobox/apps.ini" {{ CONTAINER }}
+
+# Install obs-studio-portable from wimpysworld, which bundles an extensive collection of 3rd party plugins
+install-obs-studio-portable:
+    #!/usr/bin/bash
+    source /usr/lib/ujust/ujust.sh
+    AssembleList create "/usr/etc/distrobox/apps.ini" "obs-studio-portable"
