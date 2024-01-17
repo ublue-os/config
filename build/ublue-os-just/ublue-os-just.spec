@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.20
+Version:        0.23
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -22,6 +22,11 @@ Source8:        70-nix.just
 Source9:        ujust
 Source10:       ugum
 Source11:       header.just
+Source12:       ujust.sh
+Source13:       libcolors.sh
+Source14:       libformatting.sh
+Source15:       libfunctions.sh
+Source16:       libdistrobox.sh
 
 %global sub_name %{lua:t=string.gsub(rpm.expand("%{NAME}"), "^ublue%-os%-", ""); print(t)}
 
@@ -49,6 +54,14 @@ mkdir -p -m0755  %{buildroot}%{_bindir}
 install -Dm755 %{SOURCE9} %{buildroot}%{_bindir}/ujust
 install -Dm755 %{SOURCE10} %{buildroot}%{_bindir}/ugum
 
+# Add bash library for use in just
+mkdir -p -m0755 %{buildroot}%{_libdir}/ujust/
+install -Dm644 %{SOURCE12} %{buildroot}%{_libdir}/ujust
+install -Dm644 %{SOURCE13} %{buildroot}%{_libdir}/ujust
+install -Dm644 %{SOURCE14} %{buildroot}%{_libdir}/ujust
+install -Dm644 %{SOURCE15} %{buildroot}%{_libdir}/ujust
+install -Dm644 %{SOURCE16} %{buildroot}%{_libdir}/ujust
+
 %files
 %dir %attr(0755,root,root) %{_datadir}/%{VENDOR}/%{sub_name}
 %attr(0755,root,root) %{_sysconfdir}/profile.d/ublue-os-just.sh
@@ -56,6 +69,8 @@ install -Dm755 %{SOURCE10} %{buildroot}%{_bindir}/ugum
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/justfile
 %attr(0755,root,root) %{_bindir}/ujust
 %attr(0755,root,root) %{_bindir}/ugum
+%attr(0644,root,root) %{_libdir}/ujust/ujust.sh
+%attr(0644,root,root) %{_libdir}/ujust/lib*.sh
 
 %post
 # Generate ujust bash completion
@@ -63,6 +78,12 @@ just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-
 chmod 644 %{_datadir}/bash-completion/completions/ujust 
 
 %changelog
+* Sun Jan 17 2024 HikariKnight <2557889+HikariKnight@users.noreply.github.com> - 0.23
+- Added libdistrobox
+
+* Sun Jan 14 2024 HikariKnight <2557889+HikariKnight@users.noreply.github.com> - 0.22
+- Added sourcable libraries for just recipes
+
 * Wed Jan 10 2024 HikariKnight <2557889+HikariKnight@users.noreply.github.com> - 0.21
 - Added ujust tab completion file generated from just --completions bash
 
