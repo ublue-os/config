@@ -92,8 +92,8 @@ distrobox-new IMAGE="prompt" NAME="prompt" HOMEDIR="":
       echo $(Urllink "https://github.com/ublue-os/bazzite-arch" "Check out the docs for exportable apps and instructions")
     fi
 
-# Install specialized application containers
-distrobox-app-containers CONTAINER="prompt":
+# Install specialized application containers (like brew)
+setup-distrobox-app CONTAINER="prompt":
     #!/usr/bin/bash
     source /usr/lib/ujust/ujust.sh
     AssembleList create "/etc/distrobox/apps.ini" {{ CONTAINER }}
