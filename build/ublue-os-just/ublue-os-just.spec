@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.22
+Version:        0.23
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -26,6 +26,7 @@ Source12:       ujust.sh
 Source13:       libcolors.sh
 Source14:       libformatting.sh
 Source15:       libfunctions.sh
+Source16:       libdistrobox.sh
 
 %global sub_name %{lua:t=string.gsub(rpm.expand("%{NAME}"), "^ublue%-os%-", ""); print(t)}
 
@@ -59,6 +60,8 @@ install -Dm644 %{SOURCE12} %{buildroot}/%{_exec_prefix}/lib/ujust
 install -Dm644 %{SOURCE13} %{buildroot}/%{_exec_prefix}/lib/ujust
 install -Dm644 %{SOURCE14} %{buildroot}/%{_exec_prefix}/lib/ujust
 install -Dm644 %{SOURCE15} %{buildroot}/%{_exec_prefix}/lib/ujust
+install -Dm644 %{SOURCE16} %{buildroot}/%{_exec_prefix}/lib/ujust
+
 %files
 %dir %attr(0755,root,root) %{_datadir}/%{VENDOR}/%{sub_name}
 %attr(0755,root,root) %{_sysconfdir}/profile.d/ublue-os-just.sh
@@ -75,6 +78,9 @@ just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-
 chmod 644 %{_datadir}/bash-completion/completions/ujust 
 
 %changelog
+* Thu Jan 18 2024 HikariKnight <2557889+HikariKnight@users.noreply.github.com> - 0.23
+- Added tooling for distrobox
+
 * Sun Jan 14 2024 HikariKnight <2557889+HikariKnight@users.noreply.github.com> - 0.22
 - Added sourcable libraries for just recipes
 
