@@ -1,93 +1,107 @@
 # vim: set ft=make :
 
-# Create an Arch container
-distrobox-arch:
-    echo 'Creating Arch distrobox ...'
-    distrobox-create --nvidia --image ghcr.io/ublue-os/arch-distrobox:latest -n arch -Y
+alias assemble := distrobox-assemble
 
-# Create a Bazzite-Arch container
-distrobox-bazzite:
+# Create distroboxes from a defined manifest
+distrobox-assemble CONTAINER="prompt" ACTION="create" FILE="/usr/etc/distrobox/distrobox.ini":
     #!/usr/bin/bash
-    echo 'Creating Bazzite distrobox ...'
-    if command -v /usr/bin/mutter > /dev/null; then
-      distrobox-create --unshare-netns --nvidia --image ghcr.io/ublue-os/bazzite-arch-gnome --name bazzite-arch -Y
+    # Distroboxes are gathered from distrobox.ini, please add them there
+    source /usr/lib/ujust/ujust.sh
+    AssembleList {{ FILE }} {{ ACTION }} {{ CONTAINER }}
+
+alias distrobox := distrobox-new
+
+# Create a new custom distrobox
+distrobox-new IMAGE="prompt" NAME="prompt" HOMEDIR="":
+    #!/usr/bin/bash
+    # Please only add distroboxes here if you need special checks and logins!
+    source /usr/lib/ujust/ujust.sh
+    # Supported images
+    IMAGES='
+      New
+      Bazzite-arch
+      Rhel8-toolbox
+      Rhel9-toolbox
+    '
+    IMAGE={{ IMAGE }}
+    NAME={{ NAME }}
+    HOMEDIR={{ HOMEDIR }}
+    ARGS=""
+    # Ask user to select an image if we need to prompt
+    if [ "$IMAGE" == "prompt" ]; then
+      echo "Select what container you want to make"
+      IMAGE=$(Choose $IMAGES)
+    fi
+    # If image is "new"
+    if [ "${IMAGE,,}" == "new" ]; then
+      echo -en "Please enter an image: "
+      read IMAGE
+      if [ "$NAME" == "prompt" ]; then
+        echo -en "Please enter a name for the container: "
+        read NAME
+      fi
+    elif [ -z "${IMAGE,,}" ]; then
+      exit 1
+    fi
+    # Tailored image selection logic
+    # Logic for bazzite-arch
+    if [ ${IMAGE,,} == "bazzite-arch" ]; then
+      echo "${b}Creating Bazzite distrobox ...${n}"
+      if command -v /usr/bin/mutter > /dev/null; then
+        IMAGE="ghcr.io/ublue-os/bazzite-arch-gnome"
+        NAME="bazzite-arch"
+        ARGS="--unshare-netns"
+      else
+        IMAGE="ghcr.io/ublue-os/bazzite-arch"
+        NAME="bazzite-arch"
+        ARGS="--unshare-netns"
+      fi
+    # Anything else
     else
-      distrobox-create --unshare-netns --nvidia --image ghcr.io/ublue-os/bazzite-arch --name bazzite-arch -Y
+      if [ "$NAME" == "prompt" ]; then
+        echo -en "Please enter a name for the container: "
+        read NAME
+      fi
+      case ${IMAGE,,} in
+        rhel8-toolbox)
+          if ! grep -q "registry.redhat.io" $XDG_RUNTIME_DIR/containers/auth.json; then
+            echo "Please login using your Red Hat Account or Red Hat Developer Account ..."
+            podman login registry.redhat.io
+          fi
+          if [ -z "$NAME" ]; then
+            NAME="rhel8"
+          fi
+          echo 'Creating RHEL 8 distrobox ...'
+          IMAGE="registry.redhat.io/rhel8/toolbox:latest"
+          ;;
+        rhel9-toolbox)
+          if ! grep -q "registry.redhat.io" $XDG_RUNTIME_DIR/containers/auth.json; then
+            echo "Please login using your Red Hat Account or Red Hat Developer Account ..."
+            podman login registry.redhat.io
+          fi
+          if [ -z "$NAME" ]; then
+            NAME="rhel9"
+          fi
+          echo 'Creating RHEL 9 distrobox ...'
+          IMAGE="registry.redhat.io/rhel9/toolbox:latest"
+          ;;
+      esac
     fi
-    echo 'Check out the docs for exportable apps and instructions: https://github.com/ublue-os/bazzite-arch'
-
-# Create an Alpine boxkit container
-distrobox-boxkit:
-    echo 'Creating Boxkit distrobox ...'
-    distrobox-create --nvidia --image ghcr.io/ublue-os/boxkit -n boxkit -Y
-
-# Create a Debian container
-distrobox-debian:
-    echo 'Creating Debian distrobox ...'
-    distrobox-create --nvidia --image quay.io/toolbx-images/debian-toolbox:unstable -n debian -Y
-
-# Create a Fedora container
-distrobox-fedora:
-    echo 'Creating Fedora distrobox ...'
-    distrobox-create --nvidia --image ghcr.io/ublue-os/fedora-distrobox:latest -n fedora -Y
-
-# Create an openSUSE container
-distrobox-opensuse:
-    echo 'Creating openSUSE distrobox ...'
-    distrobox-create --nvidia --image quay.io/toolbx-images/opensuse-toolbox:tumbleweed -n opensuse -Y
-
-# Create an Ubuntu container
-distrobox-ubuntu:
-    echo 'Creating Ubuntu distrobox ...'
-    distrobox-create --nvidia --image quay.io/toolbx-images/ubuntu-toolbox:22.04 -n ubuntu -Y
-
-# Create an Alma Linux container
-distrobox-alma:
-    echo 'Creating Alma distrobox ...'
-    distrobox-create --nvidia --image quay.io/toolbx-images/almalinux-toolbox:latest -n alma -Y
-
-# Create a Centos (Stream) container
-distrobox-centos:
-    echo 'Creating Centos (Stream) distrobox ...'
-    distrobox-create --nvidia --image quay.io/toolbx-images/centos-toolbox:latest -n centos -Y
-
-# Create a RHEL8 container
-distrobox-rhel8:
-    #!/usr/bin/env bash
-    if ! grep -q "registry.redhat.io" $XDG_RUNTIME_DIR/containers/auth.json; then
-      echo "Please login using your Red Hat Account or Red Hat Developer Account ..."
-      podman login registry.redhat.io
+    # Create the distrobox
+    Distrobox "$IMAGE" "$NAME" "$HOMEDIR" $ARGS
+    # If IMAGE is bazzite-arch, link to documentation
+    if [ "${IMAGE,,}" == "bazzite-arch" ]; then
+      echo $(Urllink "https://github.com/ublue-os/bazzite-arch" "Check out the docs for exportable apps and instructions")
     fi
-    echo 'Creating RHEL 8 distrobox ...'
-    distrobox-create --nvidia --image registry.redhat.io/rhel8/toolbox:latest -n rhel8 -Y
 
-# Create a RHEL9 container
-distrobox-rhel9:
-    #!/usr/bin/env bash
-    if ! grep -q "registry.redhat.io" $XDG_RUNTIME_DIR/containers/auth.json; then
-      echo "Please login using your Red Hat Account or Red Hat Developer Account ..."
-      podman login registry.redhat.io
-    fi
-    echo 'Creating RHEL 9 distrobox ...'
-    distrobox-create --nvidia --image registry.redhat.io/rhel9/toolbox:latest -n rhel9 -Y
-
-# Create a RHEL UBI8 container
-distrobox-rhel-ubi8:
-    echo 'Creating RHEL UBI8 distrobox ...'
-    distrobox-create --nvidia --image registry.access.redhat.com/ubi8/toolbox:latest -n rhel-ubi8 -Y
-
-# Create a RHEL UBI9 container
-distrobox-rhel-ubi9:
-    echo 'Creating RHEL UBI9 distrobox ...'
-    distrobox-create --nvidia --image registry.access.redhat.com/ubi9/toolbox:latest -n rhel-ubi9 -Y
-
-# Create a homebrew container
-distrobox-brew:
-    echo 'Creating homebrew container ...'
-    distrobox-create --nvidia --image ghcr.io/homebrew/brew:latest -n brew -Y
+# Install specialized application containers (like brew)
+setup-distrobox-app CONTAINER="prompt":
+    #!/usr/bin/bash
+    source /usr/lib/ujust/ujust.sh
+    AssembleList create "/etc/distrobox/apps.ini" {{ CONTAINER }}
 
 # Install obs-studio-portable from wimpysworld, which bundles an extensive collection of 3rd party plugins
 install-obs-studio-portable:
-    echo 'Installing obs-studio-portable...' && \
-    distrobox-create --nvidia --no-entry --image ghcr.io/ublue-os/obs-studio-portable -n obs-studio-portable -Y && \
-    distrobox-enter -n obs-studio-portable -- 'bash -c "distrobox-export --app obs"'
+    #!/usr/bin/bash
+    source /usr/lib/ujust/ujust.sh
+    AssembleList create "/usr/etc/distrobox/apps.ini" "obs-studio-portable"
