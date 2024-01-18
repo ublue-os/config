@@ -89,17 +89,17 @@ setup-fleek ACTION="prompt":
       echo "  Use 'integrate' to integrate nix applications with system theme."
       exit 0
     fi
-    if [ "$OPTION" == "Install Fleek" ] || [ "${OPTION,,} == "install" ]; then
+    if [ "$OPTION" == "Install Fleek" ] || [ "${OPTION,,}" == "install" ]; then
       mkdir -p $HOME/.config/nix
       echo "experimental-features = nix-command flakes" >> $HOME/.config/nix/nix.conf
       curl -fsSL https://getfleek.dev/installer | env FORCE=1 bash
-    elif [ "$OPTION" == "Uninstall Fleek" ] || [ "${OPTION,,} == "remove" ]; then
+    elif [ "$OPTION" == "Uninstall Fleek" ] || [ "${OPTION,,}" == "remove" ]; then
       if [[ -x "/var/usrlocal/bin/fleek" ]]; then
         sudo rm -f /var/usrlocal/bin/fleek
       else
         echo "Fleek is not installed or has been already removed"
       fi
-    elif [ "$OPTION" == "Integrate Nix/Fleek applications with system theme" ] || [ "${OPTION,,} == "integrate" ]; then
+    elif [ "$OPTION" == "Integrate Nix/Fleek applications with system theme" ] || [ "${OPTION,,}" == "integrate" ]; then
       if [[ -x "/var/usrlocal/bin/fleek" ]]; then
         if command -v mutter; then
           fleek add adw-gtk3 --apply
