@@ -5,12 +5,11 @@ alias nix := setup-nix
 # Install, uninstall or configure nix
 setup-nix ACTION="prompt":
     #!/usr/bin/bash
+    source /usr/lib/ujust/ujust.sh
     CURRENT_STATE="Not Installed"
     if [ -f "/etc/systemd/system/nix-daemon.socket" ]; then
       CURRENT_STATE="Installed"
     fi
-    bold=$(tput bold)
-    normal=$(tput sgr0)
     OPTION={{ ACTION }}
     if [ "$OPTION" == "prompt" ]; then
       echo "Nix is currently: ${bold}${CURRENT_STATE}${normal}"
@@ -73,6 +72,7 @@ alias fleek := setup-fleek
 # Install, uninstall or configure Fleek (https://getfleek.dev/)
 setup-fleek ACTION="prompt":
     #!/usr/bin/bash
+    source /usr/lib/ujust/ujust.sh
     if [ ! -f "/etc/systemd/system/nix-daemon.socket" ]; then
       echo "Please install nix first by running ujust setup-nix"
       exit 0
@@ -118,6 +118,7 @@ alias devbox := setup-devbox
 # Install or uninstall devbox
 setup-devbox ACTION="prompt":
     #!/usr/bin/bash
+    source /usr/lib/ujust/ujust.sh
     if [ ! -f "/etc/systemd/system/nix-daemon.socket" ]; then
       echo "Please install nix first by running ujust setup-nix"
       exit 0
@@ -126,22 +127,27 @@ setup-devbox ACTION="prompt":
     if [ -f "/var/usrlocal/bin/devbox" ]; then
       CURRENT_STATE="Installed"
     fi
-    bold=$(tput bold)
-    normal=$(tput sgr0)
     OPTION={{ ACTION }}
     if [ "$OPTION" == "prompt" ]; then
       echo "Devbox is currently: ${bold}${CURRENT_STATE}${normal}"
       echo 'What would you like to do with devbox?'
-      OPTION=$(ugum choose Install Uninstall)
+      OPTION=$(ugum choose Install "Install Hooks" Uninstall)
     elif [ "$OPTION" == "help" ]; then
       echo "Usage: ujust toggle-updates <option>"
       echo "  <option>: Specify the quick option - 'install' or 'remove'"
       echo "  Use 'install' to Install devbox"
+      echo "  Use 'global' to Install devbox global hooks"
       echo "  Use 'remove' to Remove devbox."
       exit 0
     fi
     if [ "${OPTION,,}" == "install" ]; then
       curl -fsSL https://get.jetpack.io/devbox | bash
+    elif [ "${OPTION,,}" == "install hooks" ] || [ "${OPTION,,}" == "global" ]; then
+      echo 'Installing devbox global profile.'
+      devbox global pull https://devbox.getfleek.dev/high
+      echo 'run "devbox global run install-bash-hook" to configure bash shell'
+      echo 'run "devbox global run install-zsh-hook" to configure zsh shell'
+      echo 'run "devbox global run" to see other available configuration commands'
     elif [ "${OPTION,,}" == "uninstall" ] || [ "${OPTION,,}" == "remove" ]; then
       if [[ -x "/var/usrlocal/bin/devbox" ]]; then
         sudo rm -f /var/usrlocal/bin/devbox

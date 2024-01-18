@@ -15,12 +15,12 @@ GUM=$(which gum 2>/dev/null)
 # Check if fzf is installed and set it as the handler
 FALLBACK_HANDLER=$(which fzf 2>/dev/null)
 HANDLER=""
-if [[ ! -z $FALLBACK_HANDLER ]]; then
+if [[ -n $FALLBACK_HANDLER ]]; then
     HANDLER="fzf"
 fi
 
 # If $MENU is set
-if [[ ! -z $MENU ]]; then
+if [[ -n $MENU ]]; then
     for BIN in "${SUPPORTED_HANDLERS[@]}"
     do
         if [[ "$BIN" == "$MENU" ]]; then
@@ -29,10 +29,16 @@ if [[ ! -z $MENU ]]; then
     done
 fi
 
+# Logic for what to do if gum is not installed
 function noGum () {
     if [[ -z "$1" ]]; then
         # If no arguments are provided then error with 
         echo "ugum supports only choose or confirm as the first argument!"
+        echo "Usage:"
+        echo '    ugum choose option1 option2 \"option 3\"'
+        echo '        Returns: selected string'
+        echo '    ugum confirm "this is an optional question'
+        echo '        Returns: exit code in $? will be 0 for YES and 1 for NO'
         exit 5
     elif [[ "$1" == "choose" ]]; then
         # If choose is the verb then run the choose function and pass all remaining args to an appropriate handler
@@ -55,6 +61,7 @@ function noGum () {
     fi
 }
 
+# Implements a generic bash choice dialog
 function choose_Generic () {
     # Change PS3 to our select prompt
     PS3='Please enter your choice: '
@@ -87,6 +94,7 @@ function choose_Generic () {
     done 
 }
 
+# Implements a choice dialog using fzf
 function choose_Fzf () {
     # Change our select prompt
     PROMPT='Please select your choice: '
@@ -108,9 +116,10 @@ function choose_Fzf () {
     done
 
     # Make a select prompt using fzf
-    echo -e $OPTIONS | fzf --height="~20%" --prompt="$PROMPT"
+    echo -e "$OPTIONS" | fzf --layout=reverse --height="~20%" --prompt="$PROMPT"
 }
 
+# Implements a generic bash confirm dialog
 function confirm_Generic () {
     # Set default prompt
     PROMPT="Are you sure?"
@@ -128,14 +137,16 @@ function confirm_Generic () {
     confirm_Parse "$YESNO"
 }
 
+# Implements a confirm dialog in fzf
 function confirm_Fzf () {
     PROMPT=$(confirm_getPrompt "$@")
 
     # Make the confirm prompt using fzf and read response
-    YESNO=$(echo -e "Yes\nNo" | fzf --height="~20%" --prompt="$PROMPT ")
+    YESNO=$(echo -e "Yes\nNo" | fzf --layout=reverse --height="~20%" --prompt="$PROMPT ")
     confirm_Parse "$YESNO"
 }
 
+# Gets the prompt for the confirm dialog, with a fallback to "Are you sure?"
 function confirm_getPrompt () {
     # Set default prompt
     PROMPT="Are you sure?"
@@ -149,9 +160,10 @@ function confirm_getPrompt () {
     done
 
     # Return the prompt
-    echo $PROMPT
+    echo "$PROMPT"
 }
 
+# Parse the confirm response and translate it the same exit codes gum uses
 function confirm_Parse () {
     case "$@" in
         [Yy]*)

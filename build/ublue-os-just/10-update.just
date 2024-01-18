@@ -80,12 +80,11 @@ alias auto-update := toggle-updates
 # Turn automatic updates on or off
 toggle-updates ACTION="prompt":
     #!/usr/bin/bash
+    source /usr/lib/ujust/ujust.sh
     CURRENT_STATE="Disabled"
     if systemctl is-enabled ublue-update.timer | grep -q enabled; then
       CURRENT_STATE="Enabled"
     fi
-    bold=$(tput bold)
-    normal=$(tput sgr0)
     OPTION={{ ACTION }}
     if [ "$OPTION" == "prompt" ]; then
       echo "Automatic updates are currently: ${bold}${CURRENT_STATE}${normal}"

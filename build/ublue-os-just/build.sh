@@ -10,6 +10,10 @@ cp ${SCRIPT_DIR}/*.just /tmp/ublue-os/rpmbuild/SOURCES
 cp ${SCRIPT_DIR}/ublue-os-just.sh /tmp/ublue-os/rpmbuild/SOURCES
 cp ${SCRIPT_DIR}/ujust /tmp/ublue-os/rpmbuild/SOURCES
 cp ${SCRIPT_DIR}/ugum /tmp/ublue-os/rpmbuild/SOURCES
+cp ${SCRIPT_DIR}/lib-ujust/ujust.sh /tmp/ublue-os/rpmbuild/SOURCES
+cp ${SCRIPT_DIR}/lib-ujust/libcolors.sh /tmp/ublue-os/rpmbuild/SOURCES
+cp ${SCRIPT_DIR}/lib-ujust/libformatting.sh /tmp/ublue-os/rpmbuild/SOURCES
+cp ${SCRIPT_DIR}/lib-ujust/libfunctions.sh /tmp/ublue-os/rpmbuild/SOURCES
 
 rpmbuild -ba \
     --define '_topdir /tmp/ublue-os/rpmbuild' \
