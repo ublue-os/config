@@ -3,7 +3,7 @@
 alias assemble := distrobox-assemble
 
 # Create distroboxes from a defined manifest
-distrobox-assemble CONTAINER="prompt" ACTION="create" FILE="/usr/etc/distrobox/distrobox.ini":
+distrobox-assemble CONTAINER="prompt" ACTION="create" FILE="/etc/distrobox/distrobox.ini":
     #!/usr/bin/bash
     # Distroboxes are gathered from distrobox.ini, please add them there
     source /usr/lib/ujust/ujust.sh
@@ -104,4 +104,4 @@ setup-distrobox-app CONTAINER="prompt":
 install-obs-studio-portable:
     #!/usr/bin/bash
     source /usr/lib/ujust/ujust.sh
-    AssembleList create "/usr/etc/distrobox/apps.ini" "obs-studio-portable"
+    AssembleList create "/etc/distrobox/apps.ini" "obs-studio-portable"

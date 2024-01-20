@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.23
+Version:        0.24
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -27,6 +27,8 @@ Source13:       libcolors.sh
 Source14:       libformatting.sh
 Source15:       libfunctions.sh
 Source16:       libdistrobox.sh
+Source17:       apps.ini
+Source18:       distrobox.ini
 
 %global sub_name %{lua:t=string.gsub(rpm.expand("%{NAME}"), "^ublue%-os%-", ""); print(t)}
 
@@ -62,6 +64,11 @@ install -Dm644 %{SOURCE14} %{buildroot}/%{_exec_prefix}/lib/ujust
 install -Dm644 %{SOURCE15} %{buildroot}/%{_exec_prefix}/lib/ujust
 install -Dm644 %{SOURCE16} %{buildroot}/%{_exec_prefix}/lib/ujust
 
+# Add default manifest files for distrobox
+mkdir -p -m0755 %{buildroot}/%{_sysconfdir}/distrobox
+install -Dm644 %{SOURCE17} %{buildroot}/%{_sysconfdir}/distrobox
+install -Dm644 %{SOURCE18} %{buildroot}/%{_sysconfdir}/distrobox
+
 %files
 %dir %attr(0755,root,root) %{_datadir}/%{VENDOR}/%{sub_name}
 %attr(0755,root,root) %{_sysconfdir}/profile.d/ublue-os-just.sh
@@ -71,6 +78,7 @@ install -Dm644 %{SOURCE16} %{buildroot}/%{_exec_prefix}/lib/ujust
 %attr(0755,root,root) %{_bindir}/ugum
 %attr(0644,root,root) %{_exec_prefix}/lib/ujust/ujust.sh
 %attr(0644,root,root) %{_exec_prefix}/lib/ujust/lib*.sh
+%attr(0644,root,root) %{_sysconfdir}/distrobox/*.ini
 
 %post
 # Generate ujust bash completion
@@ -78,6 +86,9 @@ just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-
 chmod 644 %{_datadir}/bash-completion/completions/ujust 
 
 %changelog
+* Sat Jan 20 2024 HikariKnight <2557889+HikariKnight@users.noreply.github.com> - 0.24
+- Add default distrobox manifests as part of rpm
+
 * Thu Jan 18 2024 HikariKnight <2557889+HikariKnight@users.noreply.github.com> - 0.23
 - Added tooling for distrobox
 
