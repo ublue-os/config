@@ -15,6 +15,8 @@ cp ${SCRIPT_DIR}/lib-ujust/libcolors.sh /tmp/ublue-os/rpmbuild/SOURCES
 cp ${SCRIPT_DIR}/lib-ujust/libformatting.sh /tmp/ublue-os/rpmbuild/SOURCES
 cp ${SCRIPT_DIR}/lib-ujust/libfunctions.sh /tmp/ublue-os/rpmbuild/SOURCES
 cp ${SCRIPT_DIR}/lib-ujust/libdistrobox.sh /tmp/ublue-os/rpmbuild/SOURCES
+cp ${SCRIPT_DIR}/etc-distrobox/apps.ini /tmp/ublue-os/rpmbuild/SOURCES
+cp ${SCRIPT_DIR}/etc-distrobox/distrobox.ini /tmp/ublue-os/rpmbuild/SOURCES
 
 rpmbuild -ba \
     --define '_topdir /tmp/ublue-os/rpmbuild' \
