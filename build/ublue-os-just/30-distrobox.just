@@ -98,10 +98,10 @@ distrobox-new IMAGE="prompt" NAME="prompt" HOMEDIR="":
 setup-distrobox-app CONTAINER="prompt":
     #!/usr/bin/bash
     source /usr/lib/ujust/ujust.sh
-    AssembleList create "/etc/distrobox/apps.ini" {{ CONTAINER }}
+    AssembleList "/etc/distrobox/apps.ini" create {{ CONTAINER }}
 
 # Install obs-studio-portable from wimpysworld, which bundles an extensive collection of 3rd party plugins
 install-obs-studio-portable:
     #!/usr/bin/bash
     source /usr/lib/ujust/ujust.sh
-    AssembleList create "/etc/distrobox/apps.ini" "obs-studio-portable"
+    AssembleList "/etc/distrobox/apps.ini" create "obs-studio-portable"
