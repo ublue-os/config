@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.24
+Version:        0.25
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -29,6 +29,7 @@ Source15:       libfunctions.sh
 Source16:       libdistrobox.sh
 Source17:       apps.ini
 Source18:       distrobox.ini
+Source19:       user-motd.sh
 
 %global sub_name %{lua:t=string.gsub(rpm.expand("%{NAME}"), "^ublue%-os%-", ""); print(t)}
 
@@ -42,6 +43,7 @@ Adds ublue-os just integration for easier setup
 
 mkdir -p -m0755  %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 install -Dm755 %{SOURCE0}  %{buildroot}%{_sysconfdir}/profile.d/ublue-os-just.sh
+install -Dm755 %{SOURCE19}  %{buildroot}%{_sysconfdir}/profile.d/user-motd.sh
 cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE7} %{SOURCE8} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 
 # Create justfile which contains all .just files included in this package
@@ -72,6 +74,7 @@ install -Dm644 %{SOURCE18} %{buildroot}/%{_sysconfdir}/distrobox
 %files
 %dir %attr(0755,root,root) %{_datadir}/%{VENDOR}/%{sub_name}
 %attr(0755,root,root) %{_sysconfdir}/profile.d/ublue-os-just.sh
+%attr(0755,root,root) %{_sysconfdir}/profile.d/user-motd.sh
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/*.just
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/justfile
 %attr(0755,root,root) %{_bindir}/ujust
@@ -86,6 +89,9 @@ just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-
 chmod 644 %{_datadir}/bash-completion/completions/ujust 
 
 %changelog
+* Sat Jan 27 2024 Benjamin Sherman <benjamin@holyarmy.org> - 0.25
+- Add user-motd and just toggle
+
 * Sat Jan 20 2024 HikariKnight <2557889+HikariKnight@users.noreply.github.com> - 0.24
 - Add default distrobox manifests as part of rpm
 
