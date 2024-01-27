@@ -71,3 +71,15 @@ setup-distrobox-git:
 remove-brew:
     echo "Removing homebrew ..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
+
+# Toggle display of the user-motd in terminal
+toggle-user-motd:
+    #!/usr/bin/bash
+    if test -e "${HOME}/.config/no-show-user-motd"; then
+      rm -f "${HOME}/.config/no-show-user-motd"
+    else
+      if test ! -d "${HOME}/.config"; then
+        mkdir "${HOME}/.config"
+      fi
+      touch "${HOME}/.config/no-show-user-motd"
+    fi
