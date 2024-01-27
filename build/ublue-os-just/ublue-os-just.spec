@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.26
+Version:        0.27
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -86,9 +86,12 @@ install -Dm644 %{SOURCE18} %{buildroot}/%{_sysconfdir}/distrobox
 %post
 # Generate ujust bash completion
 just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-completion/completions/ujust
-chmod 644 %{_datadir}/bash-completion/completions/ujust 
+chmod 644 %{_datadir}/bash-completion/completions/ujust
 
 %changelog
+* Mon Jan 29 2024 RJ Trujillo <eyecantcu@pm.me> - 0.27
+- Add bluefin-cli and wolfi-toolbox to distrobox assemble config
+
 * Sat Jan 29 2024 Benjamin Sherman <benjamin@holyarmy.org> - 0.26
 - Improve versatility of user-motd
 
