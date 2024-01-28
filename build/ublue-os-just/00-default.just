@@ -83,3 +83,17 @@ toggle-user-motd:
       fi
       touch "${HOME}/.config/no-show-user-motd"
     fi
+
+# Install AM application manager to install and update appimages, extracted tar apps, and other static libraries
+setup-am-manager:
+    #!/usr/bin/bash
+    echo "Select an option for what you would like to do with am application manager."
+    OPTION=$(ugum choose "Install am" "Remove am")
+    if [ "$OPTION" == "Install am" ]; then
+      wget https://raw.githubusercontent.com/ivan-hc/AM-application-manager/main/INSTALL && chmod a+x ./INSTALL && sudo ./INSTALL
+    elif [ "$OPTION" == "Remove am" ]; then
+      sudo am -R am
+    else
+      echo 'Cancelling...'
+      exit 0
+    fi
