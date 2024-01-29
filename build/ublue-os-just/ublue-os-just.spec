@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.25
+Version:        0.26
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -89,6 +89,9 @@ just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-
 chmod 644 %{_datadir}/bash-completion/completions/ujust 
 
 %changelog
+* Sat Jan 29 2024 Benjamin Sherman <benjamin@holyarmy.org> - 0.26
+- Improve versatility of user-motd
+
 * Sat Jan 27 2024 Benjamin Sherman <benjamin@holyarmy.org> - 0.25
 - Add user-motd and just toggle
 
