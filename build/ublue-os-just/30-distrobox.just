@@ -20,8 +20,6 @@ distrobox-new IMAGE="prompt" NAME="prompt" HOMEDIR="":
     IMAGES='
       New
       Bazzite-arch
-      Rhel8-toolbox
-      Rhel9-toolbox
     '
     IMAGE={{ IMAGE }}
     NAME={{ NAME }}
@@ -62,30 +60,6 @@ distrobox-new IMAGE="prompt" NAME="prompt" HOMEDIR="":
         echo -en "Please enter a name for the container: "
         read NAME
       fi
-      case ${IMAGE,,} in
-        rhel8-toolbox)
-          if ! grep -q "registry.redhat.io" $XDG_RUNTIME_DIR/containers/auth.json; then
-            echo "Please login using your Red Hat Account or Red Hat Developer Account ..."
-            podman login registry.redhat.io
-          fi
-          if [ -z "$NAME" ]; then
-            NAME="rhel8"
-          fi
-          echo 'Creating RHEL 8 distrobox ...'
-          IMAGE="registry.redhat.io/rhel8/toolbox:latest"
-          ;;
-        rhel9-toolbox)
-          if ! grep -q "registry.redhat.io" $XDG_RUNTIME_DIR/containers/auth.json; then
-            echo "Please login using your Red Hat Account or Red Hat Developer Account ..."
-            podman login registry.redhat.io
-          fi
-          if [ -z "$NAME" ]; then
-            NAME="rhel9"
-          fi
-          echo 'Creating RHEL 9 distrobox ...'
-          IMAGE="registry.redhat.io/rhel9/toolbox:latest"
-          ;;
-      esac
     fi
     # Create the distrobox
     Distrobox "$IMAGE" "$NAME" "$HOMEDIR" $ARGS
