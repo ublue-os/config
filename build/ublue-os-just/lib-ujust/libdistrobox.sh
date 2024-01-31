@@ -74,6 +74,7 @@ function Assemble(){
         fi
         # Run the distrobox assemble command
         distrobox assemble "$ACTION" --file "$FILE" --replace
+        return $?
     else
         # Set distrobox name to provided name
         NAME="$3"
