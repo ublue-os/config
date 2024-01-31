@@ -1,0 +1,5 @@
+# Provides support for the Linksys AE1200 USB dongle. 
+# Since the device ID does not use the "brcmfmac" kernel module, it is added manually. 
+ACTION=="add",ATTRS{idVendor}=="13b1",ATTRS{idProduct}=="0bdc",
+RUN+="/sbin/modprobe brcmfmac"
+RUN+="/bin/sh -c 'echo 13b1 0bdc > /sys/bus/usb/drivers/brcmfmac/new_id'"
