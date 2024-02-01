@@ -92,7 +92,7 @@ setup-fleek ACTION="prompt":
     if [ "$OPTION" == "Install Fleek" ] || [ "${OPTION,,}" == "install" ]; then
       mkdir -p $HOME/.config/nix
       echo "experimental-features = nix-command flakes" >> $HOME/.config/nix/nix.conf
-      curl -fsSL https://getfleek.dev/installer | env FORCE=1 bash
+      nix run "https://getfleek.dev/latest.tar.gz" -- init
     elif [ "$OPTION" == "Uninstall Fleek" ] || [ "${OPTION,,}" == "remove" ]; then
       if [[ -x "/var/usrlocal/bin/fleek" ]]; then
         sudo rm -f /var/usrlocal/bin/fleek
