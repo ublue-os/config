@@ -21,14 +21,14 @@ function Distrobox (){
 
     # If a custom home directory is not specified
     if [ -z "$HOMEDIR" ]; then
-        distrobox create --nvidia -Y --image "$IMAGE" -n "$NAME" "${@:2}"
+        distrobox create --nvidia -Y --image "$IMAGE" -n "$NAME" "${@:3}"
     else
         # Make the custom homedir path if it does not exist
         if [ ! -d "$HOMEDIR" ]; then
             mkdir -p "$HOMEDIR"
         fi
         # Create distrobox with custom home path
-        distrobox create --nvidia -Y --image "$IMAGE" -n "$NAME" -H "$HOMEDIR" "${@:3}"
+        distrobox create --nvidia -Y --image "$IMAGE" -n "$NAME" -H "$HOMEDIR" "${@:4}"
     fi
 }
 
