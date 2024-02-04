@@ -14,6 +14,9 @@ function Toolbox (){
     # To decide if it is an image registry or a distro+release image argument
     local IMAGE="$2"
 
+    # Define local variables
+    local DISTRORELEASE
+
     # If the ACTION is "replace"
     if [ "$1" == "replace" ]; then
         # Set ACTION to create
