@@ -41,8 +41,12 @@ setup-nix ACTION="prompt":
       sudo rm -f /etc/systemd/system/nix-daemon.socket
       sudo cp /nix/var/nix/profiles/default/lib/systemd/system/nix-daemon.service /etc/systemd/system/nix-daemon.service
       sudo cp /nix/var/nix/profiles/default/lib/systemd/system/nix-daemon.socket /etc/systemd/system/nix-daemon.socket
+      sudo systemctl enable --now nix-daemon
+      sudo systemctl enable --now ensure-symlinked-units-resolve
     elif [ "${OPTION,,}" == "uninstall" ] || [ "${OPTION,,}" == "remove" ]; then
       sudo /nix/nix-installer uninstall
+      sudo systemctl disable --now nix-daemon
+      sudo systemctl disable --now ensure-symlinked-units-resolve
       sudo rm -f /etc/systemd/system/nix-daemon.service
       sudo rm -f /etc/systemd/system/nix-daemon.socket
     elif [ "$OPTION" == "Update nix user profile" ] || [ "${OPTION,,}" == "upgrade" ]; then
