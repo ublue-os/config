@@ -29,6 +29,9 @@ Source16:       libdistrobox.sh
 Source17:       apps.ini
 Source18:       distrobox.ini
 Source19:       user-motd.sh
+Source20:       libtoolbox.sh
+Source21:       toolbox.ini
+Source22:       31-toolbox.just
 
 %global sub_name %{lua:t=string.gsub(rpm.expand("%{NAME}"), "^ublue%-os%-", ""); print(t)}
 
@@ -43,7 +46,7 @@ Adds ublue-os just integration for easier setup
 mkdir -p -m0755  %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 install -Dm755 %{SOURCE0}  %{buildroot}%{_sysconfdir}/profile.d/ublue-os-just.sh
 install -Dm755 %{SOURCE19}  %{buildroot}%{_sysconfdir}/profile.d/user-motd.sh
-cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE7} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
+cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE7} %{SOURCE22} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 
 # Create justfile which contains all .just files included in this package
 # Apply header first due to default not working in included justfiles
@@ -64,11 +67,16 @@ install -Dm644 %{SOURCE13} %{buildroot}/%{_exec_prefix}/lib/ujust
 install -Dm644 %{SOURCE14} %{buildroot}/%{_exec_prefix}/lib/ujust
 install -Dm644 %{SOURCE15} %{buildroot}/%{_exec_prefix}/lib/ujust
 install -Dm644 %{SOURCE16} %{buildroot}/%{_exec_prefix}/lib/ujust
+install -Dm644 %{SOURCE20} %{buildroot}/%{_exec_prefix}/lib/ujust
 
 # Add default manifest files for distrobox
 mkdir -p -m0755 %{buildroot}/%{_sysconfdir}/distrobox
 install -Dm644 %{SOURCE17} %{buildroot}/%{_sysconfdir}/distrobox
 install -Dm644 %{SOURCE18} %{buildroot}/%{_sysconfdir}/distrobox
+
+# Add default manifest file for toolbox
+mkdir -p -m0755 %{buildroot}/%{_sysconfdir}/toolbox
+install -Dm644 %{SOURCE21} %{buildroot}/%{_sysconfdir}/toolbox
 
 %files
 %dir %attr(0755,root,root) %{_datadir}/%{VENDOR}/%{sub_name}
@@ -81,6 +89,7 @@ install -Dm644 %{SOURCE18} %{buildroot}/%{_sysconfdir}/distrobox
 %attr(0644,root,root) %{_exec_prefix}/lib/ujust/ujust.sh
 %attr(0644,root,root) %{_exec_prefix}/lib/ujust/lib*.sh
 %attr(0644,root,root) %{_sysconfdir}/distrobox/*.ini
+%attr(0644,root,root) %{_sysconfdir}/toolbox/*.ini
 
 %post
 # Generate ujust bash completion
@@ -88,13 +97,16 @@ just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-
 chmod 644 %{_datadir}/bash-completion/completions/ujust
 
 %changelog
+* Fri Feb 23 2024 HikariKnight <2557889+HikariKnight@users.noreply.github.com> - 0.29
+- Add option to use toolbox in ujust
+
 * Thu Feb 22 2024 Benjamin Sherman <benjamin@holyarmy.org> - 0.28
 - Remove nix justfile
 
 * Mon Jan 29 2024 RJ Trujillo <eyecantcu@pm.me> - 0.27
 - Add bluefin-cli and wolfi-toolbox to distrobox assemble config
 
-* Sat Jan 29 2024 Benjamin Sherman <benjamin@holyarmy.org> - 0.26
+* Mon Jan 29 2024 Benjamin Sherman <benjamin@holyarmy.org> - 0.26
 - Improve versatility of user-motd
 
 * Sat Jan 27 2024 Benjamin Sherman <benjamin@holyarmy.org> - 0.25
