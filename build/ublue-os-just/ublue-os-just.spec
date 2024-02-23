@@ -18,7 +18,6 @@ Source4:        30-distrobox.just
 Source5:        40-nvidia.just
 Source6:        50-akmods.just
 Source7:        60-custom.just
-Source8:        70-nix.just
 Source9:        ujust
 Source10:       ugum
 Source11:       header.just
@@ -47,7 +46,7 @@ Adds ublue-os just integration for easier setup
 mkdir -p -m0755  %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 install -Dm755 %{SOURCE0}  %{buildroot}%{_sysconfdir}/profile.d/ublue-os-just.sh
 install -Dm755 %{SOURCE19}  %{buildroot}%{_sysconfdir}/profile.d/user-motd.sh
-cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE7} %{SOURCE8} %{SOURCE22} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
+cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE7} %{SOURCE22} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 
 # Create justfile which contains all .just files included in this package
 # Apply header first due to default not working in included justfiles
@@ -98,8 +97,11 @@ just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-
 chmod 644 %{_datadir}/bash-completion/completions/ujust
 
 %changelog
-* Sun Feb 04 2024 HikariKnight <2557889+HikariKnight@users.noreply.github.com> - 0.28
+* Fri Feb 23 2024 HikariKnight <2557889+HikariKnight@users.noreply.github.com> - 0.29
 - Add option to use toolbox in ujust
+
+* Thu Feb 22 2024 Benjamin Sherman <benjamin@holyarmy.org> - 0.28
+- Remove nix justfile
 
 * Mon Jan 29 2024 RJ Trujillo <eyecantcu@pm.me> - 0.27
 - Add bluefin-cli and wolfi-toolbox to distrobox assemble config
