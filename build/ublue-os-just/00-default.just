@@ -39,10 +39,6 @@ regenerate-grub:
       sudo grub2-mkconfig -o /etc/grub2.cfg
     fi
 
-# Show the changelog
-changelogs:
-    rpm-ostree db diff --changelogs
-
 # Enroll Nvidia driver & KMOD signing key for secure boot - Enter password "ublue-os" if prompted
 enroll-secure-boot-key:
     echo 'Enter password "ublue-os" if prompted after your user password.'
