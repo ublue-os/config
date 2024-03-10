@@ -71,3 +71,43 @@ toggle-nvk:
     fi
     echo "Rebasing to ${NEW_IMAGE}"
     rpm-ostree rebase ${CURRENT_URI}${NEW_IMAGE}
+
+# Configure Nvidia Optimus
+configure-nvidia-optimus ACTION="prompt":
+    #!/usr/bin/pkexec /usr/bin/bash
+    source /usr/lib/ujust/ujust.sh
+    OPTION={{ ACTION }}
+    if [ "$OPTION" == "prompt" ]; then
+      echo "${bold}Configuring Nvidia Optimus${normal}"
+      echo 'What would you like to do?'
+      OPTION=$(ugum choose "Set fine-grained dynamic power management" "Apply gnome-shell iGPU workaround")
+    elif [ "$OPTION" == "help" ]; then
+      echo "Usage: ujust configure-nvidia-optimus <option>"
+      echo "  <option>: Specify the quick option - 'power-management' or 'igpu-workaround'"
+      echo "  Use 'power-management' to Set fine-grained dynamic power management."
+      echo "  Use 'igpu-workaround' to Apply gnome-shell iGPU workaround."
+      exit 0
+    fi
+    if [ "$OPTION" == "Set fine-grained dynamic power management" ] || [ "${OPTION,,}" == "power-management" ]; then
+      if command -v nvidia-smi; then
+        if [ ! -f /etc/modprobe.d/nvidia.conf ] || ! grep -qF "NVreg_DynamicPowerManagement" /etc/modprobe.d/nvidia.conf; then
+          echo "# https://download.nvidia.com/XFree86/Linux-x86_64/545.29.06/README/dynamicpowermanagement.html" >> /etc/modprobe.d/nvidia.conf
+          echo "options nvidia NVreg_DynamicPowerManagement=0x02" >> /etc/modprobe.d/nvidia.conf
+        else 
+          echo 'Already applied fine-grained dynamic power management.'
+        fi
+      else
+        echo 'You do not appear to be on a Nvidia image, please refer to the README for your uBlue-OS image.'
+      fi
+    elif [ "$OPTION" == "Apply gnome-shell iGPU workaround" ] || [ "${OPTION,,}" == "igpu-workaround" ]; then
+      if command -v nvidia-smi; then
+        if [ ! -f /etc/environment ] || ! grep -qF "__EGL_VENDOR_LIBRARY_FILENAMES" /etc/environment; then
+          echo "# https://gitlab.gnome.org/GNOME/mutter/-/issues/2969#note_1816890" >> /etc/environment
+          echo "__EGL_VENDOR_LIBRARY_FILENAMES=/usr/share/glvnd/egl_vendor.d/50_mesa.json" >> /etc/environment
+        else
+          echo 'Already applied gnome-shell iGPU workaround.'
+        fi
+      else
+        echo 'You do not appear to be on a Nvidia image, please refer to the README for your uBlue-OS image.'
+      fi
+    fi
