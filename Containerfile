@@ -22,7 +22,7 @@ RUN mkdir -p /tmp/Sunshine/ && \
 mkdir -p /usr/etc/udev/rules.d/ && \
 pushd /tmp/Sunshine && \
 git clone --depth 1 https://github.com/LizardByte/Sunshine . && \
-mv /tmp/Sunshine/src_assets/linux/misc/85-sunshine.rules /tmp/ublue-os/udev-rules/etc/udev/rules.d/86-sunshine-ublue.rules && \
+mv /tmp/Sunshine/src_assets/linux/misc/60-sunshine.rules /tmp/ublue-os/udev-rules/etc/udev/rules.d/60-sunshine-ublue.rules && \
 popd && \
 rm -rf /tmp/Sunshine
 
