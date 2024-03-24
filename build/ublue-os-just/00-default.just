@@ -63,7 +63,9 @@ setup-distrobox-git:
       exit 0
     fi
 
-# installs homebrew on the system
+alias brew := install-brew
+
+# Install Homebrew | https://brew.sh
 install-brew:
     #!/usr/bin/env bash
     source /usr/lib/ujust/ujust.sh
