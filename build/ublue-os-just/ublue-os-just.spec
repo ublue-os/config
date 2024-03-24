@@ -32,6 +32,7 @@ Source19:       user-motd.sh
 Source20:       libtoolbox.sh
 Source21:       toolbox.ini
 Source22:       31-toolbox.just
+Source23:       brew.sh
 
 %global sub_name %{lua:t=string.gsub(rpm.expand("%{NAME}"), "^ublue%-os%-", ""); print(t)}
 
@@ -46,6 +47,7 @@ Adds ublue-os just integration for easier setup
 mkdir -p -m0755  %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 install -Dm755 %{SOURCE0}  %{buildroot}%{_sysconfdir}/profile.d/ublue-os-just.sh
 install -Dm755 %{SOURCE19}  %{buildroot}%{_sysconfdir}/profile.d/user-motd.sh
+install -Dm755 %{SOURCE23}  %{buildroot}%{_sysconfdir}/profile.d/brew.sh
 cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE7} %{SOURCE22} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 
 # Create justfile which contains all .just files included in this package
@@ -82,6 +84,7 @@ install -Dm644 %{SOURCE21} %{buildroot}/%{_sysconfdir}/toolbox
 %dir %attr(0755,root,root) %{_datadir}/%{VENDOR}/%{sub_name}
 %attr(0755,root,root) %{_sysconfdir}/profile.d/ublue-os-just.sh
 %attr(0755,root,root) %{_sysconfdir}/profile.d/user-motd.sh
+%attr(0755,root,root) %{_sysconfdir}/profile.d/brew.sh
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/*.just
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/justfile
 %attr(0755,root,root) %{_bindir}/ujust
@@ -97,6 +100,9 @@ just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-
 chmod 644 %{_datadir}/bash-completion/completions/ujust
 
 %changelog
+* Sun Mar 23 2024 gerblesh <101901964+gerblesh@users.noreply.github.com> - 0.29
+- Add brew config to /etc/profile.d
+
 * Fri Feb 23 2024 HikariKnight <2557889+HikariKnight@users.noreply.github.com> - 0.29
 - Add option to use toolbox in ujust
 
