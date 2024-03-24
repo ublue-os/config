@@ -75,7 +75,7 @@ install-brew:
         echo "Please type in \"YES I UNDERSTAND\" and press enter"
         read ACCEPT
         if [ "$ACCEPT" == "YES I UNDERSTAND" ]; then
-          curl https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | /usr/bin/bash -c
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         else
           echo "Capitalization matters when you type \"YES I UNDERSTAND\""
         fi
