@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.28
+Version:        0.30
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -100,7 +100,7 @@ just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-
 chmod 644 %{_datadir}/bash-completion/completions/ujust
 
 %changelog
-* Sun Mar 23 2024 gerblesh <101901964+gerblesh@users.noreply.github.com> - 0.29
+* Sun Mar 24 2024 gerblesh <101901964+gerblesh@users.noreply.github.com> - 0.30
 - Add brew config to /etc/profile.d
 
 * Fri Feb 23 2024 HikariKnight <2557889+HikariKnight@users.noreply.github.com> - 0.29
