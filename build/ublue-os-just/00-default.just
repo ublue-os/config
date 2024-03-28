@@ -5,7 +5,12 @@ shell := `grep :$(id -u): /etc/passwd | cut -d: -f7`
 
 # Boot into this device's BIOS/UEFI screen
 bios:
-    systemctl reboot --firmware-setup
+    #!/usr/bin/bash
+    if [ -d /sys/firmware/efi ]; then
+      systemctl reboot --firmware-setup
+    else
+      echo "Rebooting to legacy BIOS from OS is not supported."
+    fi
 
 # Show all messages from this boot
 logs-this-boot:
