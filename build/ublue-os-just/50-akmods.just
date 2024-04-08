@@ -29,7 +29,7 @@ configure-broadcom-wl ACTION="prompt":
       echo "${bold}Disabled${normal} Broadcom Wireless, please reboot for changes to take effect"
     fi
 
-# Configure/Add Fido/Yubi key to an Encrypted disk with key priority 
+# Configure/Add Fido/Yubi key to an Encrypted disk with key priority
 configure-fido2:
     #!/usr/bin/bash
     if [ "$EUID" -ne 0 ]
@@ -93,7 +93,6 @@ configure-fido2:
         [Yy]* ) systemd-cryptenroll --fido2-device=auto --fido2-with-user-verification=true $device;;
         *) echo "not enrolling a new key" ;;
     esac
-    ### edit the crypttab like for the luks volume if needed
     luksline=$(grep -r $luks /etc/crypttab)
     if [[ ! "$luksline" = *"fido2-device"* ]] ; then
         opts=$(echo $luksline | awk '{print $4}')
