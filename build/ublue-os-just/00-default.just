@@ -147,3 +147,9 @@ check-local-overrides:
       --exclude="cdi" \
       --exclude="default.target" \
       /usr/etc /etc 2>/dev/null | sed '/Binary\ files\ /d'
+
+# Gather device info to a pastebin
+device-info:
+    #!/usr/bin/bash
+    echo "Gathering device info..."
+    fpaste <(rpm-ostree status) <(fpaste --sysinfo --printonly)
