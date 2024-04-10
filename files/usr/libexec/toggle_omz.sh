@@ -2,6 +2,12 @@
 
 install_omz()
 {
+	if [ -d "$HOME/.oh-my-zsh" ]
+	then
+		echo "ohmyzsh is already installed."
+		exit 1
+	fi
+
 	if ! command -v zsh &> /dev/null
 	then
 		echo "Unable to install ohmyzsh. Please install zsh first."
@@ -54,6 +60,12 @@ install_omz()
 
 uninstall_omz()
 {
+	if ! [ -d "$HOME/.oh-my-zsh" ]
+	then
+		echo "ohmyzsh was not found. Uninstall failed."
+		exit 1
+	fi
+
 	# Add missing permissions so the script can run
 	# Note: You're supposed to have a command to uninstall omz,
 	# but it doesn't seem to work from scripts, so I just run the script this command calls.
