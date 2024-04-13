@@ -153,7 +153,7 @@ device-info:
     #!/usr/bin/bash
     echo "Gathering device info..."
     fpaste <(rpm-ostree status) <(fpaste --sysinfo --printonly)
-    
+
 # Rebase to another release
 toggle-release ACTION="prompt":
     #!/usr/bin/env bash
