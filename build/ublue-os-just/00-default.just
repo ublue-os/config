@@ -182,11 +182,11 @@ toggle-release ACTION="prompt":
 		echo " ${green}${bold}You are already on this release!${normal}"
 		exit 0
 	fi
-	if [ "$OPTION" == "Latest" ]; then
+	if [ "$OPTION" == "Latest" || "$OPTION" == "latest" ]; then
 		echo "${bold}Rebasing to $CURRENT_IMAGE_BASE:latest${normal}"
 		rpm-ostree rebase "$CURRENT_URI$CURRENT_IMAGE_BASE:latest"
 	fi
-	if [ "$OPTION" == "GTS" ]; then
+	if [ "$OPTION" == "GTS" || "$OPTION" == "gts" ]; then
 		echo "${bold}Rebasing to $CURRENT_IMAGE_BASE:gts${normal}"
 		rpm-ostree rebase "$CURRENT_URI$CURRENT_IMAGE_BASE:gts"
 	fi
