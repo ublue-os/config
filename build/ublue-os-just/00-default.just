@@ -170,12 +170,12 @@ toggle-release ACTION="prompt":
 	    OPTION=$(ugum choose "Latest" "GTS" "40" "39" "38")
     elif ["$OPTION" == "help" ]; then
 	    echo "Usage: ujust toggle-release <option>"
-	    echo "	<option>: Specify the quick option - 'latest', 'gts', '40', '39', or '38'"
-	    echo "	Use 'latest' to currently rebase to F39"
-	    echo "	Use 'gts' to currently rebase to F38"
-	    echo "	Use '40' to lock device to F40"
-	    echo "	Use '39' to lock device to F39"
-	    echo "	Use '38' to lock device to F38"
+	    echo "  <option>: Specify the quick option - 'latest', 'gts', '40', '39', or '38'"
+	    echo "  Use 'latest' to currently rebase to F39"
+	    echo "  Use 'gts' to currently rebase to F38"
+	    echo "  Use '40' to lock device to F40"
+	    echo "  Use '39' to lock device to F39"
+	    echo "  Use '38' to lock device to F38"
 	    exit 0
     fi
     if [ "$OPTION" == "$CURRENT_IMAGE_VERSION" ]; then
