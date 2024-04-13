@@ -153,3 +153,52 @@ device-info:
     #!/usr/bin/bash
     echo "Gathering device info..."
     fpaste <(rpm-ostree status) <(fpaste --sysinfo --printonly)
+    
+# Rebase to another release
+toggle-release ACTION="prompt":
+	#!/usr/bin/env bash
+	source /usr/lib/ujust/ujust.sh
+	CURRENT_IMAGE=$(rpm-ostree status -b --json | jq -r '.deployments[0]."container-image-reference"' | sed -E 's/^.+\/(.+:.+)$/\1/')
+	CURRENT_IMAGE_BASE=$(rpm-ostree status -b --json | jq -r '.deployments[0]."base-commit-meta"."ostree.container.image-config"' | jq -r '.config.Labels."org.opencontainers.image.title"')
+	CURRENT_IMAGE_VERSION=$(rpm-ostree status -b --json | jq -r '.deployments[0]."base-commit-meta"."ostree.container.image-config"' | jq -r '.config.Labels."org.opencontainers.image.version"' | sed -r 's/[.](.*)//g')
+	CURRENT_URI=$(rpm-ostree status -b --json | jq -r '.deployments[0]."container-image-reference"' | sed -E 's/^(.+\/).+:.+$/\1/')
+	OPTION={{ ACTION }}
+	if [ "$OPTION" == "prompt" ]; then
+		echo "${bold}Version Rebase${normal}"
+		echo "Current release: $CURRENT_IMAGE"
+		echo 'Which version would you like to rebase to?'
+		OPTION=$(ugum choose "Latest" "GTS" "40" "39" "38")
+	elif ["$OPTION" == "help" ]; then
+		echo "Usage: ujust toggle-release <option>"
+		echo "	<option>: Specify the quick option - 'latest', 'gts', '40', '39', or '38'"
+		echo "	Use 'latest' to currently rebase to F39"
+		echo "	Use 'gts' to currently rebase to F38"
+		echo "	Use '40' to lock device to F40"
+		echo "	Use '39' to lock device to F39"
+		echo "	Use '38' to lock device to F38"
+		exit 0
+	fi
+	if [ "$OPTION" == "$CURRENT_IMAGE_VERSION" ]; then
+		echo " ${green}${bold}You are already on this release!${normal}"
+		exit 0
+	fi
+	if [ "$OPTION" == "Latest" ]; then
+		echo "${bold}Rebasing to $CURRENT_IMAGE_BASE:latest${normal}"
+		rpm-ostree rebase "$CURRENT_URI$CURRENT_IMAGE_BASE:latest"
+	fi
+	if [ "$OPTION" == "GTS" ]; then
+		echo "${bold}Rebasing to $CURRENT_IMAGE_BASE:gts${normal}"
+		rpm-ostree rebase "$CURRENT_URI$CURRENT_IMAGE_BASE:gts"
+	fi
+	if [ "$OPTION" == "40" ]; then
+		echo "${bold}Rebasing to $CURRENT_IMAGE_BASE:40${normal}"
+		rpm-ostree rebase "$CURRENT_URI$CURRENT_IMAGE_BASE:40"
+	fi
+	if [ "$OPTION" == "39" ]; then
+		echo "${bold}Rebasing to $CURRENT_IMAGE_BASE:39${normal}"
+		rpm-ostree rebase "$CURRENT_URI$CURRENT_IMAGE_BASE:39"
+	fi
+	if [ "$OPTION" == "38" ]; then
+		echo "${bold}Rebasing to $CURRENT_IMAGE_BASE:38${normal}"
+		rpm-ostree rebase "$CURRENT_URI$CURRENT_IMAGE_BASE:38"
+	fi
