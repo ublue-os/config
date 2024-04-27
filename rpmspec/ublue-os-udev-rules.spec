@@ -1,7 +1,7 @@
 Name:           ublue-os-udev-rules
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.7
+Version:        0.8
 Release:        1%{?dist}
 Summary:        Additional udev files for device support
 
@@ -45,6 +45,9 @@ cp %{buildroot}%{_datadir}/%{VENDOR}/{%{sub_name}/etc/udev/rules.d,game-devices-
 
 
 %changelog
+* Fri Apr 26 2024 Kyle Gospodnetich <me@kylegospodneti.ch> - 0.8
+- Add Framework Computer udev rules
+
 * Mon Oct 23 2023 Benjamin Sherman <benjamin@holyarmy.org> - 0.7
 - Rename Sunshine and OpenTabletDriver rules files to prevent filename collisions
 
