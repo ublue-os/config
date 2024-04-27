@@ -13,7 +13,7 @@ mkdir -p /usr/etc/udev/rules.d/ && \
 curl -s https://api.github.com/repos/OpenTabletDriver/OpenTabletDriver/releases/latest \
 | jq -r '.assets | sort_by(.created_at) | .[] | select (.name|test("opentabletdriver.*tar.gz$")) | .browser_download_url' \
 | wget -qi - -O /tmp/OpenTabletDriver/opentabletdriver.tar.gz && \
-tar --strip-components=1 -xvzf /tmp/OpenTabletDriver/opentabletdriver.tar.gz -C /tmp/OpenTabletDriver && \
+tar --strip-components 1 --no-same-owner --no-same-permissions --no-overwrite-dir -xvzf /tmp/OpenTabletDriver/opentabletdriver.tar.gz -C /tmp/OpenTabletDriver && \
 mv /tmp/OpenTabletDriver/etc/udev/rules.d/70-opentabletdriver.rules /tmp/ublue-os/udev-rules/etc/udev/rules.d/71-opentabletdriver-ublue.rules && \
 rm -rf /tmp/OpenTabletDriver
 
