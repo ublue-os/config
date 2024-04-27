@@ -1,4 +1,5 @@
-FROM registry.fedoraproject.org/fedora:latest AS builder
+# TODO: Fix tar on Fedora 40
+FROM registry.fedoraproject.org/fedora:39 AS builder
 
 RUN dnf install --disablerepo='*' --enablerepo='fedora,updates' --setopt install_weak_deps=0 --nodocs --assumeyes rpm-build systemd-rpm-macros wget jq git
 
@@ -25,6 +26,10 @@ git clone --depth 1 https://github.com/LizardByte/Sunshine . && \
 mv /tmp/Sunshine/src_assets/linux/misc/60-sunshine.rules /tmp/ublue-os/udev-rules/etc/udev/rules.d/60-sunshine-ublue.rules && \
 popd && \
 rm -rf /tmp/Sunshine
+
+# Install Framework Computer udev rules from their inputmodule-rs package
+RUN mkdir -p /usr/etc/udev/rules.d/ && \
+wget https://raw.githubusercontent.com/FrameworkComputer/inputmodule-rs/main/release/50-framework-inputmodule.rules -O /usr/etc/udev/rules.d/50-framework-inputmodule.rules
 
 ADD files/etc/rpm-ostreed.conf /tmp/ublue-os/update-services/etc/rpm-ostreed.conf
 ADD files/usr/etc/systemd /tmp/ublue-os/update-services/usr/etc/systemd
