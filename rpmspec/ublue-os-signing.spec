@@ -24,8 +24,8 @@ mkdir -p -m0755 %{buildroot}%{_datadir}/%{VENDOR}
 mkdir -p -m0755 %{buildroot}%{_exec_prefix}/etc/containers/registries.d
 mkdir -p -m0755 %{buildroot}%{_exec_prefix}/etc/pki
 
-tar xf %{SOURCE0} -C %{buildroot}%{_datadir}/%{VENDOR} --strip-components=1
-tar xf %{SOURCE0} -C %{buildroot} --strip-components=2
+tar xf %{SOURCE0} -C %{buildroot}%{_datadir}/%{VENDOR} --strip-components=1 --no-same-owner --no-same-permissions --no-overwrite-dir
+tar xf %{SOURCE0} -C %{buildroot} --strip-components=2 --no-same-owner --no-same-permissions --no-overwrite-dir
 
 %files
 %dir %attr(0755,root,root) %{_datadir}/%{VENDOR}/%{sub_name}
