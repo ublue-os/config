@@ -29,7 +29,7 @@ rm -rf /tmp/Sunshine
 
 # Install Framework Computer udev rules from their inputmodule-rs package
 RUN mkdir -p /usr/etc/udev/rules.d/ && \
-wget https://raw.githubusercontent.com/FrameworkComputer/inputmodule-rs/main/release/50-framework-inputmodule.rules -O /usr/etc/udev/rules.d/50-framework-inputmodule.rules
+wget https://raw.githubusercontent.com/FrameworkComputer/inputmodule-rs/main/release/50-framework-inputmodule.rules -O /tmp/ublue-os/udev-rules/etc/udev/rules.d/50-framework-inputmodule.rules
 
 ADD files/etc/rpm-ostreed.conf /tmp/ublue-os/update-services/etc/rpm-ostreed.conf
 ADD files/usr/etc/systemd /tmp/ublue-os/update-services/usr/etc/systemd
