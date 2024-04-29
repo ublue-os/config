@@ -9,5 +9,3 @@ setup-luks-tpm-unlock:
 remove-luks-tpm-unlock:
     #!/usr/bin/bash
     sudo /usr/libexec/luks-disable-tpm2-autounlock
-
-
