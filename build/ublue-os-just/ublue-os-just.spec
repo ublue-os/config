@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.30
+Version:        0.31
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -9,6 +9,7 @@ URL:            https://github.com/ublue-os/config
 
 BuildArch:      noarch
 Requires:       just
+Requires:       ublue-os-luks
 
 Source0:        ublue-os-just.sh
 Source1:        00-default.just
@@ -18,6 +19,7 @@ Source4:        30-distrobox.just
 Source5:        40-nvidia.just
 Source6:        50-akmods.just
 Source7:        60-custom.just
+Source8:        15-luks.just
 Source9:        ujust
 Source10:       ugum
 Source11:       header.just
@@ -33,6 +35,7 @@ Source20:       libtoolbox.sh
 Source21:       toolbox.ini
 Source22:       31-toolbox.just
 Source23:       brew.sh
+Source24:       15-ublue-config.md
 
 %global sub_name %{lua:t=string.gsub(rpm.expand("%{NAME}"), "^ublue%-os%-", ""); print(t)}
 
@@ -48,7 +51,10 @@ mkdir -p -m0755  %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 install -Dm755 %{SOURCE0}  %{buildroot}%{_sysconfdir}/profile.d/ublue-os-just.sh
 install -Dm755 %{SOURCE19}  %{buildroot}%{_sysconfdir}/profile.d/user-motd.sh
 install -Dm755 %{SOURCE23}  %{buildroot}%{_sysconfdir}/profile.d/brew.sh
-cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE7} %{SOURCE22} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
+cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE7} %{SOURCE8} %{SOURCE22} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
+
+mkdir -p -m0755  %{buildroot}%{_datadir}/%{VENDOR}/motd/tips
+cp %{SOURCE24} %{buildroot}%{_datadir}/%{VENDOR}/motd/tips
 
 # Create justfile which contains all .just files included in this package
 # Apply header first due to default not working in included justfiles
@@ -87,6 +93,7 @@ install -Dm644 %{SOURCE21} %{buildroot}/%{_sysconfdir}/toolbox
 %attr(0755,root,root) %{_sysconfdir}/profile.d/brew.sh
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/*.just
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/justfile
+%attr(0644,root,root) %{_datadir}/%{VENDOR}/motd/tips/*.md
 %attr(0755,root,root) %{_bindir}/ujust
 %attr(0755,root,root) %{_bindir}/ugum
 %attr(0644,root,root) %{_exec_prefix}/lib/ujust/ujust.sh
@@ -100,6 +107,9 @@ just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-
 chmod 644 %{_datadir}/bash-completion/completions/ujust
 
 %changelog
+* Mon Apr 30 2024 Benjamin Sherman <benjamin@holyarmy.org> - 0.31
+- Add LUKS TPM autounlock support
+
 * Sun Mar 24 2024 gerblesh <101901964+gerblesh@users.noreply.github.com> - 0.30
 - Add brew config to /etc/profile.d
 

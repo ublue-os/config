@@ -52,6 +52,7 @@ RUN rpmbuild -ba \
 #This can be cleaner and put together with other RPMs in -config, I cant be bothered right now    
 ADD build /tmp/build
 RUN /tmp/build/ublue-os-just/build.sh
+RUN /tmp/build/ublue-os-luks/build.sh
 
 RUN mkdir /tmp/ublue-os/{files,rpms}
 
