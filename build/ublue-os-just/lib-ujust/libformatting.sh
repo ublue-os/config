@@ -38,5 +38,5 @@ function Urllink (){
     TEXT=$2
 
     # Generate a clickable hyperlink
-    printf "\e]8;;%s\e\\%s\e]8;;\e\\" "$URL" "$TEXT"
+    printf "\e]8;;%s\e\\%s\e]8;;\e\\" "$URL" "$TEXT${n}"
 }
