@@ -5,7 +5,12 @@ shell := `grep :$(id -u): /etc/passwd | cut -d: -f7`
 
 # Boot into this device's BIOS/UEFI screen
 bios:
-    systemctl reboot --firmware-setup
+    #!/usr/bin/bash
+    if [ -d /sys/firmware/efi ]; then
+      systemctl reboot --firmware-setup
+    else
+      echo "Rebooting to legacy BIOS from OS is not supported."
+    fi
 
 # Show all messages from this boot
 logs-this-boot:
@@ -63,6 +68,32 @@ setup-distrobox-git:
       exit 0
     fi
 
+alias brew := install-brew
+
+# Install Homebrew | https://brew.sh
+install-brew:
+    #!/usr/bin/env bash
+    source /usr/lib/ujust/ujust.sh
+    if [[ ! -f "/var/home/linuxbrew/.linuxbrew/bin" || ! -x "/var/home/linuxbrew/.linuxbrew/bin/brew" ]]; then
+        echo "${b}Brew Installation${n}"
+        echo "Please ${b}IGNORE${n} everything the installer tells you to do at the end"
+        echo "We have already done it for you! You just need to close and re-open the terminal after installation"
+        echo "Do you understand?"
+        echo "Please type in \"YES I UNDERSTAND\" and press enter"
+        read ACCEPT
+        if [ "$ACCEPT" == "YES I UNDERSTAND" ]; then
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        else
+          echo "Capitalization matters when you type \"YES I UNDERSTAND\""
+        fi
+    fi
+    # if /etc/profile.d/brew.sh already exists, replace it with /usr/etc/profile.d/brew.sh
+    if [ -f /etc/profile.d/brew.sh ]; then
+        if [ -f /usr/etc/profile.d/brew.sh ]; then
+            sudo cp /usr/etc/profile.d/brew.sh /etc/profile.d/brew.sh
+        fi
+    fi
+
 # Removes homebrew from system
 remove-brew:
     echo "Removing homebrew ..."
@@ -79,3 +110,46 @@ toggle-user-motd:
       fi
       touch "${HOME}/.config/no-show-user-motd"
     fi
+
+# Enable xwaylandvideobridge
+fix-screenshare:
+    cp /usr/share/applications/org.kde.xwaylandvideobridge.desktop $HOME/.config/autostart/
+
+# Check for local overrides
+check-local-overrides:
+    #!/usr/bin/bash
+    diff -r \
+      --suppress-common-lines \
+      --color="always" \
+      --exclude "passwd*" \
+      --exclude "group*" \
+      --exclude="subgid*" \
+      --exclude="subuid*" \
+      --exclude="machine-id" \
+      --exclude="adjtime" \
+      --exclude="fstab" \
+      --exclude="system-connections" \
+      --exclude="shadow*" \
+      --exclude="gshadow*" \
+      --exclude="ssh_host*" \
+      --exclude="cmdline" \
+      --exclude="crypttab" \
+      --exclude="hostname" \
+      --exclude="localtime" \
+      --exclude="locale*" \
+      --exclude="*lock" \
+      --exclude=".updated" \
+      --exclude="*LOCK" \
+      --exclude="vconsole*" \
+      --exclude="00-keyboard.conf" \
+      --exclude="grub" \
+      --exclude="system.control*" \
+      --exclude="cdi" \
+      --exclude="default.target" \
+      /usr/etc /etc 2>/dev/null | sed '/Binary\ files\ /d'
+
+# Gather device info to a pastebin
+device-info:
+    #!/usr/bin/bash
+    echo "Gathering device info..."
+    fpaste <(rpm-ostree status) <(fpaste --sysinfo --printonly)

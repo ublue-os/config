@@ -3,7 +3,7 @@ on:
   pull_request:
   merge_group:
   schedule:
-    - cron: '30 13 * * *'  # 13:30 UTC everyday
+    - cron: '15 9 * * 1'  # 9:15 UTC weekly on Monday
   workflow_dispatch:
 env:
     IMAGE_NAME: config
@@ -88,7 +88,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       # Sign container
-      - uses: sigstore/cosign-installer@v3.4.0
+      - uses: sigstore/cosign-installer@v3.5.0
         if: github.event_name != 'pull_request'
 
       - name: Sign container image
