@@ -149,3 +149,7 @@ device-info:
     #!/usr/bin/bash
     echo "Gathering device info..."
     fpaste <(rpm-ostree status) <(fpaste --sysinfo --printonly)
+
+# Measure Idle Power Draw
+check-idle-power-draw:
+    powerstat -a -r
