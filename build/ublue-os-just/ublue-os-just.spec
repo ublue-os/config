@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.31
+Version:        0.32
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -10,6 +10,7 @@ URL:            https://github.com/ublue-os/config
 BuildArch:      noarch
 Requires:       just
 Requires:       ublue-os-luks
+Requires:       powerstat
 
 Source0:        ublue-os-just.sh
 Source1:        00-default.just
@@ -107,6 +108,9 @@ just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-
 chmod 644 %{_datadir}/bash-completion/completions/ujust
 
 %changelog
+* Wed May 01 2024 Kyle Gospodnetich <me@kylegospodneti.ch> - 0.32
+- Add powerstat
+
 * Mon Apr 30 2024 Benjamin Sherman <benjamin@holyarmy.org> - 0.31
 - Add LUKS TPM autounlock support
 
