@@ -111,10 +111,6 @@ toggle-user-motd:
       touch "${HOME}/.config/no-show-user-motd"
     fi
 
-# Enable xwaylandvideobridge
-fix-screenshare:
-    cp /usr/share/applications/org.kde.xwaylandvideobridge.desktop $HOME/.config/autostart/
-
 # Check for local overrides
 check-local-overrides:
     #!/usr/bin/bash
