@@ -111,10 +111,6 @@ toggle-user-motd:
       touch "${HOME}/.config/no-show-user-motd"
     fi
 
-# Enable xwaylandvideobridge
-fix-screenshare:
-    cp /usr/share/applications/org.kde.xwaylandvideobridge.desktop $HOME/.config/autostart/
-
 # Check for local overrides
 check-local-overrides:
     #!/usr/bin/bash
@@ -153,3 +149,8 @@ device-info:
     #!/usr/bin/bash
     echo "Gathering device info..."
     fpaste <(rpm-ostree status) <(fpaste --sysinfo --printonly)
+
+# Measure Idle Power Draw
+check-idle-power-draw:
+    #!/usr/bin/bash
+    sudo powerstat -a -r
