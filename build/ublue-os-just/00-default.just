@@ -152,4 +152,5 @@ device-info:
 
 # Measure Idle Power Draw
 check-idle-power-draw:
-    powerstat -a -r
+    #!/usr/bin/bash
+    sudo powerstat -a -r
