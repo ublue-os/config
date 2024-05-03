@@ -10,7 +10,4 @@ ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="32ac", ATTR{idProduct}=="0014"
 # Framework Laptop 16 Keyboard Module
 ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="32ac", ATTR{idProduct}=="0018", ATTR{power/autosuspend}="-1", ATTR{power/control}="on", GOTO="rules_end"
 
-# Framework Laptop 16 LED Module
-ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="32ac", ATTR{idProduct}=="0020", ATTR{power/autosuspend}="-1", ATTR{power/control}="on", GOTO="rules_end"
-
 LABEL="rules_end"
