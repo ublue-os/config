@@ -37,6 +37,7 @@ Source21:       toolbox.ini
 Source22:       31-toolbox.just
 Source23:       brew.sh
 Source24:       15-ublue-config.md
+Source25:       05-brew.just
 
 %global sub_name %{lua:t=string.gsub(rpm.expand("%{NAME}"), "^ublue%-os%-", ""); print(t)}
 
@@ -108,6 +109,9 @@ just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-
 chmod 644 %{_datadir}/bash-completion/completions/ujust
 
 %changelog
+* Wed May 15 2024 m2Giles <69128853+m2Giles@users.noreply.github.com> - 0.33
+- Split brew just file out
+
 * Wed May 01 2024 Kyle Gospodnetich <me@kylegospodneti.ch> - 0.32
 - Add powerstat
 
