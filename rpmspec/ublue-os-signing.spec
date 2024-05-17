@@ -32,9 +32,13 @@ tar xf %{SOURCE0} -C %{buildroot} --strip-components=2
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/etc/containers/policy.json
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/etc/containers/registries.d/ublue-os.yaml
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/etc/pki/containers/ublue-os.pub
+%attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/etc/containers/registries.d/quay.io-toolbx-images.yaml
+%attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/etc/pki/containers/quay.io-toolbx-images.pub
 %attr(0644,root,root) %{_exec_prefix}/etc/containers/policy.json
 %attr(0644,root,root) %{_exec_prefix}/etc/containers/registries.d/ublue-os.yaml
 %attr(0644,root,root) %{_exec_prefix}/etc/pki/containers/ublue-os.pub
+%attr(0644,root,root) %{_exec_prefix}/etc/containers/registries.d/quay.io-toolbx-images.yaml
+%attr(0644,root,root) %{_exec_prefix}/etc/pki/containers/quay.io-toolbx-images.pub
 
 %changelog
 * Mon Jul 17 2023 RJ Trujillo <eyecantcu@pm.me> - 0.1
