@@ -80,12 +80,11 @@ configure-nvidia-optimus ACTION="prompt":
     if [ "$OPTION" == "prompt" ]; then
       echo "${bold}Configuring Nvidia Optimus${normal}"
       echo 'What would you like to do?'
-      OPTION=$(ugum choose "Set fine-grained dynamic power management" "Apply gnome-shell iGPU workaround")
+      OPTION=$(ugum choose "Set fine-grained dynamic power management")
     elif [ "$OPTION" == "help" ]; then
       echo "Usage: ujust configure-nvidia-optimus <option>"
-      echo "  <option>: Specify the quick option - 'power-management' or 'igpu-workaround'"
+      echo "  <option>: Specify the quick option - 'power-management'"
       echo "  Use 'power-management' to Set fine-grained dynamic power management."
-      echo "  Use 'igpu-workaround' to Apply gnome-shell iGPU workaround."
       exit 0
     fi
     if [ "$OPTION" == "Set fine-grained dynamic power management" ] || [ "${OPTION,,}" == "power-management" ]; then
@@ -95,17 +94,6 @@ configure-nvidia-optimus ACTION="prompt":
           echo "options nvidia NVreg_DynamicPowerManagement=0x02" >> /etc/modprobe.d/nvidia.conf
         else 
           echo 'Already applied fine-grained dynamic power management.'
-        fi
-      else
-        echo 'You do not appear to be on a Nvidia image, please refer to the README for your uBlue-OS image.'
-      fi
-    elif [ "$OPTION" == "Apply gnome-shell iGPU workaround" ] || [ "${OPTION,,}" == "igpu-workaround" ]; then
-      if command -v nvidia-smi; then
-        if [ ! -f /etc/environment ] || ! grep -qF "__EGL_VENDOR_LIBRARY_FILENAMES" /etc/environment; then
-          echo "# https://gitlab.gnome.org/GNOME/mutter/-/issues/2969#note_1816890" >> /etc/environment
-          echo "__EGL_VENDOR_LIBRARY_FILENAMES=/usr/share/glvnd/egl_vendor.d/50_mesa.json" >> /etc/environment
-        else
-          echo 'Already applied gnome-shell iGPU workaround.'
         fi
       else
         echo 'You do not appear to be on a Nvidia image, please refer to the README for your uBlue-OS image.'
