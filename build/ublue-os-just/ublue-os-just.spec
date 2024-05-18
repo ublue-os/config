@@ -53,7 +53,7 @@ mkdir -p -m0755  %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 install -Dm755 %{SOURCE0}  %{buildroot}%{_sysconfdir}/profile.d/ublue-os-just.sh
 install -Dm755 %{SOURCE19}  %{buildroot}%{_sysconfdir}/profile.d/user-motd.sh
 install -Dm755 %{SOURCE23}  %{buildroot}%{_sysconfdir}/profile.d/brew.sh
-cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE7} %{SOURCE8} %{SOURCE22} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
+cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE7} %{SOURCE8} %{SOURCE22} %{SOURCE25} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 
 mkdir -p -m0755  %{buildroot}%{_datadir}/%{VENDOR}/motd/tips
 cp %{SOURCE24} %{buildroot}%{_datadir}/%{VENDOR}/motd/tips
