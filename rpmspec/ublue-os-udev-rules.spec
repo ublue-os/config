@@ -1,7 +1,7 @@
 Name:           ublue-os-udev-rules
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.8
+Version:        0.9
 Release:        1%{?dist}
 Summary:        Additional udev files for device support
 
@@ -45,6 +45,9 @@ cp %{buildroot}%{_datadir}/%{VENDOR}/{%{sub_name}/etc/udev/rules.d,game-devices-
 
 
 %changelog
+* Sun Jun 02 2024 Fifty Dinar <srbaizoki4@tuta.io> - 0.9
+- Add Neutron HiFi DAC V1 udev rule
+
 * Fri Apr 26 2024 Kyle Gospodnetich <me@kylegospodneti.ch> - 0.8
 - Add Framework Computer udev rules
 

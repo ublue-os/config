@@ -37,6 +37,7 @@ Feel free to PR more rules into this repo! Ideally as they get added upstream we
 - [Thinkpad Battery Threshold](https://gitlab.com/marcosdalvarez/thinkpad-battery-threshold-extension) - change threshold without password prompt
 - [Yubikey support](https://github.com/Yubico/libfido2/tree/main/udev)
 - [Wooting Wootility](https://wooting.io/wootility)
+- Neutron HiFi DAC V1
 
 Note: udev rules are placed in `/usr/lib/udev/rules.d/`, it's normal for `/etc/udev/rules.d` to be empty on initial installation. 
 
