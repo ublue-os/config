@@ -88,9 +88,9 @@ toggle-updates ACTION="prompt":
     #!/usr/bin/bash
     source /usr/lib/ujust/ujust.sh
     CURRENT_STATE="Disabled"
-    if systemctl is-enabled ublue-update.timer 2> /dev/null | grep -q enabled; then
+    if systemctl -q is-enabled ublue-update.timer; then
       CURRENT_STATE="Enabled"
-    elif systemctl is-enabled rpm-ostreed-automatic.timer 2> /dev/null | grep -q enabled; then
+    elif systemctl -q is-enabled rpm-ostreed-automatic.timer; then
       CURRENT_STATE="Enabled"
     fi
     OPTION={{ ACTION }}
