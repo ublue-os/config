@@ -11,7 +11,12 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 DISK_UUID=$(sudo awk '{ print $2 }' /etc/crypttab | cut -d= -f2)
-CRYPT_DISK="/dev/disk/by-uuid/$DISK_UUID"
+DISKS=($DISK_UUID)
+## Handle the case where the system partition may expand to multiple disks
+CRYPT_DISKS=()
+for disk in ${DISKS[@]}; do
+  CRYPT_DISKS+=("/dev/disk/by-uuid/$disk")
+done
 
 ## Restore the crypttab
 cp -a /etc/crypttab /etc/crypttab.working-before-disable-tpm2
@@ -23,13 +28,15 @@ else
 fi
 
 ## Wipe luks slot
-cryptsetup luksDump $CRYPT_DISK | grep systemd-tpm2 > /dev/null
-if [ 0 -eq $? ]; then
-  echo "Wiping systemd-tpm2 from LUKS on $CRYPT_DISK"
-  systemd-cryptenroll --wipe-slot=tpm2 $CRYPT_DISK
-else
-  echo "No systemd-tpm2 found in LUKS to wipe"
-fi
+for disk in ${CRYPT_DISKS[@]}; do
+  cryptsetup luksDump $disk | grep systemd-tpm2 > /dev/null
+  if [ 0 -eq $? ]; then
+    echo "Wiping systemd-tpm2 from LUKS on $disk"
+    systemd-cryptenroll --wipe-slot=tpm2 $disk
+  else
+    echo "No systemd-tpm2 found in LUKS to wipe"
+  fi
+done
 
 ## Disable initramfs
 rpm-ostree initramfs | grep tpm2 > /dev/null
