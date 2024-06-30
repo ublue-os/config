@@ -14,7 +14,12 @@ fi
 #sudo cat /etc/crypttab
 #luks-912462a2-39ce-abcd-1234-89c6c0304cb4 UUID=912462a2-39ce-abcd-1234-89c6c0304cb4 none discard
 DISK_UUID=$(sudo awk '{ print $2 }' /etc/crypttab | cut -d= -f2)
-CRYPT_DISK="/dev/disk/by-uuid/$DISK_UUID"
+DISKS=($DISK_UUID)
+## Handle the case where the system partition may expand to multiple disks
+CRYPT_DISKS=()
+for disk in ${DISKS[@]}; do
+  CRYPT_DISKS+=("/dev/disk/by-uuid/$disk")
+done
 
 ## Backup the crypttab
 if [ -f /etc/crypttab.known-good ]; then
@@ -31,17 +36,22 @@ if [ 0 -eq $? ]; then
 fi
 sed -i "s/discard/discard,tpm2-device=auto/" /etc/crypttab
 
-cryptsetup luksDump $CRYPT_DISK | grep systemd-tpm2 > /dev/null
-if [ 0 -eq $? ]; then
-  KEYSLOT=$(cryptsetup luksDump $CRYPT_DISK|grep -A23 systemd-tpm2|grep Keyslot|awk '{print $2}')
-  echo "TPM2 already present in LUKS Keyslot $KEYSLOT of $CRYPT_DISK. Exiting..."
-  [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
-fi
+for disk in ${CRYPT_DISKS[@]}; do
+  cryptsetup luksDump $disk | grep systemd-tpm2 > /dev/null
+  if [ 0 -eq $? ]; then
+    KEYSLOT=$(cryptsetup luksDump $disk|grep -A23 systemd-tpm2|grep Keyslot|awk '{print $2}')
+    echo "TPM2 already present in LUKS Keyslot $KEYSLOT of $disk. Exiting..."
+    [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
+  fi
+done
 
 ## Run crypt enroll
 echo "Enrolling TPM2 unlock requires your existing LUKS2 unlock password"
 echo
-systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7 $CRYPT_DISK
+for disk in ${CRYPT_DISKS[@]}; do
+  echo "Enrolling TPM2 unlock for $disk"
+  systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7 $disk
+done
 
 
 lsinitrd 2>&1 | grep -q tpm2-tss > /dev/null
