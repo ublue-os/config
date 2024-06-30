@@ -1,5 +1,5 @@
 #!/bin/bash
-## setup auto-unlock LUKS2 encrypted root on Fedora/Silverblue/maybe others
+## enable auto-unlock LUKS2 encrypted root on Fedora/Silverblue/maybe others
 set -eou pipefail
 
 [ "$UID" -eq 0 ] || { echo "This script must be run as root."; exit 1;}
@@ -33,38 +33,51 @@ if ! grep -q "${RD_LUKS_UUID}" <<< "$(lsblk)" ; then
   exit 1
 fi
 
+DISKS=(${RD_LUKS_UUID})
+CRYPT_DISKS=()
 # Cut off the luks-
 LUKS_PREFIX="luks-"
-if grep -q ^${LUKS_PREFIX} <<< "${RD_LUKS_UUID}"; then
-  DISK_UUID=${RD_LUKS_UUID#"$LUKS_PREFIX"}
-else
-  echo "LUKS UUID format mismatch."
-  echo "Exiting..."
-  exit 1
-fi
-
-# Specify Crypt Disk by-uuid
-CRYPT_DISK="/dev/disk/by-uuid/$DISK_UUID"
+for disk in ${DISKS[@]}; do
+	if grep -q ^${LUKS_PREFIX} <<< "${disk}"; then
+		CRYPT_DISKS+=("/dev/disk/by-uuid/"${disk#"$LUKS_PREFIX"})
+	else
+	  echo "LUKS UUID format mismatch for disk $disk."
+	  echo "Exiting..."
+	  exit 1
+	fi
+done
 
 # Check to make sure crypt disk exists
-if [[ ! -L "$CRYPT_DISK" ]]; then
-  printf "LUKS device not listed in block devices.\n"
-  printf "Exiting...\n"
-  exit 1
-fi
+for disk in ${CRYPT_DISKS[@]}; do
+	if [[ ! -L "$disk" ]]; then
+	  printf "LUKS device $disk not listed in block devices.\n"
+	  printf "Exiting...\n"
+	  exit 1
+	fi
+done
 
-if cryptsetup luksDump "$CRYPT_DISK" | grep systemd-tpm2 > /dev/null; then
-  KEYSLOT=$(cryptsetup luksDump "$CRYPT_DISK"|grep -A29 systemd-tpm2|grep Keyslot|awk '{print $2}')
-  echo "TPM2 already present in LUKS Keyslot $KEYSLOT of $CRYPT_DISK."
-  echo "Remove the existing TPM2 enrollment with ujust remove-luks-tpm2-autounlock"
-  echo "Exiting..."
-  [[ "$0" = "${BASH_SOURCE[0]}" ]] && exit 1 || return 1
-fi
+
+for disk in ${CRYPT_DISKS[@]}; do
+  cryptsetup luksDump $disk | grep systemd-tpm2 > /dev/null
+  if cryptsetup luksDump "$disk" | grep systemd-tpm2 > /dev/null; then
+    KEYSLOT=$(cryptsetup luksDump "$disk"|grep -A29 systemd-tpm2|grep Keyslot|awk '{print $2}')
+    echo "TPM2 already present in LUKS Keyslot $KEYSLOT of $disk."
+    echo "Remove the existing TPM2 enrollment with ujust remove-luks-tpm2-autounlock"
+    echo "Exiting..."
+    [[ "$0" = "${BASH_SOURCE[0]}" ]] && exit 1 || return 1
+  fi
+done
+
+## modify the crypttab
+sed -i "s/discard/discard,tpm2-device=auto/" /etc/crypttab
 
 ## Run crypt enroll
 echo "Enrolling TPM2 unlock requires your existing LUKS2 unlock password"
-systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7 "$CRYPT_DISK"
-
+echo
+for disk in ${CRYPT_DISKS[@]}; do
+  echo "Enrolling TPM2 unlock for $disk"
+  systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7 $disk
+done
 
 if lsinitrd 2>&1 | grep -q tpm2-tss > /dev/null; then
   ## add tpm2-tss to initramfs

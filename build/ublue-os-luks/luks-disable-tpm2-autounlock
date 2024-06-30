@@ -29,26 +29,28 @@ if ! grep -q "${RD_LUKS_UUID}" <<< "$(lsblk)" ; then
   printf "Exiting...\n"
   exit 1
 fi
-
+DISKS=(${RD_LUKS_UUID})
+CRYPT_DISKS=()
 # Cut off the luks-
 LUKS_PREFIX="luks-"
-if grep -q ^${LUKS_PREFIX} <<< "${RD_LUKS_UUID}"; then
-  DISK_UUID=${RD_LUKS_UUID#"$LUKS_PREFIX"}
-else
-  echo "LUKS UUID format mismatch."
-  echo "Exiting..."
-  exit 1
-fi
-
-# Specify Crypt Disk by-uuid
-CRYPT_DISK="/dev/disk/by-uuid/$DISK_UUID"
+for disk in ${DISKS[@]}; do
+	if grep -q ^${LUKS_PREFIX} <<< "${disk}"; then
+		CRYPT_DISKS+=("/dev/disk/by-uuid/"${disk#"$LUKS_PREFIX"})
+	else
+	  echo "LUKS UUID format mismatch."
+	  echo "Exiting..."
+	  exit 1
+	fi
+done
 
 # Check to make sure crypt disk exists
-if [[ ! -L "$CRYPT_DISK" ]]; then
-  printf "LUKS device not listed in block devices.\n"
-  printf "Exiting...\n"
-  exit 1
-fi
+for disk in ${CRYPT_DISKS[@]}; do
+	if [[ ! -L "$disk" ]]; then
+	  printf "LUKS device $disk not listed in block devices.\n"
+	  printf "Exiting...\n"
+	  exit 1
+	fi
+done
 
 ## Restore the crypttab
 cp -a /etc/crypttab /etc/crypttab.working-before-disable-tpm2
@@ -58,12 +60,15 @@ if [ -f /etc/crypttab.known-good ]; then
 fi
 
 ## Wipe luks slot
-if cryptsetup luksDump "$CRYPT_DISK" | grep systemd-tpm2 > /dev/null; then
-  echo "Wiping systemd-tpm2 from LUKS on $CRYPT_DISK"
-  systemd-cryptenroll --wipe-slot=tpm2 "$CRYPT_DISK"
-else
-  echo "No systemd-tpm2 found in LUKS to wipe"
-fi
+for disk in ${CRYPT_DISKS[@]}; do
+  cryptsetup luksDump $disk | grep systemd-tpm2 > /dev/null
+  if [ 0 -eq $? ]; then
+    echo "Wiping systemd-tpm2 from LUKS on $disk"
+    systemd-cryptenroll --wipe-slot=tpm2 $disk
+  else
+    echo "No systemd-tpm2 found in LUKS to wipe"
+  fi
+done
 
 ## Disable initramfs
 if rpm-ostree initramfs | grep tpm2 > /dev/null; then
