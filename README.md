@@ -38,6 +38,7 @@ Feel free to PR more rules into this repo! Ideally as they get added upstream we
 - [Yubikey support](https://github.com/Yubico/libfido2/tree/main/udev)
 - [Wooting Wootility](https://wooting.io/wootility)
 - Neutron HiFi DAC V1
+- Apple SuperDrive (requires `sg3_utils` package to be installed for it to work)
 
 Note: udev rules are placed in `/usr/lib/udev/rules.d/`, it's normal for `/etc/udev/rules.d` to be empty on initial installation. 
 
