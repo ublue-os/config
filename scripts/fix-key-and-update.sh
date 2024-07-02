@@ -24,6 +24,3 @@ sed -i.bak "s#/usr/etc/pki/containers/ublue-os.pub#/etc/pki/containers/ublue-os.
 # Update system, respecting new public signing key.
 echo "Updating the system..."
 rpm-ostree update
-
-# Clean up
-rm /etc/containers/policy.json.bak
