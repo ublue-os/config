@@ -36,6 +36,13 @@
                     "signedIdentity": {
                         "type": "matchRepository"
                     }
+                },
+                {
+                    "type": "sigstoreSigned",
+                    "keyPath": "/usr/etc/pki/containers/ublue-os-old.pub",
+                    "signedIdentity": {
+                        "type": "matchRepository"
+                    }
                 }
             ],
             "": [
