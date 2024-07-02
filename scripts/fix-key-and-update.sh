@@ -5,7 +5,7 @@
 # Note: this is required for upgrades to images published after July 1, 2024, and will prevent downgrading
 # to images published before July 2, 2024.
 #
-set -eux
+set -eu
 
 # Require root privileges
 if [ "$EUID" -ne 0 ]; then
