@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.34
+Version:        0.35
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -109,6 +109,9 @@ just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-
 chmod 644 %{_datadir}/bash-completion/completions/ujust
 
 %changelog
+* Fri May 31 2024 HikariKnight <2557889+HikariKnight@users.noreply.github.com> - 0.35
+- Make toggle-updates smarter and detect if ublue-update is installed
+
 * Sat May 18 2024 m2Giles <69128853+m2Giles@users.noreply.github.com> - 0.34
 - Fix missing sourcefile for just split out
 

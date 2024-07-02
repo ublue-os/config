@@ -88,7 +88,9 @@ toggle-updates ACTION="prompt":
     #!/usr/bin/bash
     source /usr/lib/ujust/ujust.sh
     CURRENT_STATE="Disabled"
-    if systemctl is-enabled ublue-update.timer | grep -q enabled; then
+    if systemctl -q is-enabled ublue-update.timer; then
+      CURRENT_STATE="Enabled"
+    elif systemctl -q is-enabled rpm-ostreed-automatic.timer; then
       CURRENT_STATE="Enabled"
     fi
     OPTION={{ ACTION }}
@@ -104,15 +106,19 @@ toggle-updates ACTION="prompt":
       exit 0
     fi
     if [ "${OPTION,,}" == "enable" ]; then
-      sudo systemctl enable ublue-update.timer
-      if systemctl is-enabled flatpak-system-update.timer | grep -q disabled; then
+      if systemctl is-enabled ublue-update.timer 2> /dev/null | grep -q not-found; then
         sudo systemctl enable --now flatpak-system-update.timer rpm-ostreed-automatic.timer
         systemctl enable --now --user flatpak-user-update.timer
-      fi
-    elif [ "${OPTION,,}" == "disable" ]; then
-      sudo systemctl disable ublue-update.timer
-      if systemctl is-enabled flatpak-system-update.timer | grep -q enabled; then
+      else
+        sudo systemctl enable ublue-update.timer
         sudo systemctl disable --now flatpak-system-update.timer rpm-ostreed-automatic.timer
         systemctl disable --now --user flatpak-user-update.timer
+      fi
+    elif [ "${OPTION,,}" == "disable" ]; then
+      if systemctl is-enabled ublue-update.timer 2> /dev/null | grep -q not-found; then
+        sudo systemctl disable --now flatpak-system-update.timer rpm-ostreed-automatic.timer
+        systemctl disable --now --user flatpak-user-update.timer
+      else
+        sudo systemctl disable ublue-update.timer
       fi
     fi
