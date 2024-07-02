@@ -1,7 +1,7 @@
 Name:           ublue-os-signing
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.2
+Version:        0.3
 Release:        1%{?dist}
 Summary:        Signing files and keys for Universal Blue
 License:        MIT
@@ -32,15 +32,20 @@ tar xf %{SOURCE0} -C %{buildroot} --strip-components=2
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/etc/containers/policy.json
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/etc/containers/registries.d/ublue-os.yaml
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/etc/pki/containers/ublue-os.pub
+%attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/etc/pki/containers/ublue-os-old.pub
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/etc/containers/registries.d/quay.io-toolbx-images.yaml
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/etc/pki/containers/quay.io-toolbx-images.pub
 %attr(0644,root,root) %{_exec_prefix}/etc/containers/policy.json
 %attr(0644,root,root) %{_exec_prefix}/etc/containers/registries.d/ublue-os.yaml
 %attr(0644,root,root) %{_exec_prefix}/etc/pki/containers/ublue-os.pub
+%attr(0644,root,root) %{_exec_prefix}/etc/pki/containers/ublue-os-old.pub
 %attr(0644,root,root) %{_exec_prefix}/etc/containers/registries.d/quay.io-toolbx-images.yaml
 %attr(0644,root,root) %{_exec_prefix}/etc/pki/containers/quay.io-toolbx-images.pub
 
 %changelog
+* Tue Jul 02 2024 Robert Sturla <robertsturla@me.com> - 0.3
+- Update ublue public signing keys
+
 * Sat May 18 2024 qoijjj <129108030+qoijjj@users.noreply.github.com> - 0.2
 - Add signature verification for toolbx images
 
