@@ -10,6 +10,13 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
   [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
 fi
 
+SET_PIN_ARG=""
+read -p "Would you like to set a pin? " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+  SET_PIN_ARG=" --tpm2-with-pin=yes "
+fi
+
 ## Inspect crypttab to find disk info, should look like this
 #sudo cat /etc/crypttab
 #luks-912462a2-39ce-abcd-1234-89c6c0304cb4 UUID=912462a2-39ce-abcd-1234-89c6c0304cb4 none discard
@@ -41,7 +48,7 @@ fi
 ## Run crypt enroll
 echo "Enrolling TPM2 unlock requires your existing LUKS2 unlock password"
 echo
-systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7 $CRYPT_DISK
+systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7 $SET_PIN_ARG $CRYPT_DISK
 
 
 lsinitrd 2>&1 | grep -q tpm2-tss > /dev/null
