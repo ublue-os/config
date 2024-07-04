@@ -4,7 +4,9 @@ set -euo pipefail
 
 [ "$UID" -eq 0 ] || { echo "This script must be run as root."; exit 1;}
 
-read -p "This will modify your system and disable TPM2 auto-unlock of your LUKS partition! Are you sure you've read the script and are good with this? " -n 1 -r
+echo "This script utilizes systemd-cryptenroll for removing tpm2 auto-unlock."
+echo "You can review systemd-cryptenroll's manpage for more information."
+read -p "This will modify your system and disable TPM2 auto-unlock of your LUKS partition! Are you sure you are good with this? " -n 1 -r
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
   [[ "$0" = "${BASH_SOURCE[0]}" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
@@ -46,8 +48,6 @@ cp -a /etc/crypttab /etc/crypttab.working-before-disable-tpm2
 if [ -f /etc/crypttab.known-good ]; then
   echo "Restoring /etc/crypttab.known-good to original /etc/crypttab"
   mv /etc/crypttab.known-good /etc/crypttab
-else
-  echo "No /etc/crypttab.known-good found to restore"
 fi
 
 ## Wipe luks slot
