@@ -1,17 +1,45 @@
 #!/bin/bash
 ## disable auto-unlock LUKS2 encrypted root on Fedora/Silverblue/maybe others
-set -u
+set -euo pipefail
 
 [ "$UID" -eq 0 ] || { echo "This script must be run as root."; exit 1;}
 
 read -p "This will modify your system and disable TPM2 auto-unlock of your LUKS partition! Are you sure you've read the script and are good with this? " -n 1 -r
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-  [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
+  [[ "$0" = "${BASH_SOURCE[0]}" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
 fi
 
-DISK_UUID=$(sudo awk '{ print $2 }' /etc/crypttab | cut -d= -f2)
+## Inspect Kernel Cmdline for rd.luks.uuid
+RD_LUKS_UUID="$(xargs -n1 -a /proc/cmdline | grep rd.luks.uuid | cut -d = -f 2)"
+
+# Check to make sure cmdline rd.luks.uuid exists
+if [[ -z ${RD_LUKS_UUID:-} ]]; then
+  printf "LUKS device not defined on Kernel Commandline.\n"
+  printf "This is not supported by this script.\n"
+  printf "Exiting...\n"
+  exit 1
+fi
+
+# Check to make sure that the specified cmdline uuid exists.
+if ! grep -q "${RD_LUKS_UUID}" <<< "$(lsblk)" ; then
+  printf "LUKS device not listed in block devices.\n"
+  printf "Exiting...\n"
+  exit 1
+fi
+
+# Cut off the luks-
+DISK_UUID=${RD_LUKS_UUID:5}
+
+# Specify Crypt Disk by-uuid
 CRYPT_DISK="/dev/disk/by-uuid/$DISK_UUID"
+
+# Check to make sure crypt disk exists
+if [[ ! -L "$CRYPT_DISK" ]]; then
+  printf "LUKS device not listed in block devices.\n"
+  printf "Exiting...\n"
+  exit 1
+fi
 
 ## Restore the crypttab
 cp -a /etc/crypttab /etc/crypttab.working-before-disable-tpm2
@@ -23,17 +51,15 @@ else
 fi
 
 ## Wipe luks slot
-cryptsetup luksDump $CRYPT_DISK | grep systemd-tpm2 > /dev/null
-if [ 0 -eq $? ]; then
+if cryptsetup luksDump "$CRYPT_DISK" | grep systemd-tpm2 > /dev/null; then
   echo "Wiping systemd-tpm2 from LUKS on $CRYPT_DISK"
-  systemd-cryptenroll --wipe-slot=tpm2 $CRYPT_DISK
+  systemd-cryptenroll --wipe-slot=tpm2 "$CRYPT_DISK"
 else
   echo "No systemd-tpm2 found in LUKS to wipe"
 fi
 
 ## Disable initramfs
-rpm-ostree initramfs | grep tpm2 > /dev/null
-if [ 0 -eq $? ]; then
+if rpm-ostree initramfs | grep tpm2 > /dev/null; then
   echo "WARNING: if you configured initramfs for anything other than TPM2, this wipes that too..."
   echo "here's a printout:"
   rpm-ostree initramfs
@@ -41,5 +67,8 @@ if [ 0 -eq $? ]; then
   echo "Disabling rpm-ostree initramfs..."
   rpm-ostree initramfs --disable
 else
-  echo "TPM2 was not found in 'rpm-ostree initramfs'..."
+  echo "TPM2 is not configured in 'rpm-ostree initramfs'..."
 fi
+
+echo "TPM2 auto-unlock disabled..."
+echo "To reenroll TPM2 auto unlock please run ujust setup-luks-tpm-unlock..."
