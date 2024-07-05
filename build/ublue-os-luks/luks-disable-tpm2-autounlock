@@ -31,7 +31,14 @@ if ! grep -q "${RD_LUKS_UUID}" <<< "$(lsblk)" ; then
 fi
 
 # Cut off the luks-
-DISK_UUID=${RD_LUKS_UUID:5}
+LUKS_PREFIX="luks-"
+if grep -q ^${LUKS_PREFIX} <<< "${RD_LUKS_UUID}"; then
+  DISK_UUID=${RD_LUKS_UUID#"$LUKS_PREFIX"}
+else
+  echo "LUKS UUID format mismatch."
+  echo "Exiting..."
+  exit 1
+fi
 
 # Specify Crypt Disk by-uuid
 CRYPT_DISK="/dev/disk/by-uuid/$DISK_UUID"
@@ -40,6 +47,15 @@ CRYPT_DISK="/dev/disk/by-uuid/$DISK_UUID"
 if [[ ! -L "$CRYPT_DISK" ]]; then
   printf "LUKS device not listed in block devices.\n"
   printf "Exiting...\n"
+  exit 1
+fi
+
+echo "Ensuring you have a known passphrase in key-slot 0"
+if ! cryptsetup luksOpen --test-passphrase --key-slot 0 "$CRYPT_DISK"; then
+  echo "You do not have a known passphrase in key-slot 0."
+  echo "You have likely modified your luks header."
+  echo "You will have to manually use systemd-cryptenroll."
+  echo "Exiting..."
   exit 1
 fi
 

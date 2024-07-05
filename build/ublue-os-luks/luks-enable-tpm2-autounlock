@@ -7,7 +7,7 @@ set -eou pipefail
 echo "This script uses systemd-cryptenroll to enable TPM2 auto-unlock."
 echo "You can review systemd-cryptenroll's manpage for more information."
 echo "This script will modify your system."
-echo "It will enable TPM2 auto-unlock of your LUKS partition!"
+echo "It will enable TPM2 auto-unlock of your LUKS partition for your root device!"
 echo "It will bind to PCR 7 only which is tied to your secureboot state."
 read -p "Are you sure are good with this and want to enable TPM2 auto-unlock? " -n 1 -r
 echo
@@ -34,7 +34,14 @@ if ! grep -q "${RD_LUKS_UUID}" <<< "$(lsblk)" ; then
 fi
 
 # Cut off the luks-
-DISK_UUID=${RD_LUKS_UUID:5}
+LUKS_PREFIX="luks-"
+if grep -q ^${LUKS_PREFIX} <<< "${RD_LUKS_UUID}"; then
+  DISK_UUID=${RD_LUKS_UUID#"$LUKS_PREFIX"}
+else
+  echo "LUKS UUID format mismatch."
+  echo "Exiting..."
+  exit 1
+fi
 
 # Specify Crypt Disk by-uuid
 CRYPT_DISK="/dev/disk/by-uuid/$DISK_UUID"
@@ -46,6 +53,14 @@ if [[ ! -L "$CRYPT_DISK" ]]; then
   exit 1
 fi
 
+echo "Ensuring you have a known passphrase in key-slot 0."
+if ! cryptsetup luksOpen --test-passphrase --key-slot 0 "$CRYPT_DISK"; then
+  echo "You do not have a known passphrase in key-slot 0."
+  echo "You have likely modified your luks header."
+  echo "You will have to manually use systemd-cryptenroll."
+  echo "Exiting..."
+  exit 1
+fi
 
 if cryptsetup luksDump "$CRYPT_DISK" | grep systemd-tpm2 > /dev/null; then
   KEYSLOT=$(cryptsetup luksDump "$CRYPT_DISK"|grep -A29 systemd-tpm2|grep Keyslot|awk '{print $2}')
