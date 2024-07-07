@@ -1,7 +1,7 @@
 Name:           ublue-os-luks
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.2
+Version:        0.3
 Release:        1%{?dist}
 Summary:        ublue-os scripts for simplified LUKS usage
 License:        MIT
@@ -31,6 +31,10 @@ install -Dm644 %{SOURCE2}  %{buildroot}/%{_exec_prefix}/lib/dracut/dracut.conf.d
 %attr(0644,root,root) %{_exec_prefix}/lib/dracut/dracut.conf.d/90-ublue-luks.conf
 
 %changelog
+* Thu Jul 04 2024 m2Giles <69128853+m2Giles@users.noreply.github.com> - 0.3
+- Rewrite enable script to fail out if disk is not found
+- LUKs disk is determined from kernel commandline instead of /etc/crypttab
+
 * Sat Jun 29 2024 Benjamin Sherman <benjamin@holyarmy.org> - 0.2
 - Add tpm, fido2, pkcs11 to dracut config enabling initramfs LUKS unlock options
 
