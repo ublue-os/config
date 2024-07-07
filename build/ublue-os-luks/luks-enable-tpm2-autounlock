@@ -53,15 +53,6 @@ if [[ ! -L "$CRYPT_DISK" ]]; then
   exit 1
 fi
 
-echo "Ensuring you have a known passphrase in key-slot 0."
-if ! cryptsetup luksOpen --test-passphrase --key-slot 0 "$CRYPT_DISK"; then
-  echo "You do not have a known passphrase in key-slot 0."
-  echo "You have likely modified your luks header."
-  echo "You will have to manually use systemd-cryptenroll."
-  echo "Exiting..."
-  exit 1
-fi
-
 if cryptsetup luksDump "$CRYPT_DISK" | grep systemd-tpm2 > /dev/null; then
   KEYSLOT=$(cryptsetup luksDump "$CRYPT_DISK"|grep -A29 systemd-tpm2|grep Keyslot|awk '{print $2}')
   echo "TPM2 already present in LUKS Keyslot $KEYSLOT of $CRYPT_DISK."

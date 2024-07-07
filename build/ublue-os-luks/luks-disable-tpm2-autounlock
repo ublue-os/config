@@ -50,15 +50,6 @@ if [[ ! -L "$CRYPT_DISK" ]]; then
   exit 1
 fi
 
-echo "Ensuring you have a known passphrase in key-slot 0"
-if ! cryptsetup luksOpen --test-passphrase --key-slot 0 "$CRYPT_DISK"; then
-  echo "You do not have a known passphrase in key-slot 0."
-  echo "You have likely modified your luks header."
-  echo "You will have to manually use systemd-cryptenroll."
-  echo "Exiting..."
-  exit 1
-fi
-
 ## Restore the crypttab
 cp -a /etc/crypttab /etc/crypttab.working-before-disable-tpm2
 if [ -f /etc/crypttab.known-good ]; then
