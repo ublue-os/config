@@ -23,7 +23,7 @@
             "quay.io/toolbx-images": [
                 {
                     "type": "sigstoreSigned",
-                    "keyPath": "/usr/etc/pki/containers/quay.io-toolbx-images.pub",
+                    "keyPath": "/etc/pki/containers/quay.io-toolbx-images.pub",
                     "signedIdentity": {
                         "type": "matchRepository"
                     }
@@ -32,7 +32,7 @@
             "ghcr.io/ublue-os": [
                 {
                     "type": "sigstoreSigned",
-                    "keyPath": "/usr/etc/pki/containers/ublue-os.pub",
+                    "keyPath": "/etc/pki/containers/ublue-os.pub",
                     "signedIdentity": {
                         "type": "matchRepository"
                     }
