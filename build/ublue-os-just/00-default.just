@@ -117,7 +117,7 @@ check-local-overrides:
 device-info:
     #!/usr/bin/bash
     echo "Gathering device info..."
-    fpaste <(rpm-ostree status) <(fpaste --sysinfo --printonly)
+    fpaste <(rpm-ostree status) <(fpaste --sysinfo --printonly) <<(flatpak list --columns=application,version,options)
 
 # Measure Idle Power Draw
 check-idle-power-draw:
