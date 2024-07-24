@@ -44,13 +44,13 @@ regenerate-grub:
       sudo grub2-mkconfig -o /etc/grub2.cfg
     fi
 
-# Enroll Nvidia driver & KMOD signing key for secure boot - Enter password "ublue-os" if prompted
+# Enroll Nvidia driver & KMOD signing key for secure boot - Enter password "universalblue" if prompted
 enroll-secure-boot-key:
-    echo 'Enter password "ublue-os" if prompted after your user password.'
+    echo 'Enter password "universalblue" if prompted after your user password.'
     sudo mokutil --timeout -1
     sudo mokutil --import /etc/pki/akmods/certs/akmods-ublue.der
     echo 'When you reboot your computer, follow the instructions to start MOK util'
-    echo 'by pressing a key, then enroll the secure boot key and enter "ublue-os" as the password'
+    echo 'by pressing a key, then enroll the secure boot key and enter "universalblue" as the password'
 
 # Install or uninstall distrobox-git
 setup-distrobox-git:
