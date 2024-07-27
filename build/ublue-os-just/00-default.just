@@ -20,21 +20,6 @@ logs-this-boot:
 logs-last-boot:
     sudo journalctl -b -1
 
-# Change the user's shell
-chsh new_shell:
-    #!/usr/bin/bash
-    set -euo pipefail
-    if [ "{{ shell }}" = "{{ new_shell }}" ] ; then
-      printf "Your shell is already set to %s.\n" "{{ new_shell }}"
-    else
-      if [ -x "{{ new_shell }}" ] ; then
-        sudo usermod $USER --shell "{{ new_shell }}"
-        printf "%s's shell is now %s.\n" "$USER" "{{ new_shell }}"
-      else
-        echo "{{ new_shell }} does not exist or is not executable!"
-      fi
-    fi
-
 # Regenerate GRUB config, useful in dual-boot scenarios where a second operating system isn't listed
 regenerate-grub:
     #!/usr/bin/bash
