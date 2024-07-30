@@ -28,3 +28,32 @@ install-brew:
 remove-brew:
     echo "Removing homebrew ..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
+
+alias brew-command-not-found := install-brew-command-not-found
+
+# Suggest Homebrew packages to install when a command is not found
+install-brew-command-not-found:
+    #!/usr/bin/env bash
+    source /usr/lib/ujust/ujust.sh
+    if ! brew -h > /dev/null; then
+      echo "Install Homebrew with ${b}ojust install-brew${n} first!"
+      exit 
+    fi
+    HOMEBREW_NO_ENV_HINTS=true brew tap homebrew/command-not-found
+    sudo tee /etc/profile.d/brew-command-not-found.sh > /dev/null <<EOF
+    # Check for interactive bash or zsh and that we haven't already been sourced
+    if [ "x${BASH_VERSION-}" != x -o "x${ZSH_VERSION-}" != x ] && [ "x${PS1-}" != x -a "x${BREW_COMMAND_NOT_FOUND-}" = x ]; then
+      HB_CNF_HANDLER="$(brew --repository)/Library/Taps/homebrew/homebrew-command-not-found/handler.sh"
+      if [ -f "$HB_CNF_HANDLER" ]; then
+        source "$HB_CNF_HANDLER"
+      fi
+      export BREW_COMMAND_NOT_FOUND=1
+    fi
+    EOF
+    sudo tee /etc/fish/conf.d/homebrew-command-not-found.fish > /dev/null <<EOF
+    set HB_CNF_HANDLER (brew --repository)"/Library/Taps/homebrew/homebrew-command-not-found/handler.fish"
+    if test -f $HB_CNF_HANDLER
+      source $HB_CNF_HANDLER
+    end
+    EOF
+    echo Suggestions will begin when you start a new terminal session.
