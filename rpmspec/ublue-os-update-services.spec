@@ -50,8 +50,8 @@ tar xf %{SOURCE0} -C %{buildroot} --strip-components=2 --exclude etc/rpm-ostreed
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/lib/systemd/user-preset/10-flatpak-user-update.preset
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/lib/systemd/user/flatpak-user-update.service
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/lib/systemd/user/flatpak-user-update.timer
-%attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/%{_sysconfdir}/systemd/system/rpm-ostreed-automatic.timer.d/override.conf
-%attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/%{_sysconfdir}/systemd/system/rpm-ostreed-automatic.service.d/override.conf
+%attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_sysconfdir}/systemd/system/rpm-ostreed-automatic.timer.d/override.conf
+%attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_sysconfdir}/systemd/system/rpm-ostreed-automatic.service.d/override.conf
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_sysconfdir}/rpm-ostreed.conf
 %attr(0644,root,root) %{_exec_prefix}/lib/systemd/system-preset/10-flatpak-system-update.preset
 %attr(0644,root,root) %{_exec_prefix}/lib/systemd/system/flatpak-system-update.service
