@@ -36,6 +36,7 @@ ADD files/etc/systemd /tmp/ublue-os/update-services/etc/systemd
 ADD files/usr/lib/systemd /tmp/ublue-os/update-services/usr/lib/systemd
 
 ADD files/etc/containers /tmp/ublue-os/signing/etc/containers
+ADD files/usr/etc/containers /tmp/ublue-os/signing/usr/etc/containers
 ADD files/etc/pki /tmp/ublue-os/signing/etc/pki
 
 RUN tar cf /tmp/ublue-os/rpmbuild/SOURCES/ublue-os-udev-rules.tar.gz -C /tmp ublue-os/udev-rules
