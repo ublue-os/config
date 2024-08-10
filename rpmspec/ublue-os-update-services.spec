@@ -1,7 +1,7 @@
 Name:           ublue-os-update-services
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.8
+Version:        0.9
 Release:        1%{?dist}
 Summary:        Automatic updates for rpm-ostree and flatpak
 License:        MIT
@@ -50,8 +50,8 @@ tar xf %{SOURCE0} -C %{buildroot} --strip-components=2 --exclude etc/rpm-ostreed
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/lib/systemd/user-preset/10-flatpak-user-update.preset
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/lib/systemd/user/flatpak-user-update.service
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/lib/systemd/user/flatpak-user-update.timer
-%attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/%{_sysconfdir}/systemd/system/rpm-ostreed-automatic.timer.d/override.conf
-%attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_exec_prefix}/%{_sysconfdir}/systemd/system/rpm-ostreed-automatic.service.d/override.conf
+%attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_sysconfdir}/systemd/system/rpm-ostreed-automatic.timer.d/override.conf
+%attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_sysconfdir}/systemd/system/rpm-ostreed-automatic.service.d/override.conf
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/%{_sysconfdir}/rpm-ostreed.conf
 %attr(0644,root,root) %{_exec_prefix}/lib/systemd/system-preset/10-flatpak-system-update.preset
 %attr(0644,root,root) %{_exec_prefix}/lib/systemd/system/flatpak-system-update.service
@@ -59,12 +59,15 @@ tar xf %{SOURCE0} -C %{buildroot} --strip-components=2 --exclude etc/rpm-ostreed
 %attr(0644,root,root) %{_exec_prefix}/lib/systemd/user-preset/10-flatpak-user-update.preset
 %attr(0644,root,root) %{_exec_prefix}/lib/systemd/user/flatpak-user-update.service
 %attr(0644,root,root) %{_exec_prefix}/lib/systemd/user/flatpak-user-update.timer
-%attr(0644,root,root) %{_exec_prefix}/%{_sysconfdir}/systemd/system/rpm-ostreed-automatic.timer.d/override.conf
-%attr(0644,root,root) %{_exec_prefix}/%{_sysconfdir}/systemd/system/rpm-ostreed-automatic.service.d/override.conf
+%attr(0644,root,root) %{_sysconfdir}/systemd/system/rpm-ostreed-automatic.timer.d/override.conf
+%attr(0644,root,root) %{_sysconfdir}/systemd/system/rpm-ostreed-automatic.service.d/override.conf
 
 
 
 %changelog
+* Wed Aug 7 2024 Kyle Gospodnetich <me@kylegospodneti.ch> - 0.9
+- Use etc over usr etc folder
+
 * Mon Oct 2 2023 ArtikusHG <24320212+ArtikusHG@users.noreply.github.com> - 0.8
 - Add metered connection check to system and flatpak update services
 

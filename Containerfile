@@ -10,7 +10,7 @@ ADD files/etc/udev/rules.d /tmp/ublue-os/udev-rules/etc/udev/rules.d
 
 # Install OpenTabletDriver udev rules from their portable releases
 RUN mkdir -p /tmp/OpenTabletDriver/ && \
-mkdir -p /usr/etc/udev/rules.d/ && \
+mkdir -p /etc/udev/rules.d/ && \
 curl -s https://api.github.com/repos/OpenTabletDriver/OpenTabletDriver/releases/latest \
 | jq -r '.assets | sort_by(.created_at) | .[] | select (.name|test("opentabletdriver.*tar.gz$")) | .browser_download_url' \
 | wget -qi - -O /tmp/OpenTabletDriver/opentabletdriver.tar.gz && \
@@ -20,7 +20,7 @@ rm -rf /tmp/OpenTabletDriver
 
 # Install Sunshine udev rules from their github repo
 RUN mkdir -p /tmp/Sunshine/ && \
-mkdir -p /usr/etc/udev/rules.d/ && \
+mkdir -p /etc/udev/rules.d/ && \
 pushd /tmp/Sunshine && \
 git clone --depth 1 https://github.com/LizardByte/Sunshine . && \
 mv /tmp/Sunshine/src_assets/linux/misc/60-sunshine.rules /tmp/ublue-os/udev-rules/etc/udev/rules.d/60-sunshine-ublue.rules && \
@@ -28,15 +28,16 @@ popd && \
 rm -rf /tmp/Sunshine
 
 # Install Framework Computer udev rules from their inputmodule-rs package
-RUN mkdir -p /usr/etc/udev/rules.d/ && \
+RUN mkdir -p /etc/udev/rules.d/ && \
 wget https://raw.githubusercontent.com/FrameworkComputer/inputmodule-rs/main/release/50-framework-inputmodule.rules -O /tmp/ublue-os/udev-rules/etc/udev/rules.d/50-framework-inputmodule.rules
 
 ADD files/etc/rpm-ostreed.conf /tmp/ublue-os/update-services/etc/rpm-ostreed.conf
-ADD files/usr/etc/systemd /tmp/ublue-os/update-services/usr/etc/systemd
+ADD files/etc/systemd /tmp/ublue-os/update-services/etc/systemd
 ADD files/usr/lib/systemd /tmp/ublue-os/update-services/usr/lib/systemd
 
+ADD files/etc/containers /tmp/ublue-os/signing/etc/containers
 ADD files/usr/etc/containers /tmp/ublue-os/signing/usr/etc/containers
-ADD files/usr/etc/pki /tmp/ublue-os/signing/usr/etc/pki
+ADD files/etc/pki /tmp/ublue-os/signing/etc/pki
 
 RUN tar cf /tmp/ublue-os/rpmbuild/SOURCES/ublue-os-udev-rules.tar.gz -C /tmp ublue-os/udev-rules
 RUN tar cf /tmp/ublue-os/rpmbuild/SOURCES/ublue-os-update-services.tar.gz -C /tmp ublue-os/update-services
