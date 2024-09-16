@@ -80,7 +80,7 @@ install-obs-studio-portable:
     source /usr/lib/ujust/ujust.sh
     AssembleList "/etc/distrobox/apps.ini" create "obs-studio-portable"
 
-# Install/update Davinci Resolve, a closed-source video editing utility
+# Install/update DaVinci Resolve, a closed-source video editing utility
 install-resolve ACTION="":
     #!/usr/bin/bash
     source /usr/lib/ujust/ujust.sh
