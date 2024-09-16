@@ -40,7 +40,7 @@ jobs:
 
       - name: Check just syntax
         id: check_just_syntax
-        uses: ublue-os/just-action@v1
+        uses: ublue-os/just-action@v2
 
       # Build image using Buildah action
       - name: Build Image
