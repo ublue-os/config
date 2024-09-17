@@ -1,4 +1,5 @@
-brew "kubectl"
 brew "k9s"
+brew "krew"
+brew "kubectl"
 brew "kubectx"
 brew "helm"
