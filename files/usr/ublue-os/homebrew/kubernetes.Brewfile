@@ -1,5 +1,7 @@
 brew "k9s"
 brew "krew"
+brew "kompose"
 brew "kubectl"
 brew "kubectx"
+brew "kustomize"
 brew "helm"
