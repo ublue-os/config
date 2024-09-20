@@ -37,7 +37,6 @@ Source21:       toolbox.ini
 Source22:       31-toolbox.just
 Source23:       brew.sh
 Source24:       15-ublue-config.md
-Source25:       05-brew.just
 
 %global sub_name %{lua:t=string.gsub(rpm.expand("%{NAME}"), "^ublue%-os%-", ""); print(t)}
 
