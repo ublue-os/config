@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.35
+Version:        0.36
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -37,7 +37,6 @@ Source21:       toolbox.ini
 Source22:       31-toolbox.just
 Source23:       brew.sh
 Source24:       15-ublue-config.md
-Source25:       05-brew.just
 
 %global sub_name %{lua:t=string.gsub(rpm.expand("%{NAME}"), "^ublue%-os%-", ""); print(t)}
 
@@ -53,7 +52,7 @@ mkdir -p -m0755  %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 install -Dm755 %{SOURCE0}  %{buildroot}%{_sysconfdir}/profile.d/ublue-os-just.sh
 install -Dm755 %{SOURCE19}  %{buildroot}%{_sysconfdir}/profile.d/user-motd.sh
 install -Dm755 %{SOURCE23}  %{buildroot}%{_sysconfdir}/profile.d/brew.sh
-cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE7} %{SOURCE8} %{SOURCE22} %{SOURCE25} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
+cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE7} %{SOURCE8} %{SOURCE22} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
 
 mkdir -p -m0755  %{buildroot}%{_datadir}/%{VENDOR}/motd/tips
 cp %{SOURCE24} %{buildroot}%{_datadir}/%{VENDOR}/motd/tips
@@ -109,6 +108,9 @@ just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-
 chmod 644 %{_datadir}/bash-completion/completions/ujust
 
 %changelog
+* Fri Sep 20 2024 Kyle Gospodnetich <me@kylegospodneti.ch> - 0.36
+- Remove no longer needed brew commands, now on image
+
 * Fri May 31 2024 HikariKnight <2557889+HikariKnight@users.noreply.github.com> - 0.35
 - Make toggle-updates smarter and detect if ublue-update is installed
 
