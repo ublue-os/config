@@ -31,11 +31,10 @@ regenerate-grub:
 
 # Enroll Nvidia driver & KMOD signing key for secure boot - Enter password "universalblue" if prompted
 enroll-secure-boot-key:
-    echo 'Enter password "universalblue" if prompted after your user password.'
     sudo mokutil --timeout -1
+    echo 'Enter password "universalblue" if prompted next'
     sudo mokutil --import /etc/pki/akmods/certs/akmods-ublue.der
-    echo 'When you reboot your computer, follow the instructions to start MOK util'
-    echo 'by pressing a key, then enroll the secure boot key and enter "universalblue" as the password'
+    echo 'At next reboot, the mokutil UEFI menu UI will be displayed (*QWERTY* keyboard input and navigation).\nThen, select "Enroll MOK", and input "universalblue" as the password'
 
 # Install or uninstall distrobox-git
 setup-distrobox-git:
