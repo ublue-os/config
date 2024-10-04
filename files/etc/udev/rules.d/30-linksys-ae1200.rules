@@ -1,3 +1,0 @@
-ACTION=="add",ATTRS{idVendor}=="13b1",ATTRS{idProduct}=="0bdc",
-RUN+="/sbin/modprobe brcmfmac"
-RUN+="/bin/sh -c 'echo 13b1 0bdc > /sys/bus/usb/drivers/brcmfmac/new_id'"
