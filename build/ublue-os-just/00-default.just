@@ -32,7 +32,7 @@ regenerate-grub:
 # Enroll Nvidia driver & KMOD signing key for secure boot - Enter password "universalblue" if prompted
 enroll-secure-boot-key:
     sudo mokutil --timeout -1
-    echo 'Enter password "universalblue" if prompted next'
+    echo 'The next line will prompt for a MOK password. Then, input "universalblue"'
     sudo mokutil --import /etc/pki/akmods/certs/akmods-ublue.der
     echo 'At next reboot, the mokutil UEFI menu UI will be displayed (*QWERTY* keyboard input and navigation).\nThen, select "Enroll MOK", and input "universalblue" as the password'
 
