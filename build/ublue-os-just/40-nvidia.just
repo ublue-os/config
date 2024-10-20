@@ -25,6 +25,7 @@ configure-nvidia ACTION="prompt":
           --append-if-missing=rd.driver.blacklist=nouveau \
           --append-if-missing=modprobe.blacklist=nouveau \
           --append-if-missing=nvidia-drm.modeset=1 \
+          --append-if-missing=nvidia-drm.fbdev=1 \
           --delete-if-present=nomodeset
       else
         echo 'You do not appear to be on a Nvidia image, please refer to the README for your uBlue-OS image.'
