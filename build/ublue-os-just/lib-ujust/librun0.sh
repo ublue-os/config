@@ -10,7 +10,7 @@
 
 run0() {
 if command -v run0 &> /dev/null; then
-  run0 "${@}"
+  run0 --background="" "${@}"
 else
   sudo "${@}"
 fi  
