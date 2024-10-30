@@ -10,3 +10,5 @@ source /usr/lib/ujust/libfunctions.sh
 source /usr/lib/ujust/libdistrobox.sh
 # Import functionality related to toolbox
 source /usr/lib/ujust/libtoolbox.sh
+# Import functionality related to usage of run0
+source /usr/lib/ujust/librun0.sh

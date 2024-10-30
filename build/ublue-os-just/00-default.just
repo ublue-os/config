@@ -14,26 +14,25 @@ bios:
 
 # Show all messages from this boot
 logs-this-boot:
-    sudo journalctl -b 0
+    run0 journalctl -b 0
 
 # Show all messages from last boot
 logs-last-boot:
-    sudo journalctl -b -1
+    run0 journalctl -b -1
 
 # Regenerate GRUB config, useful in dual-boot scenarios where a second operating system isn't listed
 regenerate-grub:
     #!/usr/bin/bash
     if [ -d /sys/firmware/efi ]; then
-      sudo grub2-mkconfig -o /etc/grub2-efi.cfg
+      run0 grub2-mkconfig -o /etc/grub2-efi.cfg
     else
-      sudo grub2-mkconfig -o /etc/grub2.cfg
+      run0 grub2-mkconfig -o /etc/grub2.cfg
     fi
 
 # Enroll Nvidia driver & KMOD signing key for secure boot - Enter password "universalblue" if prompted
 enroll-secure-boot-key:
     echo 'Enter password "universalblue" if prompted after your user password.'
-    sudo mokutil --timeout -1
-    sudo mokutil --import /etc/pki/akmods/certs/akmods-ublue.der
+    run0 bash -c "mokutil --timeout -1; mokutil --import /etc/pki/akmods/certs/akmods-ublue.der"
     echo 'When you reboot your computer, follow the instructions to start MOK util'
     echo 'by pressing a key, then enroll the secure boot key and enter "universalblue" as the password'
 
@@ -106,4 +105,4 @@ device-info:
 # Measure Idle Power Draw
 check-idle-power-draw:
     #!/usr/bin/bash
-    sudo powerstat -a -r
+    run0 powerstat -a -r

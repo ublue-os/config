@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.36
+Version:        0.37
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -37,6 +37,7 @@ Source21:       toolbox.ini
 Source22:       31-toolbox.just
 Source23:       brew.sh
 Source24:       15-ublue-config.md
+Source25:       librun0.sh
 
 %global sub_name %{lua:t=string.gsub(rpm.expand("%{NAME}"), "^ublue%-os%-", ""); print(t)}
 
@@ -77,6 +78,7 @@ install -Dm644 %{SOURCE14} %{buildroot}/%{_exec_prefix}/lib/ujust
 install -Dm644 %{SOURCE15} %{buildroot}/%{_exec_prefix}/lib/ujust
 install -Dm644 %{SOURCE16} %{buildroot}/%{_exec_prefix}/lib/ujust
 install -Dm644 %{SOURCE20} %{buildroot}/%{_exec_prefix}/lib/ujust
+install -Dm644 %{SOURCE25} %{buildroot}/%{_exec_prefix}/lib/ujust
 
 # Add default manifest files for distrobox
 mkdir -p -m0755 %{buildroot}/%{_sysconfdir}/distrobox
@@ -108,6 +110,10 @@ just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-
 chmod 644 %{_datadir}/bash-completion/completions/ujust
 
 %changelog
+* Wed Oct 30 2024 Fifty Dinar <srbaizoki4@tuta.io> - 0.37
+- Add library for using `run0` if installed, with fallback to `sudo`
+- Switch from using `sudo` to more secure `run0` for root command calls
+
 * Fri Sep 20 2024 Kyle Gospodnetich <me@kylegospodneti.ch> - 0.36
 - Remove no longer needed brew commands, now on image
 
