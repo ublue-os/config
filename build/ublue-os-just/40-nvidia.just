@@ -90,7 +90,7 @@ configure-nvidia-optimus ACTION="prompt":
     if [ "$OPTION" == "Set fine-grained dynamic power management" ] || [ "${OPTION,,}" == "power-management" ]; then
       if command -v nvidia-smi; then
         if [ ! -f /etc/modprobe.d/nvidia.conf ] || ! grep -qF "NVreg_DynamicPowerManagement" /etc/modprobe.d/nvidia.conf; then
-          run0 bash -c 'printf "# %s\n%s\n" "https://download.nvidia.com/XFree86/Linux-x86_64/545.29.06/README/dynamicpowermanagement.html" "options nvidia NVreg_DynamicPowerManagement=0x02" >> /etc/modprobe.d/nvidia.conf'
+          run-as-root bash -c 'printf "# %s\n%s\n" "https://download.nvidia.com/XFree86/Linux-x86_64/545.29.06/README/dynamicpowermanagement.html" "options nvidia NVreg_DynamicPowerManagement=0x02" >> /etc/modprobe.d/nvidia.conf'
         else 
           echo 'Already applied fine-grained dynamic power management.'
         fi

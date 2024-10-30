@@ -3,9 +3,9 @@
 # Enable automatic LUKS unlock via TPM
 setup-luks-tpm-unlock:
     #!/usr/bin/bash
-    run0 /usr/libexec/luks-enable-tpm2-autounlock
+    run-as-root /usr/libexec/luks-enable-tpm2-autounlock
 
 # Disable automatic LUKS unlock via TPM
 remove-luks-tpm-unlock:
     #!/usr/bin/bash
-    run0 /usr/libexec/luks-disable-tpm2-autounlock
+    run-as-root /usr/libexec/luks-disable-tpm2-autounlock

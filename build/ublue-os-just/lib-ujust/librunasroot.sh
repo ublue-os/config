@@ -8,7 +8,7 @@
 # https://github.com/systemd/systemd/issues/33366
 # https://github.com/polkit-org/polkit/issues/472
 
-run0() {
+run-as-root() {
 if command -v run0 &> /dev/null; then
   run0 --background="" "${@}"
 else

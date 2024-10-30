@@ -8,7 +8,7 @@ update VERB_LEVEL="full":
     if systemctl is-enabled ublue-update.timer | grep -q enabled;
     then
       echo "Starting the ublue-update service"
-      run0 systemctl start ublue-update.service
+      run-as-root systemctl start ublue-update.service
     else
       if [ {{ VERB_LEVEL }} = "help" ]; then
           echo "Usage: just update <level>"
@@ -107,17 +107,17 @@ toggle-updates ACTION="prompt":
     fi
     if [ "${OPTION,,}" == "enable" ]; then
       if systemctl is-enabled ublue-update.timer 2> /dev/null | grep -q not-found; then
-        run0 systemctl enable --now flatpak-system-update.timer rpm-ostreed-automatic.timer
+        run-as-root systemctl enable --now flatpak-system-update.timer rpm-ostreed-automatic.timer
         systemctl enable --now --user flatpak-user-update.timer
       else
-        run0 bash -c "systemctl enable ublue-update.timer; systemctl disable --now flatpak-system-update.timer rpm-ostreed-automatic.timer"
+        run-as-root bash -c "systemctl enable ublue-update.timer; systemctl disable --now flatpak-system-update.timer rpm-ostreed-automatic.timer"
         systemctl disable --now --user flatpak-user-update.timer
       fi
     elif [ "${OPTION,,}" == "disable" ]; then
       if systemctl is-enabled ublue-update.timer 2> /dev/null | grep -q not-found; then
-        run0 systemctl disable --now flatpak-system-update.timer rpm-ostreed-automatic.timer
+        run-as-root systemctl disable --now flatpak-system-update.timer rpm-ostreed-automatic.timer
         systemctl disable --now --user flatpak-user-update.timer
       else
-        run0 systemctl disable ublue-update.timer
+        run-as-root systemctl disable ublue-update.timer
       fi
     fi

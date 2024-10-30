@@ -20,9 +20,9 @@ configure-broadcom-wl ACTION="prompt":
       exit 0
     fi
     if [ "${OPTION,,}" == "enable" ]; then
-      run0 rm -f /etc/modprobe.d/broadcom-wl-blacklist.conf /etc/modprobe.d/default-disable-broadcom-wl.conf
+      run-as-root rm -f /etc/modprobe.d/broadcom-wl-blacklist.conf /etc/modprobe.d/default-disable-broadcom-wl.conf
       echo "${bold}Enabled${normal} Broadcom Wireless, please reboot for changes to take effect"
     elif [ "${OPTION,,}" == "disable" ]; then
-      run0 bash -c '> /etc/modules-load.d/broadcom-wl-blacklist.conf; echo "blacklist wl" > /etc/modules-load.d/default-disable-broadcom-wl.conf'
+      run-as-root bash -c '> /etc/modules-load.d/broadcom-wl-blacklist.conf; echo "blacklist wl" > /etc/modules-load.d/default-disable-broadcom-wl.conf'
       echo "${bold}Disabled${normal} Broadcom Wireless, please reboot for changes to take effect"
     fi
