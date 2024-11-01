@@ -23,7 +23,7 @@ just() {
   if [ ${#} -eq 0 ]; then
     /usr/bin/ujust
   elif [ -n "${1}" ]; then
-    ujust_commands=($(/usr/bin/just --justfile /usr/share/ublue-os/justfile --list | awk 'NR>1 {print $1}'))
+    ujust_commands=$(/usr/bin/just --justfile /usr/share/ublue-os/justfile --list | awk 'NR>1 {print $1}' | tr '\n' ' ')
     if echo " ${ujust_commands} " | grep -q " ${1} "; then
       /usr/bin/ujust "${@}"
     else
