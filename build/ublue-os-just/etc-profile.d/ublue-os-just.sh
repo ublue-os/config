@@ -19,4 +19,11 @@ if [ -f "${HOME}/.justfile" ]; then
 fi
 
 # Alias ujust to just, so using `just` command works
-alias just='ujust'
+just() {
+  if [ ${#} -eq 0 ]; then
+    ujust
+  else
+    just "${@}"
+  fi  
+}
+export -f just
