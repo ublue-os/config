@@ -17,3 +17,6 @@ if [ -f "${HOME}/.justfile" ]; then
     echo 'import "/usr/share/ublue-os/justfile"' | tee -a "${HOME}/.justfile"
   fi
 fi
+
+# Alias ujust to just, so using `just` command works
+alias just='ujust'
