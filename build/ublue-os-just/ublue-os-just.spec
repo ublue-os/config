@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.36
+Version:        0.37
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -108,6 +108,9 @@ just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-
 chmod 644 %{_datadir}/bash-completion/completions/ujust
 
 %changelog
+* Fri Nov 01 2024 Fifty Dinar <srbaizoki4@tuta.io> - 0.37
+- Alias `just` to `ujust`, to avoid non-working `just` command
+
 * Fri Sep 20 2024 Kyle Gospodnetich <me@kylegospodneti.ch> - 0.36
 - Remove no longer needed brew commands, now on image
 
