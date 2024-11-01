@@ -23,7 +23,7 @@ just() {
   if [ ${#} -eq 0 ]; then
     /usr/bin/ujust
   elif [ -n "${1}" ]; then
-    ujust_commands=($(/usr/bin/just --justfile /usr/share/ublue-os/justfile --summary))
+    ujust_commands=($(/usr/bin/just --justfile /usr/share/ublue-os/justfile --list | awk 'NR>1 {print $1}'))
     case "${1}" in
       "${ujust_commands}")
         /usr/bin/ujust "${@}"
