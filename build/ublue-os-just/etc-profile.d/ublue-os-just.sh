@@ -24,13 +24,14 @@ just() {
     /usr/bin/ujust
   elif [ -n "${1}" ]; then
     ujust_commands=($(/usr/bin/just --justfile /usr/share/ublue-os/justfile --summary))
-    for command in "${ujust_commands[@]}"; do
-      if [ "${1}" = "${command}" ]; then
+    case "${1}" in
+      "${ujust_commands}")
         /usr/bin/ujust "${@}"
-        return
-      fi
-    done
-    /usr/bin/just "${@}"
+        ;;
+      *)
+        /usr/bin/just "${@}"
+        ;;
+    esac
   else
     /usr/bin/just "${@}"
   fi  
