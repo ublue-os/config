@@ -24,14 +24,13 @@ just() {
     /usr/bin/ujust
   elif [ -n "${1}" ]; then
     ujust_commands=($(/usr/bin/just --justfile /usr/share/ublue-os/justfile --list | awk 'NR>1 {print $1}'))
-    case "${1}" in
-      "${ujust_commands}")
+    for command in "${ujust_commands[@]}"; do
+      if [ "${1}" = "${command}" ]; then
         /usr/bin/ujust "${@}"
-        ;;
-      *)
-        /usr/bin/just "${@}"
-        ;;
-    esac
+        return
+      fi
+    done
+    /usr/bin/just "${@}"
   else
     /usr/bin/just "${@}"
   fi  
