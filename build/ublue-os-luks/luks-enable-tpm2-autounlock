@@ -49,7 +49,7 @@ else
 fi
 
 SET_PIN_ARG=""
-read -p "Would you like to set a pin? " -n 1 -r
+read -p "Would you like to set a pin? (Y/n)" -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   SET_PIN_ARG=" --tpm2-with-pin=yes "
