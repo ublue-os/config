@@ -14,7 +14,7 @@ echo "You can review systemd-cryptenroll's manpage for more information."
 echo "This script will modify your system."
 echo "It will enable TPM2 auto-unlock of your LUKS partition for your root device!"
 echo "It will bind to PCR 7 and 14 which is tied to your secureboot and moklist state."
-read -p "Are you sure are good with this and want to enable TPM2 auto-unlock? " -n 1 -r
+read -p "Are you sure are good with this and want to enable TPM2 auto-unlock? (y/N): " -n 1 -r
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
   [[ "$0" = "${BASH_SOURCE[0]}" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
@@ -49,7 +49,7 @@ else
 fi
 
 SET_PIN_ARG=""
-read -p "Would you like to set a pin? (Y/n)" -n 1 -r
+read -p "Would you like to set a PIN? (y/N): " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   SET_PIN_ARG=" --tpm2-with-pin=yes "
@@ -67,9 +67,17 @@ fi
 
 if cryptsetup luksDump "$CRYPT_DISK" | grep systemd-tpm2 > /dev/null; then
   KEYSLOT=$(cryptsetup luksDump "$CRYPT_DISK"|grep -A29 systemd-tpm2|grep Keyslot|awk '{print $2}')
-  echo "TPM2 already present in LUKS Keyslot $KEYSLOT of $CRYPT_DISK."
-  echo "Wiping systemd-tpm2 from LUKS Keyslot $KEYSLOT of $CRYPT_DISK."
-  systemd-cryptenroll --wipe-slot=$KEYSLOT "$CRYPT_DISK"
+  echo "TPM2 already present in LUKS keyslot $KEYSLOT of $CRYPT_DISK."
+  read -p "Wipe it and re-enroll? (y/N): " -n 1 -r
+  echo
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    systemd-cryptenroll --wipe-slot=tpm2 "$CRYPT_DISK"
+  else
+    echo
+    echo "Either clear the existing TPM2 keyslot before retrying, else choose 'y' next time."
+    echo "Exiting..."
+    [[ "$0" = "${BASH_SOURCE[0]}" ]] && exit 1 || return 1
+  fi
 fi
 
 ## Run crypt enroll

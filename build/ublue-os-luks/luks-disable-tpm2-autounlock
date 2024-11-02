@@ -6,7 +6,8 @@ set -euo pipefail
 
 echo "This script utilizes systemd-cryptenroll for removing tpm2 auto-unlock."
 echo "You can review systemd-cryptenroll's manpage for more information."
-read -p "This will modify your system and disable TPM2 auto-unlock of your LUKS partition! Are you sure you are good with this? " -n 1 -r
+echo "This will modify your system and disable TPM2 auto-unlock of your LUKS partition!"
+read -p "Are you sure are good with this and want to disable TPM2 auto-unlock? (y/N): " -n 1 -r
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
   [[ "$0" = "${BASH_SOURCE[0]}" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
