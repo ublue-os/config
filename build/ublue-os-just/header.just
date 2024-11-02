@@ -4,7 +4,7 @@ set ignore-comments := true
 _default:
     #!/usr/bin/bash
     source /usr/lib/ujust/libformatting.sh
-    echo "$(Urllink "https://universal-blue.discourse.group/docs?topic=42" "Click here to view the Universal Blue just documentation")"
+    echo "$(Urllink "https://docs.projectbluefin.io/administration#community-aliases-and-workarounds" "Click here to view the Universal Blue just documentation")"
     /usr/bin/ujust --list --list-heading $'Available commands:\n' --list-prefix $' - '
 
 # Imports
