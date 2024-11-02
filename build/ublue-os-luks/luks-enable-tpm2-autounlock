@@ -68,7 +68,7 @@ fi
 if cryptsetup luksDump "$CRYPT_DISK" | grep systemd-tpm2 > /dev/null; then
   KEYSLOT=$(cryptsetup luksDump "$CRYPT_DISK"|grep -A29 systemd-tpm2|grep Keyslot|awk '{print $2}')
   echo "TPM2 already present in LUKS Keyslot $KEYSLOT of $CRYPT_DISK."
-  echo "Remove the existing TPM2 enrollment with ujust remove-luks-tpm2-autounlock"
+  echo "Remove the existing TPM2 enrollment before trying again."
   echo "Exiting..."
   [[ "$0" = "${BASH_SOURCE[0]}" ]] && exit 1 || return 1
 fi

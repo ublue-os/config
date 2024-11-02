@@ -78,4 +78,3 @@ else
 fi
 
 echo "TPM2 auto-unlock disabled..."
-echo "To reenroll TPM2 auto unlock please run ujust setup-luks-tpm-unlock..."
