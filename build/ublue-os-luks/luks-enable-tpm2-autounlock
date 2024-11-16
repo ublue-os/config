@@ -66,7 +66,7 @@ if [[ ! -L "$CRYPT_DISK" ]]; then
 fi
 
 if cryptsetup luksDump "$CRYPT_DISK" | grep systemd-tpm2 > /dev/null; then
-  KEYSLOT=$(cryptsetup luksDump /dev/disk/by-uuid/668391d5-617c-46e1-94f9-99be758d5d03 | sed -n '/systemd-tpm2$/,/Keyslot:/p' | grep Keyslot|awk '{print $2}')
+  KEYSLOT=$(cryptsetup luksDump "$CRYPT_DISK" | sed -n '/systemd-tpm2$/,/Keyslot:/p' | grep Keyslot|awk '{print $2}')
   echo "TPM2 already present in LUKS keyslot $KEYSLOT of $CRYPT_DISK."
   read -p "Wipe it and re-enroll? (y/N): " -n 1 -r
   echo
