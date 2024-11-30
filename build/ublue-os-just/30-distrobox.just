@@ -74,12 +74,6 @@ setup-distrobox-app CONTAINER="prompt":
     source /usr/lib/ujust/ujust.sh
     AssembleList "/etc/distrobox/apps.ini" create {{ CONTAINER }}
 
-# Install obs-studio-portable from wimpysworld, which bundles an extensive collection of 3rd party plugins
-install-obs-studio-portable:
-    #!/usr/bin/bash
-    source /usr/lib/ujust/ujust.sh
-    AssembleList "/etc/distrobox/apps.ini" create "obs-studio-portable"
-
 # Install/update DaVinci Resolve, a closed-source video editing utility
 install-resolve ACTION="":
     #!/usr/bin/bash
