@@ -79,7 +79,7 @@ install-resolve ACTION="":
     #!/usr/bin/bash
     source /usr/lib/ujust/ujust.sh
     set -eo pipefail
-    SCRIPT_URL="https://raw.githubusercontent.com/zelikos/davincibox/3e51fa38ac7512a26d644d0f48d8cf99921d80de/setup.sh"
+    SCRIPT_URL="https://raw.githubusercontent.com/zelikos/davincibox/10b4b82f0e7f121596b33595f584bc576c03bb3a/setup.sh"
     DOWNLOADDIR=$(xdg-user-dir DOWNLOAD || echo ${HOME})
     tmpdir=/var/tmp/bazzite_davincibox_setup.tmp
     mkdir -p $tmpdir
@@ -129,7 +129,7 @@ install-resolve ACTION="":
           fi
           echo "Installer found: ${RUNFILE}"
         else
-          echo "${red}Installer not found${n}"; 
+          echo "${red}Installer not found${n}";
           echo "${red}Please place the file DaVinci_Resolve_*_Linux.run in ${HOME} or ${DOWNLOADDIR}${n}";
           exit 1
         fi
@@ -138,7 +138,7 @@ install-resolve ACTION="":
       elif [[ "${OPTION,,}" =~ (^uninstall[[:space:]]davincibox) ]]; then
         ugum confirm "Confirm davincibox uninstall?" || exit 0
         # Remove the existing container
-        if podman container exists davincibox >/dev/null 2>&1; then 
+        if podman container exists davincibox >/dev/null 2>&1; then
           echo "Removing existing davincibox container"
           distrobox enter davincibox -- add-davinci-launcher remove
           podman stop davincibox
