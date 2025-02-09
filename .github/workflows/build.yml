@@ -3,25 +3,21 @@ on:
   pull_request:
   merge_group:
   schedule:
-    - cron: '15 9 * * 1'  # 9:15 UTC weekly on Monday
+    - cron: "15 9 * * 1" # 9:15 UTC weekly on Monday
   workflow_dispatch:
 env:
-    IMAGE_NAME: config
-    IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+  IMAGE_NAME: config
+  IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
 
 jobs:
-  push-ghcr:
-    name: Build and push image
-    runs-on: ubuntu-24.04
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
+  calculate-tags:
+    name: Calculate tags
+    runs-on: ubuntu-latest
+    outputs:
+      alias_tags: ${{ steps.generate-tags.outputs.alias_tags }}
+      sha_short: ${{ steps.generate-tags.outputs.sha_short }}
+      date: ${{ steps.generate-tags.outputs.date }}
     steps:
-      # Checkout push-to-registry action GitHub repository
-      - name: Checkout Push to Registry action
-        uses: actions/checkout@v4
-
       - name: Generate tags
         id: generate-tags
         shell: bash
@@ -36,11 +32,53 @@ jobs:
             echo "date=$(date +%Y%m%d)" >> $GITHUB_OUTPUT
             alias_tags+=("latest")
           fi
+
           echo "alias_tags=${alias_tags[*]}" >> $GITHUB_OUTPUT
+
+  push-ghcr:
+    name: Build and push image
+    runs-on: ${{ matrix.build_arch == 'aarch64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
+    needs:
+      - calculate-tags
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    strategy:
+      fail-fast: false
+      matrix:
+        build_arch: [aarch64, x86_64]
+    steps:
+      # Checkout push-to-registry action GitHub repository
+      - name: Checkout Push to Registry action
+        uses: actions/checkout@v4
+
+      # Update to tags to add the arch to the tags
+      - name: Update tags
+        id: updated-tags
+        run: |
+          tags=(${{ needs.calculate-tags.outputs.alias_tags }})
+          updated_tags=()
+          for tag in "${tags[@]}"; do
+            updated_tags+=("${tag}-${{ matrix.build_arch }}")
+          done
+          echo "alias_tags=${updated_tags[*]}" >> $GITHUB_OUTPUT
+
+          echo "sha_short=${{ needs.calculate-tags.outputs.sha_short }}-${{ matrix.build_arch }}" >> $GITHUB_OUTPUT
+
+          # If date is not empty string, append the arch to the date
+          if [[ -n "${{ needs.calculate-tags.outputs.date }}" ]]; then
+            echo "date=${{ needs.calculate-tags.outputs.date }}-${{ matrix.build_arch }}" >> $GITHUB_OUTPUT
+          fi
 
       - name: Check just syntax
         id: check_just_syntax
         uses: ublue-os/just-action@v2
+
+      - name: Install skopeo & podman
+        run: |
+          sudo apt update
+          sudo apt install -y skopeo podman
 
       # Build image using Buildah action
       - name: Build Image
@@ -51,9 +89,9 @@ jobs:
             ./Containerfile
           image: ${{ env.IMAGE_NAME }}
           tags: |
-            ${{ steps.generate-tags.outputs.alias_tags }}
-            ${{ steps.generate-tags.outputs.date }}
-            ${{ steps.generate-tags.outputs.sha_short }}
+            ${{ steps.updated-tags.outputs.alias_tags }}
+            ${{ steps.updated-tags.outputs.date }}
+            ${{ steps.updated-tags.outputs.sha_short }}
           oci: true
 
       # Workaround bug where capital letters in your GitHub username make it impossible to push to GHCR.
@@ -79,28 +117,83 @@ jobs:
           username: ${{ env.REGISTRY_USER }}
           password: ${{ env.REGISTRY_PASSWORD }}
 
+      - name: Echo outputs
+        if: github.event_name != 'pull_request'
+        run: |
+          echo "${{ toJSON(steps.push.outputs) }}"
+  combine-manifests:
+    name: Combine manifests
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    needs:
+      - calculate-tags
+      - push-ghcr
+    steps:
+      - uses: sigstore/cosign-installer@v3.7.0
+
+      - name: Install skopeo & podman
+        run: |
+          sudo apt update
+          sudo apt install -y skopeo podman
+
+      # Workaround bug where capital letters in your GitHub username make it impossible to push to GHCR.
+      # https://github.com/macbre/push-to-ghcr/issues/12
+      - name: Lowercase Registry
+        id: registry_case
+        uses: ASzc/change-string-case-action@v6
+        with:
+          string: ${{ env.IMAGE_REGISTRY }}
+
+      # Login with docker for cosign
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
-        if: github.event_name != 'pull_request'
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Sign container
-      - uses: sigstore/cosign-installer@v3.7.0
-        if: github.event_name != 'pull_request'
+      # Login with podman for buildah
+      - name: Log in to ghcr.io
+        uses: redhat-actions/podman-login@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Combine manifests
+        id: combine-manifests
+        run: |
+          alias_tags=(${{ needs.calculate-tags.outputs.alias_tags }})
+          sha_short=${{ needs.calculate-tags.outputs.sha_short }}
+          date=${{ needs.calculate-tags.outputs.date }}
+
+          tags=("${alias_tags[@]}" "$sha_short")
+
+          # If date is not empty string, append the date to the tags
+          if [[ -n "$date" ]]; then
+            tags+=("$date")
+          fi
+
+          digest=""
+
+          for tag in "${tags[@]}"; do
+            buildah manifest create ${{ steps.registry_case.outputs.lowercase }}/${{ env.IMAGE_NAME }}:${tag} \
+              ${{ steps.registry_case.outputs.lowercase }}/${{ env.IMAGE_NAME }}:${tag}-aarch64 \
+              ${{ steps.registry_case.outputs.lowercase }}/${{ env.IMAGE_NAME }}:${tag}-x86_64
+
+            buildah manifest push ${{ steps.registry_case.outputs.lowercase }}/${{ env.IMAGE_NAME }}:${tag} docker://${{ steps.registry_case.outputs.lowercase }}/${{ env.IMAGE_NAME }}:${tag}
+
+            digest=$(skopeo inspect docker://${{ steps.registry_case.outputs.lowercase }}/${{ env.IMAGE_NAME }}:${tag} --format '{{.Digest}}')
+          done
+
+          echo "digest: $digest"
+
+          echo "digest=$digest" >> $GITHUB_OUTPUT
 
       - name: Sign container image
-        if: github.event_name != 'pull_request'
         run: |
-          cosign sign -y --key env://COSIGN_PRIVATE_KEY ${{ steps.registry_case.outputs.lowercase }}/${{ env.IMAGE_NAME }}@${TAGS}
+          cosign sign --recursive -y --key env://COSIGN_PRIVATE_KEY ${{ steps.registry_case.outputs.lowercase }}/${{ env.IMAGE_NAME }}@${TAGS}
         env:
-          TAGS: ${{ steps.push.outputs.digest }}
+          TAGS: ${{ steps.combine-manifests.outputs.digest }}
           COSIGN_EXPERIMENTAL: false
           COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
-
-      - name: Echo outputs
-        if: github.event_name != 'pull_request'
-        run: |
-          echo "${{ toJSON(steps.push.outputs) }}"
