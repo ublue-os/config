@@ -133,7 +133,7 @@ chmod 644 %{_datadir}/zsh/site-functions/_ujust
 * Wed May 01 2024 Kyle Gospodnetich <me@kylegospodneti.ch> - 0.32
 - Add powerstat
 
-* Mon Apr 30 2024 Benjamin Sherman <benjamin@holyarmy.org> - 0.31
+* Tue Apr 30 2024 Benjamin Sherman <benjamin@holyarmy.org> - 0.31
 - Add LUKS TPM autounlock support
 
 * Sun Mar 24 2024 gerblesh <101901964+gerblesh@users.noreply.github.com> - 0.30
