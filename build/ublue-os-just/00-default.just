@@ -12,6 +12,14 @@ bios:
       echo "Rebooting to legacy BIOS from OS is not supported."
     fi
 
+# Show BIOS info
+bios-info:
+    #!/usr/bin/bash
+    echo "Manufacturer: $(sudo dmidecode -s baseboard-manufacturer)"
+    echo "Product Name: $(sudo dmidecode -s baseboard-product-name)"
+    echo "Version: $(sudo dmidecode -s bios-version)"
+    echo "Release Date: $(sudo dmidecode -s bios-release-date)"
+
 # Show all messages from this boot
 logs-this-boot:
     sudo journalctl --no-hostname -b 0
