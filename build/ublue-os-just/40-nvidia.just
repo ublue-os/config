@@ -69,7 +69,13 @@ toggle-nvk:
     elif [[ "$CURRENT_IMAGE" =~ "nvidia" ]]; then
       NEW_IMAGE=${CURRENT_IMAGE/-nvidia/}
     else
-      NEW_IMAGE=${CURRENT_IMAGE/:/-nvidia-open:}
+      # Returns true for legacy NVIDIA hardware (older than Turing) using die names
+      # GK### (Kepler), GM### (Maxwell), GP### (Pascal), GV### (Volta)
+      if lspci -nn | grep -P "(VGA compatible|3D) controller .+G(K|M|P|V)\d{3}" > /dev/null; then
+        NEW_IMAGE=${CURRENT_IMAGE/:/-nvidia:}
+      else
+        NEW_IMAGE=${CURRENT_IMAGE/:/-nvidia-open:}
+      fi
     fi
     echo "Rebasing to ${NEW_IMAGE}"
     rpm-ostree rebase ${CURRENT_URI}${NEW_IMAGE}
