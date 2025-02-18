@@ -1,5 +1,5 @@
 # TODO: Fix tar on Fedora 40
-FROM registry.fedoraproject.org/fedora:39 AS builder
+FROM registry.fedoraproject.org/fedora:43 AS builder
 
 RUN dnf install --disablerepo='*' --enablerepo='fedora,updates' --setopt install_weak_deps=0 --nodocs --assumeyes rpm-build systemd-rpm-macros wget jq git
 
@@ -7,16 +7,6 @@ ADD https://codeberg.org/fabiscafe/game-devices-udev/archive/main.tar.gz /tmp/ub
 
 # Add udev rules from repository
 ADD files/etc/udev/rules.d /tmp/ublue-os/udev-rules/etc/udev/rules.d
-
-# Install OpenTabletDriver udev rules from their portable releases
-RUN mkdir -p /tmp/OpenTabletDriver/ && \
-mkdir -p /etc/udev/rules.d/ && \
-curl -s https://api.github.com/repos/OpenTabletDriver/OpenTabletDriver/releases/latest \
-| jq -r '.assets | sort_by(.created_at) | .[] | select (.name|test("opentabletdriver.*tar.gz$")) | .browser_download_url' \
-| wget -qi - -O /tmp/OpenTabletDriver/opentabletdriver.tar.gz && \
-tar --strip-components=1 -xvzf /tmp/OpenTabletDriver/opentabletdriver.tar.gz -C /tmp/OpenTabletDriver && \
-mv /tmp/OpenTabletDriver/etc/udev/rules.d/70-opentabletdriver.rules /tmp/ublue-os/udev-rules/etc/udev/rules.d/71-opentabletdriver-ublue.rules && \
-rm -rf /tmp/OpenTabletDriver
 
 # Install Sunshine udev rules from their github repo
 RUN mkdir -p /tmp/Sunshine/ && \

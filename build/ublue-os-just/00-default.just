@@ -22,11 +22,11 @@ bios-info:
 
 # Show all messages from this boot
 logs-this-boot:
-    sudo journalctl -b 0
+    sudo journalctl --no-hostname -b 0
 
 # Show all messages from last boot
 logs-last-boot:
-    sudo journalctl -b -1
+    sudo journalctl --no-hostname -b -1
 
 # Regenerate GRUB config, useful in dual-boot scenarios where a second operating system isn't listed
 regenerate-grub:

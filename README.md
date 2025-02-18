@@ -8,7 +8,7 @@ A layer for adding enhancements to your image. Use these for better hardware sup
 
 Add this to your Containerfile to copy the rules over:
 
-    COPY --from=ghcr.io/ublue-os/config:latest /files/ublue-os/udev-rules /
+    COPY --from=ghcr.io/ublue-os/config:latest /files/ublue-os-udev-rules /
     COPY --from=ghcr.io/ublue-os/config:latest /files/ublue-os/update-services /
     
 Or if you prefer to install via an RPM package:
