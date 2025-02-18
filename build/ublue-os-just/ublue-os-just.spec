@@ -107,7 +107,14 @@ install -Dm644 %{SOURCE21} %{buildroot}/%{_sysconfdir}/toolbox
 just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-completion/completions/ujust
 chmod 644 %{_datadir}/bash-completion/completions/ujust
 
+# Generate ujust zsh completion
+just --completions zsh | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/zsh/site-functions/_ujust
+chmod 644 %{_datadir}/zsh/site-functions/_ujust
+
 %changelog
+* Sun Feb 09 2025 renner0e <Renner03@protonmail.com> - 0.38
+- Added ujust tab completion file for zsh generated from just --completions zsh
+
 * Fri Nov 29 2024 HikariKnight <hk@bazzite.gg> - 0.37
 - Remove obs-studio-portable
 
@@ -126,7 +133,7 @@ chmod 644 %{_datadir}/bash-completion/completions/ujust
 * Wed May 01 2024 Kyle Gospodnetich <me@kylegospodneti.ch> - 0.32
 - Add powerstat
 
-* Mon Apr 30 2024 Benjamin Sherman <benjamin@holyarmy.org> - 0.31
+* Tue Apr 30 2024 Benjamin Sherman <benjamin@holyarmy.org> - 0.31
 - Add LUKS TPM autounlock support
 
 * Sun Mar 24 2024 gerblesh <101901964+gerblesh@users.noreply.github.com> - 0.30
