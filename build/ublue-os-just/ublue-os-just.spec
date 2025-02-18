@@ -1,7 +1,7 @@
 Name:           ublue-os-just
 Packager:       ublue-os
 Vendor:         ublue-os
-Version:        0.37
+Version:        0.38
 Release:        1%{?dist}
 Summary:        ublue-os just integration
 License:        MIT
@@ -12,7 +12,6 @@ Requires:       just
 Requires:       ublue-os-luks
 Requires:       powerstat
 
-Source0:        ublue-os-just.sh
 Source1:        00-default.just
 Source2:        10-update.just
 Source3:        20-clean.just
@@ -49,7 +48,6 @@ Adds ublue-os just integration for easier setup
 %build
 
 mkdir -p -m0755  %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
-install -Dm755 %{SOURCE0}  %{buildroot}%{_sysconfdir}/profile.d/ublue-os-just.sh
 install -Dm755 %{SOURCE19}  %{buildroot}%{_sysconfdir}/profile.d/user-motd.sh
 install -Dm755 %{SOURCE23}  %{buildroot}%{_sysconfdir}/profile.d/brew.sh
 cp %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE7} %{SOURCE8} %{SOURCE22} %{buildroot}%{_datadir}/%{VENDOR}/%{sub_name}
@@ -89,7 +87,6 @@ install -Dm644 %{SOURCE21} %{buildroot}/%{_sysconfdir}/toolbox
 
 %files
 %dir %attr(0755,root,root) %{_datadir}/%{VENDOR}/%{sub_name}
-%attr(0755,root,root) %{_sysconfdir}/profile.d/ublue-os-just.sh
 %attr(0755,root,root) %{_sysconfdir}/profile.d/user-motd.sh
 %attr(0755,root,root) %{_sysconfdir}/profile.d/brew.sh
 %attr(0644,root,root) %{_datadir}/%{VENDOR}/%{sub_name}/*.just
@@ -108,6 +105,9 @@ just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > %{_datadir}/bash-
 chmod 644 %{_datadir}/bash-completion/completions/ujust
 
 %changelog
+* Fri Nov 29 2024 Tulip Blossom <tulilirockz@outlook.com> - 0.38
+- Remove ublue-os-just.sh from /etc/profile.d
+
 * Fri Nov 29 2024 HikariKnight <hk@bazzite.gg> - 0.37
 - Remove obs-studio-portable
 
