@@ -1,5 +1,5 @@
 # TODO: Fix tar on Fedora 40
-FROM registry.fedoraproject.org/fedora:39 AS builder
+FROM registry.fedoraproject.org/fedora:43 AS builder
 
 RUN dnf install --disablerepo='*' --enablerepo='fedora,updates' --setopt install_weak_deps=0 --nodocs --assumeyes rpm-build systemd-rpm-macros wget jq git
 
