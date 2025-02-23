@@ -1,3 +1,7 @@
+# ARCHIVAL NOTICE
+
+## The source for RPMs built here has been copied to our [packages](https://github.com/ublue-os/packages/tree/main/packages) repo (`packages` sub-dir). The RPMs are no longer built in Github and stored in an OCI image, but built and available via a COPR repo.
+
 [![build-ublue](https://github.com/ublue-os/config/actions/workflows/build.yml/badge.svg)](https://github.com/ublue-os/config/actions/workflows/build.yml)
 
 # ublue-os configs
