@@ -2,8 +2,8 @@ name: build-ublue
 on:
   pull_request:
   merge_group:
-  schedule:
-    - cron: '15 9 * * 1'  # 9:15 UTC weekly on Monday
+  #schedule:
+  #  - cron: '15 9 * * 1'  # 9:15 UTC weekly on Monday
   workflow_dispatch:
 env:
     IMAGE_NAME: config
